@@ -14,6 +14,7 @@ modif manuelle:
         - supprimer lignes
         - pivot (plusieurs colonnes et plusieurs étages en sélection par exemple)
         - ajouter colonne (unique valeure par exemple année, catégorie etc...)
+        - fusion (only rows / only cols lorsque beaucoup de cases)
 
 sauvegarder, passez page suivante ou rester ?
 {
