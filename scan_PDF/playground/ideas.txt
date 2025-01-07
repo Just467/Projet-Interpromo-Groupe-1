@@ -1,0 +1,29 @@
+Après que table soit scannée
+voir des règles générales qu'on peut coder pour le process auto (tableau scanné vers tableau exploitable)
+
+Afficher image avec bordure, version tableau, version process auto
+Donner thème (déjà proposé), un nom pour le tableau (<=> indicateur) + description
+skip, parfait, modif manuelle, quitter
+modif manuelle:
+    re-scan:
+        - rechoisir l'algo de scan
+        - redimensionner la zone
+    process manuel:
+        - modifier celulles
+        - supprimer colonnes
+        - supprimer lignes
+        - pivot (plusieurs colonnes et plusieurs étages en sélection par exemple)
+        - ajouter colonne (unique valeure par exemple année, catégorie etc...)
+
+sauvegarder, passez page suivante ou rester ?
+{
+    nom: df, description
+    ...
+}
+
+automatiquement:
+    fill en-tête (pour MultiIndex)
+    méthode supprimer espaces ? ==> LLM ou Dico car mots composés
+    supprimer des colonnes (total par exemple, label exact comme H/F <=> total car H+F)
+    pivot automatique (detecte nombres étages)
+
