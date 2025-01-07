@@ -16,8 +16,7 @@ df = pd.read_csv("Mon Nettoyage/bilan-social-d-edf-sa-absenteisme.csv", sep=";")
 
 # Colonnes à supprimer
 colonnes_doublons = ['Spatial perimeter', 'Indicator', 'Type of contract','Employee category', 'Gender', 'Unit']
-# colonnes_doublons = ['Spatial perimeter','Indicator', 'Type of contract', 'Employee category', 'Employee subcategory', 'Gender',
-                                    'M3E classification','Nationality', 'Seniority', 'Age bracket', 'Unit' ], axis=1)
+# colonnes_doublons = ['Spatial perimeter','Indicator', 'Type of contract', 'Employee category', 'Employee subcategory', 'Gender','M3E classification','Nationality', 'Seniority', 'Age bracket', 'Unit' ], axis=1)
 
 # colonnes_doublons = ['Spatial perimeter','Indicator', 'Type of contract', 'Employee category', 'Gender', 'Unit'], axis=1)
 # colonnes_doublons = ['Spatial perimeter','Indicator', 'Employee category', 'Gender', 'Unit'], axis=1)
