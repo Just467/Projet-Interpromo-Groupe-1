@@ -1,10 +1,12 @@
 import pdfplumber
 import pandas as pd
 
-settings = {"vertical_strategy":"text", "text_x_tolerance": 0}
+settings = {"vertical_strategy":"text", "intersection_tolerance": 40}
 
 with pdfplumber.open(r"data\bilans_sociaux\CNP-Assurances-Bilan-social-2023.pdf") as pdf:
     page = pdf.pages[17]
+    ph, pw, ratio = page.height, page.width, .1
+    page = page.crop((ratio*pw, ratio*ph, (1-ratio)*pw, (1-ratio)*ph))
     table = pd.DataFrame(page.extract_table(settings))
 
 page.to_image().debug_tablefinder(settings).show()
