@@ -82,7 +82,6 @@ def show_table(dataframe):
     app.exec_()
 
 # import sys
-# sys.path.append("scan_pdf/utils")
 # from table_viewer import show_table
 
 # data = {
