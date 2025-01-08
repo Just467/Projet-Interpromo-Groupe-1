@@ -69,7 +69,7 @@ class SimpleTableViewer(QMainWindow):
 
 def show_table(dataframe):
     """Fonction utilitaire pour afficher un DataFrame avec SimpleTableViewer."""
-    dataframe.columns = dataframe.columns.astype(str)
+    # dataframe.columns = dataframe.columns.astype(str)
     app = QApplication.instance()  # Vérifie si une instance de QApplication existe déjà
     if not app:  # Si aucune instance n'existe, on la crée
         app = QApplication(sys.argv)
