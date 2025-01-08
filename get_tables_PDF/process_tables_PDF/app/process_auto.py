@@ -1,6 +1,6 @@
 import pandas as pd
 import sys
-sys.path.append("scan_pdf/utils")
+sys.path.append("get_tables_PDF/utils")
 from table_viewer import show_table
 
 def is_number_cell(value):
@@ -47,7 +47,6 @@ def unpivot_df(df, nb_headers):
     header = header.fillna(method="ffill", axis=1) # Rempli les headers vide par ceux précédent
 
     df.columns = pd.MultiIndex.from_frame(header.T) # Header en MultiIndex
-    df.columns = ['_'.join(map(str, col)) if isinstance(col, tuple) else str(col) for col in df.columns]
 
     show_table(df)
     
@@ -55,7 +54,8 @@ def unpivot_df(df, nb_headers):
     df = df.iloc[2:].reset_index(drop=True)  # Supprimer les lignes d'en-tête originales et réindexer
     print(df, "c \n")
     df_unpivot = df.melt(id_vars=[df.columns[0]]) # Pivot
-
+    df_unpivot.columns = df_unpivot.columns.astype(str)
+    show_table(df_unpivot)
     return df_unpivot
 
 
