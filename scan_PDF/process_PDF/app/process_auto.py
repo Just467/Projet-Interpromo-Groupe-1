@@ -1,4 +1,9 @@
 import pandas as pd
+import sys
+sys.path.append("scan_pdf/utils")
+from table_viewer import show_table
+
+
 
 def pivot_table(nb_headers):
     header = df.iloc[:nb_headers]
@@ -15,4 +20,15 @@ def pivot_table(nb_headers):
     return df_pivot
 
 
-data
+data = [
+    [None, "Homme", None, "Femme", None],
+    [None, "Fonctionnaire", "Non Fonctionnaire", "Fonctionnaire", "Non Fonctionnaire"],
+    [2021, 8, 9, 10, 11],
+    [2025, 15, 45, 46, 10]
+]
+
+df = pd.DataFrame(data)
+df.columns = df.columns.astype(str)
+show_table(df)
+print(df)
+

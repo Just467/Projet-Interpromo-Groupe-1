@@ -69,12 +69,17 @@ class SimpleTableViewer(QMainWindow):
 
 def show_table(dataframe):
     """Fonction utilitaire pour afficher un DataFrame avec SimpleTableViewer."""
-    app = QApplication(sys.argv)
+    dataframe.columns = dataframe.columns.astype(str)
+    app = QApplication.instance()  # Vérifie si une instance de QApplication existe déjà
+    if not app:  # Si aucune instance n'existe, on la crée
+        app = QApplication(sys.argv)
+    
     viewer = SimpleTableViewer(dataframe)
     viewer.resize(800, 600)
     viewer.show()
-    sys.exit(app.exec_())
 
+    # Exécute l'application sans bloquer l'exécution globale
+    app.exec_()
 
 # import sys
 # sys.path.append("scan_pdf/utils")
