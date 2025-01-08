@@ -1,7 +1,6 @@
 import pandas as pd
 
 import sys
-import os
 sys.path.append("scan_pdf/utils")
 from table_viewer import show_table
 
