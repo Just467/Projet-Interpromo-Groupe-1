@@ -3,13 +3,21 @@ import sys
 sys.path.append("get_tables_PDF/utils")
 from table_viewer import show_table
 
+boolean = True
+
 def is_number_cell(value):
     return True
 
-def is_tidy_df(df):
-    is_tidy = None
+def is_header(series):
+    # regarder premier mot / deuxième mot si en lien avec les autres
+    # ignorer peut-être le premier mot ? pas forcément
+    # presence de nan
+    return boolean
 
-    return is_tidy
+def is_variable(series):
+    # regarder si premier mot / en lien avec les autres
+    
+    return boolean
 
 def format_df(df):
     """
@@ -23,6 +31,9 @@ def format_df(df):
     return:
         DataFrame: df formatée
     """
+    # Supprimer colonnes et lignes totales
+    # si plus d'élements en bas que en haut que à droite => colonnes
+    # si plus d'éléments en 
 
     # Supprime les lignes et colonnes entièrement vides
     df = df.dropna(how='all', axis=0)
@@ -46,16 +57,12 @@ def unpivot_df(df, nb_headers):
     # header = fill(header)
     header = header.fillna(method="ffill", axis=1) # Rempli les headers vide par ceux précédent
 
-    df.columns = pd.MultiIndex.from_frame(header.T) # Header en MultiIndex
+    df.columns = pd.MultiIndex.from_frame(header.T) # Header en MultiIndex    
 
-    show_table(df)
-    
-    print(df, "b \n")
     df = df.iloc[2:].reset_index(drop=True)  # Supprimer les lignes d'en-tête originales et réindexer
-    print(df, "c \n")
+
     df_unpivot = df.melt(id_vars=[df.columns[0]]) # Pivot
     df_unpivot.columns = df_unpivot.columns.astype(str)
-    show_table(df_unpivot)
     return df_unpivot
 
 
@@ -66,9 +73,21 @@ data = [
     [2025, 15, 45, 46, 10]
 ]
 
+data = [
+    [None, None, "Homme", None, "Femme", None],
+    [None, None, "Fonctionnaire", "Non Fonctionnaire", "Fonctionnaire", "Non Fonctionnaire"],
+    [2021, "Catégorie A", 8, 9, 10, 11],
+    [2021, "Catégorie B", 15, 25, 20, 30],
+    [2021, "Catégorie C", 45, 35, 40, 25],
+    [2022, "Catégorie A", 50, 55, 60, 65],
+    [2022, "Catégorie B", 70, 75, 80, 85]
+]
+
+
 df = pd.DataFrame(data)
+df.columns = df.columns.astype(str)
 df = unpivot_df(df, nb_headers=2)
 
-# show_table(df)
+show_table(df)
 # print(df)
 
