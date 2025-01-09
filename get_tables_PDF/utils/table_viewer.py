@@ -82,6 +82,7 @@ def show_table(dataframe):
     app.exec_()
 
 # import sys
+# sys.path.append('get_tables_PDF/utils')
 # from table_viewer import show_table
 
 # data = {
