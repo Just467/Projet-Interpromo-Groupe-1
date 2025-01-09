@@ -1,51 +1,43 @@
+import camelot
 import pandas as pd
-import sys
-sys.path.append('get_tables_PDF')
-from extract_tables_PDF.string_operations import find_all_largest_common_substrings, delete_first_occurrence
+import numpy as np
 
-concat_df_methods = ['row', 'column']
+extract_tables_PDF_methods = ['lines', 'lines_strict', 'explicit']
 
-def concat_df(df:pd.core.frame.DataFrame, method:str):
-    """Concat dataframe cells into a single string following an axis (either row or column)
-
-    Args:
-        df (pd.core.frame.DataFrame): a dataframe
-        method (str): the method to concat the dataframe
-
-    Raises:
-        ValueError: method must be one of row, column
-
-    Returns:
-        the concat string
-    """
-    if method not in concat_df_methods:
-        raise ValueError(f"Value must be one of {", ".join([str(elem) for elem in concat_df_methods])}")
-    if method=='row':
-        concat_rows = []
-        for index, row in df.iterrows():
-            concat_rows.append(row.astype(str).str.cat(sep=''))
-        return concat_rows
-    if method=='column':
-        concat_col = []
-        for column_name in df:
-            concat_col.append(df[column_name].astype(str).str.cat(sep=''))
-        return concat_col
-
-def merge_stream_pdfplumber(pdfplumber_df, stream_df):
-    str_cat_rows, str_cat_columns = concat_df(pdfplumber_df, 'row'), concat_df(stream_df, 'column')
-    merged_table = []
-    for index_row, row in enumerate(str_cat_rows):
-        print(index_row)
-        merged_row = []
-        for index_col, column in enumerate(str_cat_columns):
-            common_strings = find_all_largest_common_substrings(row, column)
-            if common_strings:
-                row = delete_first_occurrence(row, common_strings[0])
-                merged_row.append(common_strings[0])
+def complete_extract_tables_PDF(pdf_path,
+                       page, page_number,
+                       methods,
+                       show_debugging=False):
+    if methods[0] not in extract_tables_PDF_methods or methods[1] not in extract_tables_PDF_methods:
+        raise ValueError(f"Both values of methods must be in {", ".join([str(elem) for elem in extract_tables_PDF_methods])}")
+    
+    def get_lines_stream(tables, axis):
+        lines = []
+        for index, table in enumerate(tables):
+            lines.append(table._bbox[1-axis])
+            table_cells = table.cells
+            if axis == 1:
+                for cell in table_cells[0][1:]:
+                    lines.append(cell.x1)
             else:
-                merged_row.append(None)
-        merged_table.append(merged_row)
-        print(merged_table)
-        print()
-    return pd.DataFrame(merged_table)
-
+                for cell in table_cells[1:]:
+                    lines.append(cell[0].y1)
+            lines.append(table._bbox[3-axis])
+        return lines
+    
+    text_axes = np.where(np.array(methods) == 'explicit')[0]
+    lines = {0:[], 1:[]}
+    if any(text_axes):
+        tables = camelot.read_pdf(pdf_path, flavor="stream", pages=f"{page_number+1}")
+        for text_axis in text_axes:
+            lines[text_axis] = get_lines_stream(tables, text_axis)
+    
+    settings = {"horizontal_strategy": methods[0],
+                "vertical_strategy": methods[1],
+                "explicit_horizontal_lines": lines[0],
+                "explicit_vertical_lines": lines[1]}
+    
+    df_table = pd.DataFrame(page.extract_table(settings))
+    if show_debugging:
+        page.to_image().debug_tablefinder(settings).show()
+    return df_table
