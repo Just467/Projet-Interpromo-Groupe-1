@@ -5,7 +5,7 @@ import numpy as np
 extract_tables_PDF_methods = ['lines', 'lines_strict', 'explicit']
 
 def complete_extract_tables_PDF(pdf_path,
-                       page, page_number,
+                       page, page_number, settings,
                        methods,
                        show_debugging=False):
     if methods[0] not in extract_tables_PDF_methods or methods[1] not in extract_tables_PDF_methods:
@@ -32,12 +32,11 @@ def complete_extract_tables_PDF(pdf_path,
         for text_axis in text_axes:
             lines[text_axis] = get_lines_stream(tables, text_axis)
     
-    settings = {"horizontal_strategy": methods[0],
-                "vertical_strategy": methods[1],
-                "explicit_horizontal_lines": lines[0],
-                "explicit_vertical_lines": lines[1]}
+    settings["horizontal_strategy"], settings["vertical_strategy"] = methods[0], methods[1]
+    settings["explicit_horizontal_lines"], settings["explicit_vertical_lines"] = lines[0], lines[1]
     
-    df_table = pd.DataFrame(page.extract_table(settings))
+    all_tables = page.extract_tables(settings)
+    df_tables = [pd.DataFrame(table) for table in all_tables]
     if show_debugging:
         page.to_image().debug_tablefinder(settings).show()
-    return df_table
+    return df_tables
