@@ -1,5 +1,5 @@
 test.txt
 test.py
 dashboard/test_app.py
-playground
+get_tables_PDF/process_tables_PDF/playground/
 get_tables_PDF/extract_tables_PDF/scan_with_pdfplumber.py
