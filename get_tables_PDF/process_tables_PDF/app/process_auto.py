@@ -1,27 +1,17 @@
 import pandas as pd
 import sys
+import re
 sys.path.append("get_tables_PDF/utils")
 from dataframe_viewer import show_dataframes
 
 boolean = True
 
-def is_number_cell(value):
-    return True
-
-def is_header(series):
-    # regarder premier mot / deuxième mot si en lien avec les autres
-    # ignorer peut-être le premier mot ? pas forcément
-    # presence de nan
-    return boolean
-
-def is_variable(series):
-    # regarder si premier mot / en lien avec les autres
-    
-    return boolean
+# si "Total" dans un header => supprimer colonne
+# si "Total" dans une ligne => supprimer ligne
 
 def format_df(df):
     """
-    Formate simplement une DataFrame en supprimant les lignes et colonnes vides, 
+    Formate la DataFrame en supprimant les lignes et colonnes vides, 
     convertissant toutes les valeurs et colonnes en chaînes de caractères, 
     et en supprimant les espaces.
     
@@ -31,9 +21,6 @@ def format_df(df):
     return:
         DataFrame: df formatée
     """
-    # Supprimer colonnes et lignes totales
-    # si plus d'élements en bas que en haut que à droite => colonnes
-    # si plus d'éléments en 
 
     # Supprime les lignes et colonnes entièrement vides
     df = df.dropna(how='all', axis=0)
@@ -47,9 +34,235 @@ def format_df(df):
 
     return df
 
+
+def is_numerical(value):
+    """
+    Renvoie True si `value` est considéré numérique càd,
+    qui ne contient que des chiffres, points, virgules, devise
+
+    args:
+        value (String): obtenue dans chaque élément d'une Series
+    return:
+        Boolean
+    """
+    # Traiter d'autres cas comme '30ans' etc... != '>30ans'
+    pattern = r"^[\d.,%€$£₹]*$"
+    return bool(re.match(pattern, value))
+
+
+def has_numerical_values(series):
+    """
+    Renvoie True si la ligne possède une ou plusieurs valeurs dites numériques
+
+    args:
+        series (pd.Series)
+    return:
+        Boolean
+    """
+    for value in series:
+        if is_numerical(value):
+            return True
+        
+    return False
+
+
+def has_year_sequency(series, series_index, min_year=2020, max_year=2025):
+    # Implémenter en PLUS: voir si la date est avant des non numerical pour une seule date)
+    # Toujours garder si index == 0
+    """
+    Renvoie True si la pd.Series contient uniquement des années compris dans la plage
+    Avec des règles supplémentaires si c'est la première ligne de la DataFrame
+    
+    args:
+        series (pd.Series): une ligne de DataFrame
+        series_index (int): index de la series (ligne/colonne) dans la DataFrame
+        min_year (int): année minimale autorisée
+        max_year (int): année maximale autorisée
+    return:
+        bool: True si toutes les valeurs numériques sont dans la plage (ou si une seule année avec row_index=0), sinon False.
+    """
+    # Vérifie si la valeur est un nombre entier
+    def is_pure_number(value):
+        return re.match(r"^\d+$", str(value).strip()) is not None
+
+    # Liste des valeurs entières
+    int_values = [int(value) for value in series if is_pure_number(value)]
+
+    # Cas où il y a une seule année (peut-être une année ou un nombre par malchance)
+    if len(int_values) == 1:
+        # True si row_index == 0 et que l'année est dans la plage
+        return series_index == 0 and min_year <= int_values[0] <= max_year
+
+    # Vérifie si toutes les valeurs sont dans la plage spécifiée
+    return all(min_year <= num <= max_year for num in int_values)
+
+
+
+def is_value(series, series_index):
+    """
+    Renvoie True si la series est considérée comme valeurs
+    sinon c'est soit une en-tête soit une variable
+
+    args:
+        series (Series): series obtenue en parcourant la DataFrame (ligne/colonne)
+    return:
+        Boolean
+    """
+    isValue = False
+
+    if (not has_numerical_values(series)) or (has_year_sequency(series, series_index)):
+        isValue = True
+
+    return isValue
+
+# Si headers séparés => créer plusieurs df
+
+
+def detect_structure(df):
+    """
+    Renvoie la structure de la df en précisant:
+    où se trouvent les headers (en-têtes) et les variables via leur index
+
+    args:
+        df (pd.DataFrame)
+    return
+        dict
+    """
+
+    header_indexes = []
+    for row_index, row in df.iterrows():
+        if not is_value(row, row_index):
+            header_indexes.append(row_index)
+    
+    variable_indexes = []
+    for col_index, col in df.T.iterrows():
+        if not is_value(col, col_index):
+            variable_indexes.append(col_index)
+    
+    structure = {
+        "headers": header_indexes,
+        "variables": variable_indexes
+    }
+
+    return structure
+
+
+def find_total_indexes(series):
+    """
+    Renvoie la position des valeurs contenant le mot "total" (insensible à la casse)
+    d'une pd.Series
+
+    args:
+        series (pd.Series)
+    return
+        Boolean
+    """
+
+    # uplet de True / False
+    mask = series.str.contains('total', case=False, na=False)
+    
+    return [series.index.get_loc(idx) for idx in series[mask].index]
+
+
+def remove_totals(df, structure):
+    """
+    Enlève les lignes et colonnes de type "Total" de la df
+
+    args:
+        df (DataFrame)
+        structure (dict)
+    return:
+        dict
+    """
+
+    all_total_col_indexes = []
+    for header_index in structure["headers"]:
+        header = df.iloc[header_index, :]
+        total_col_indexes = find_total_indexes(header)
+        for index in total_col_indexes:
+            if index not in all_total_col_indexes:
+                all_total_col_indexes.append(index)
+    
+    all_total_row_indexes = []
+    for variable_index in structure["variables"]:
+        variable = df.iloc[:, variable_index]
+        total_row_indexes = find_total_indexes(variable)
+
+        for index in total_row_indexes:
+            if index not in all_total_row_indexes:
+                all_total_row_indexes.append(index)
+                
+    df = df.drop(columns=df.columns[all_total_col_indexes])
+    df = df.drop(index=all_total_row_indexes)
+
+    df.columns = range(df.shape[1])
+    df.reset_index(drop=True, inplace=True)
+
+    return df
+
+def split_df(df, structure):
+    """
+    Divise la DataFrame en plusieurs sous-DataFrames en fonction des headers et des variables trouvées
+    
+    args:
+        df (pd.DataFrame): le DataFrame d'origine
+        structure (dict):
+            "headers": liste des index des headers
+            "variables": liste des index des variables
+    
+    Returns:
+        list: liste des sous-DataFrames découpés
+    """
+    splitted_dfs = []
+    
+    # Obtenir les index des headers (lignes) et des variables (colonnes)
+    header_indexes = structure["headers"]
+    variable_indexes = structure["variables"]
+
+    # Identifier les intervalles pour les headers
+    header_intervals = []
+    if header_indexes:  # Vérifier qu'il y a au moins un header
+        current_start = header_indexes[0]  # Initialiser au premier header
+        for i in range(len(header_indexes) - 1):
+            if header_indexes[i + 1] > header_indexes[i] + 1:  # Gap détecté
+                header_intervals.append((current_start, header_indexes[i] + 1))
+                current_start = header_indexes[i + 1]  # Début du prochain intervalle
+        # Ajouter le dernier intervalle
+        header_intervals.append((current_start, None))
+
+    # Identifier les intervalles pour les variables
+    variable_intervals = []
+    if variable_indexes:  # Vérifier qu'il y a au moins une variable
+        current_start = variable_indexes[0]  # Initialiser à la première variable
+        for i in range(len(variable_indexes) - 1):
+            if variable_indexes[i + 1] > variable_indexes[i] + 1:  # Gap détecté
+                variable_intervals.append((current_start, variable_indexes[i] + 1))
+                current_start = variable_indexes[i + 1]  # Début du prochain intervalle
+        # Ajouter le dernier intervalle
+        variable_intervals.append((current_start, None))
+
+    # Découper la DataFrame en fonction des intervalles
+    for h_start, h_end in header_intervals:
+        for v_start, v_end in variable_intervals:
+            # Si h_end ou v_end est None, cela signifie "jusqu'à la fin"
+            sub_df = df.iloc[
+                h_start:(h_end if h_end is not None else None),  # Lignes
+                v_start:(v_end if v_end is not None else None)   # Colonnes
+            ]
+            # Réindexer le sous-DataFrame
+            sub_df = sub_df.reset_index(drop=True)  # Réinitialiser l'index des lignes
+            sub_df.columns = range(sub_df.shape[1])  # Réinitialiser les colonnes
+            splitted_dfs.append(sub_df)
+
+    return splitted_dfs
+
+
 def fill_header(header):
     filled_header = header.fillna(method="ffill", axis=1).fillna("unknown")
     return filled_header
+
+def fill_variable(variable):
+    return None
 
 def clean_multi_index(multi_index):
     """
@@ -202,3 +415,23 @@ for i in range(len(dataframes)):
 show_dataframes(dataframes, dfs)
 # print(df)
 
+# il faut remplir avant car total doit se remplir
+
+# ensuite split puis enlever total ou inverse
+
+# étapes
+# formate simple
+# trouver les headers/variables => structure
+# fill les headers/variables
+# enlever les totals
+# re structure (éviter de relancer la fonction, il faudrait calculer la nouvelle structure en fonction des lignes/cols enlevées)
+# split la dataframe en plusieurs si les headers/variables sont éloignés
+# re structure chaque df (pareil pas relancer)
+
+# pour chaque variable regarder au dessus (index pas supérieur au nb de headers), savoir si titre du tableau ou nom de la colonne.
+# traiter si plusieurs mots trouvés (si plusieurs headers)
+
+# si variable suivante mêmes noms => changer
+
+# Si titre mettre dans une colonne
+# Sinon, nom de la variable
