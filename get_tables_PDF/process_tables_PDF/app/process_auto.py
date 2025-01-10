@@ -4,6 +4,7 @@ import re
 import numpy as np
 sys.path.append("get_tables_PDF/utils")
 from dataframe_viewer import show_dataframes
+from processed_dataframe_viewer import show_processed_dataframes
 
 boolean = True
 
@@ -30,10 +31,7 @@ def format_df(df):
     df = df.dropna(how='all', axis=1)
 
     # Converti toutes les valeurs en str et supprime les espaces
-    df = df.applymap(lambda x: str(x).replace(" ", "") if pd.notnull(x) else "")
-
-    # Supprime tous les espaces des noms de colonnes
-    df.columns = [str(col).replace(" ", "") for col in df.columns]
+    df = df.map(lambda x: str(x).replace(" ", "") if pd.notnull(x) else "")
 
     return df
 
@@ -111,10 +109,10 @@ def is_value(series, series_index):
     return:
         Boolean
     """
-    isValue = False
+    isValue = True
 
     if (not has_numerical_values(series)) or (has_year_sequency(series, series_index)):
-        isValue = True
+        isValue = False
 
     return isValue
 
@@ -138,8 +136,9 @@ def detect_structure(df):
             header_indexes.append(row_index)
     
     variable_indexes = []
-    for col_index, col in df.T.iterrows():
-        if not is_value(col, col_index):
+    for col_index in range(df.shape[1]):  # Itération sur les indices numériques des colonnes
+        column = df.iloc[:, col_index]   # Accès à la colonne par index numérique
+        if not is_value(column, col_index):
             variable_indexes.append(col_index)
     
     structure = {
@@ -150,7 +149,7 @@ def detect_structure(df):
     return structure
 
 
-def add_header(df, label="unknown"):
+def add_header(df, missing_label="unknown"):
     """
     Ajoute une ligne tout en haut du DataFrame avec le label spécifié
     
@@ -160,8 +159,14 @@ def add_header(df, label="unknown"):
     Returns:
         pd.DataFrame: Le DataFrame modifié.
     """
+    structure = detect_structure(df)
+    nb_headers = len(structure["headers"])
+
+    if nb_headers > 0:
+        return df
+    
     # Créer une nouvelle ligne avec le label
-    new_row = pd.DataFrame([[label] * df.shape[1]], columns=df.columns)
+    new_row = pd.DataFrame([[missing_label] * df.shape[1]], columns=df.columns)
     
     # Concaténer la nouvelle ligne avec le DataFrame d'origine
     df = pd.concat([new_row, df], ignore_index=True)
@@ -189,7 +194,7 @@ def find_total_indexes(series):
     return [series.index.get_loc(idx) for idx in series[mask].index]
 
 
-def remove_totals(df, structure):
+def remove_totals(df):
     """
     Enlève les lignes et colonnes de type "Total" de la df
 
@@ -199,6 +204,7 @@ def remove_totals(df, structure):
     return:
         dict
     """
+    structure = detect_structure(df)
 
     all_total_col_indexes = []
     for header_index in structure["headers"]:
@@ -225,7 +231,7 @@ def remove_totals(df, structure):
 
     return df
 
-def split_df(df, structure):
+def split_df(df):
     """
     Divise la DataFrame en plusieurs sous-DataFrames en fonction des headers et des variables trouvées
     
@@ -238,6 +244,7 @@ def split_df(df, structure):
     Returns:
         list: liste des sous-DataFrames découpés
     """
+    structure = detect_structure(df)
     splitted_dfs = []
     
     # Obtenir les index des headers (lignes) et des variables (colonnes)
@@ -282,19 +289,20 @@ def split_df(df, structure):
     return splitted_dfs
 
 
-def find_col_names(df, structure):
+def fill_col_names(df, missing_label):
+    structure = detect_structure(df)
+
     nb_headers = len(structure["headers"])
     variable_indexes = structure["variables"]
     variables = df.iloc[:, variable_indexes]
 
     previous_col_names = None
     for col_index, col in variables.T.iterrows():
-
         col_names = col[:nb_headers].unique()
         col_name = col_names[-1]
 
         if np.array_equal(col_names, previous_col_names):
-            col_name = ", ".join(col[nb_headers:].dropna().unique())
+            col_name = missing_label
         
         df.iloc[:nb_headers, col_index] = col_name
         previous_col_names = col_names
@@ -302,35 +310,65 @@ def find_col_names(df, structure):
     return df
 
 
-def fill_headers(headers):
-    filled_headers = headers.fillna(method="ffill", axis=1).fillna("unknown")
-    return filled_headers
+def fill_headers(df, missing_label="unknown"):
+    """
+    Remplit les valeurs manquantes des lignes spécifiées par `header_indexes`
+    et remplace les valeurs restantes par "unknown".
+    
+    Args:
+        df (pd.DataFrame): Le DataFrame à traiter.
+    
+    Returns:
+        pd.DataFrame: Le DataFrame avec les headers remplis.
+    """
+    # Détection de la structure pour obtenir les lignes des headers
+    structure = detect_structure(df)
+    header_indexes = structure["headers"]
+
+    df.iloc[header_indexes, :] = df.iloc[header_indexes, :].replace("", None)
+
+    df.iloc[header_indexes, :] = (
+        df.iloc[header_indexes, :]
+        .ffill(axis=1)             # Remplissage horizontal (forward fill)
+        .fillna(missing_label)    # Remplissage final avec le label
+    )
+
+    return df
 
 
-
-def fill_variables(variables):
+# Fonction fictive pour détecter les headers
+def fill_variables(df):
     """
     Remplit les colonnes de variables vers le bas (forward fill).
     Si une seule colonne est présente, elle est également remplie.
     
     Args:
-        variables (pd.DataFrame or pd.Series): DataFrame ou Series contenant les colonnes des variables.
+        df (pd.DataFrame): Le DataFrame à traiter.
     
     Returns:
-        pd.DataFrame or pd.Series: Les colonnes de variables avec les valeurs manquantes remplies.
+        pd.DataFrame: Le DataFrame avec les variables remplies.
     """
-    if isinstance(variables, pd.Series):
-        return variables.fillna(method="ffill")
-    
-    # Si une seule colonne dans un DataFrame, remplir directement
-    if variables.shape[1] == 1:
-        return variables.fillna(method="ffill")
-    
-    # Remplir toutes les colonnes sauf la dernière dans un DataFrame
-    variables.iloc[:, :-1] = variables.iloc[:, :-1].fillna(method="ffill")
-    
-    return variables
+    structure = detect_structure(df)
+    variable_indexes = structure["variables"]
 
+    # Vérifier s'il y a des variables à remplir
+    if not variable_indexes:
+        return df
+
+    variables = df.iloc[:, variable_indexes]
+
+    # Si une seule colonne (Series), remplir directement
+    if isinstance(variables, pd.Series) or variables.shape[1] == 1:
+        df.iloc[:, variable_indexes] = df.iloc[:, variable_indexes].replace("", None)
+        df.iloc[:, variable_indexes] = variables.fillna(method="ffill")
+        return df
+
+    # Remplir toutes les colonnes sauf la dernière
+    variables.iloc[:, :-1].replace("", None)
+    variables.iloc[:, :-1] = variables.iloc[:, :-1].fillna(method="ffill")
+    df.iloc[:, variable_indexes] = variables
+
+    return df
 
 
 def clean_multi_index(multi_index):
@@ -365,40 +403,109 @@ def clean_multi_index(multi_index):
 
 
 
-def unpivot_df(df, nb_categ_headers, nb_variables, value_colname):
+def unpivot_df(df, value_colname, missing_label):
     """
     Transforme un DataFrame avec plusieurs en-têtes en un DataFrame au format "tidy".
     
     :param df: DataFrame brut à transformer.
-    :param nb_categ_headers: Nombre de lignes d'en-tête à utiliser pour le MultiIndex.
+    :param nb_headers: Nombre de lignes d'en-tête à utiliser pour le MultiIndex.
     :return: DataFrame au format "tidy".
     """
-
-    if nb_categ_headers == 0:
-        return df
-    
-    headers = df.iloc[:nb_categ_headers]
-    headers = fill_headers(headers)
+    structure = detect_structure(df)
+    nb_headers = len(structure["headers"])
+    nb_variables = len(structure["variables"])
+    nb_values = df.shape[1] - nb_variables
+  
+    headers = df.iloc[:nb_headers]
 
     # Crée le MultiIndex (en-têtes)
     df.columns = pd.MultiIndex.from_frame(headers.T)
     df.columns = clean_multi_index(df.columns)
 
     # Réinitialise l'index
-    df = df.iloc[nb_categ_headers:].reset_index(drop=True)
+    df = df.iloc[nb_headers:].reset_index(drop=True)
 
     variables_cols = df.columns.tolist()[:nb_variables]
     values_cols = df.columns.tolist()[nb_variables:]
 
     # Dépivote toutes les colonnes sauf celles considérées comme des variables
-    df_unpivot = df.melt(id_vars=variables_cols, value_vars=values_cols, value_name=value_colname)
+    print(values_cols)
+    df_unpivot = df.melt(id_vars=variables_cols, value_vars=values_cols, var_name=missing_label, value_name=value_colname)
+    print(df_unpivot)
 
     return df_unpivot
 
-def app(raw_df_list, meta_data):
-    for raw_df in raw_df_list:
-        dfs = preprocess(raw_df)
-    
+def simplify_columns(columns):
+    """
+    Transforme les noms de colonnes en une version simplifiée :
+    - Si le nom est un tuple (MultiIndex), conserve uniquement le premier élément.
+    - Si le nom est une chaîne simple, le conserve tel quel.
+
+    Args:
+        columns (pd.Index or list): Liste des noms de colonnes.
+
+    Returns:
+        list: Liste des noms de colonnes simplifiés.
+    """
+    simplified = []
+    for col in columns:
+        if isinstance(col, tuple):  # Si la colonne est un tuple (MultiIndex)
+            simplified.append(col[0])  # Conserve uniquement le premier élément
+        else:
+            simplified.append(col)  # Garde la colonne telle quelle si simple
+    return simplified
+
+def preprocess(df, missing_label):
+    df = format_df(df)
+    df = add_header(df, missing_label)
+
+    df = fill_headers(df, missing_label)
+    df = fill_variables(df)
+    df = remove_totals(df)
+
+    df_splitted = split_df(df)
+    df_splitted = [fill_col_names(df, missing_label) for df in df_splitted]
+
+    return df_splitted
+
+
+def app(raw_df_list, missing_label="unknown", meta_data="à voir"):
+    """
+    Traite une liste de DataFrames bruts en effectuant des étapes de prétraitement,
+    de détection de structure et de réorganisation des données.
+
+    Args:
+        raw_df_list (list): Liste des DataFrames bruts à traiter.
+        meta_data (dict): Métadonnées associées aux DataFrames.
+
+    Returns:
+        dict: Structure contenant les DataFrames bruts et leurs versions traitées.
+    """
+    processed_data = {}
+
+    for idx, raw_df in enumerate(raw_df_list):  # Commencer à indexer à 1
+        # Étape de prétraitement
+        df_splitted = preprocess(raw_df, missing_label)
+
+        processed_dfs = []
+        for df in df_splitted:
+            # Détection de la structure
+            structure = detect_structure(df)
+
+            # Transformation du DataFrame
+            df_unpivot = unpivot_df(df, value_colname="valeur", missing_label=missing_label)
+            df_unpivot.columns = simplify_columns(df_unpivot.columns)
+            processed_dfs.append(df_unpivot)
+
+        processed_data[idx] = {
+            "raw_df": raw_df,
+            "processed_df": processed_dfs
+            # "meta_data": meta_data[idx]
+        }
+
+    return processed_data
+
+
 
 # data = [
 #     [None, "Homme", None, "Femme", None],
@@ -415,7 +522,7 @@ dataframes = []
 # Exemple 1 : Deux en-têtes, plusieurs variables
 data1 = [
     [None, None, "Homme", None, "Femme", None],
-    [None, None, "Fonctionnaire", "Non Fonctionnaire", "Fonctionnaire", "Non Fonctionnaire"],
+    [None, "categ", "Fonctionnaire", "Non Fonctionnaire", "Fonctionnaire", "Non Fonctionnaire"],
     [2021, "Catégorie A", 8, 9, 10, 11],
     [2021, "Catégorie B", 15, 25, 20, 30],
     [2021, "Catégorie C", 45, 35, 40, 25],
@@ -446,7 +553,7 @@ data4 = [
     [2021, 18],
     [2022, 20]
 ]
-# dataframes.append(pd.DataFrame(data4))
+dataframes.append(pd.DataFrame(data4))
 
 # Exemple 5 : Trois en-têtes, plusieurs variables
 data5 = [
@@ -468,18 +575,11 @@ data6 = [
     [2022, "Catégorie A", 22],
     [2022, "Catégorie B", 24]
 ]
-
-# dataframes.append(pd.DataFrame(data6))
-nb = [[2, 2], [0, 1], [1, 1], [3, 2]]
-
-dfs = []
-for i in range(len(dataframes)):
-    nb_categ_headers=nb[i][0]
-    nb_variables=nb[i][1]
-
-    df = dataframes[i]
-    df_unpivot = unpivot_df(df, nb_categ_headers=nb_categ_headers, nb_variables=nb_variables, value_colname="valeur")
-    dfs.append(df_unpivot)
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+print("\n \n \n aaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+processed_data = app(dataframes)
+show_processed_dataframes(processed_data)
 
 # show_dataframes(dataframes, dfs)
 # print(df)
