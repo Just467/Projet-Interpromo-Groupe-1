@@ -1,6 +1,7 @@
 import pandas as pd
 import sys
 import re
+import numpy as np
 sys.path.append("get_tables_PDF/utils")
 from dataframe_viewer import show_dataframes
 
@@ -8,6 +9,8 @@ boolean = True
 
 # si "Total" dans un header => supprimer colonne
 # si "Total" dans une ligne => supprimer ligne
+
+# liste des functions
 
 def format_df(df):
     """
@@ -147,6 +150,28 @@ def detect_structure(df):
     return structure
 
 
+def add_header(df, label="unknown"):
+    """
+    Ajoute une ligne tout en haut du DataFrame avec le label spécifié
+    
+    Args:
+        df (pd.DataFrame): Le DataFrame d'origine.
+        label (str): Le label à remplir dans la ligne ajoutée.
+    Returns:
+        pd.DataFrame: Le DataFrame modifié.
+    """
+    # Créer une nouvelle ligne avec le label
+    new_row = pd.DataFrame([[label] * df.shape[1]], columns=df.columns)
+    
+    # Concaténer la nouvelle ligne avec le DataFrame d'origine
+    df = pd.concat([new_row, df], ignore_index=True)
+    
+    # Réindexer les colonnes (facultatif si les colonnes doivent rester numérotées)
+    df.columns = range(df.shape[1])
+    
+    return df
+
+
 def find_total_indexes(series):
     """
     Renvoie la position des valeurs contenant le mot "total" (insensible à la casse)
@@ -257,12 +282,56 @@ def split_df(df, structure):
     return splitted_dfs
 
 
-def fill_header(header):
-    filled_header = header.fillna(method="ffill", axis=1).fillna("unknown")
-    return filled_header
+def find_col_names(df, structure):
+    nb_headers = len(structure["headers"])
+    variable_indexes = structure["variables"]
+    variables = df.iloc[:, variable_indexes]
 
-def fill_variable(variable):
-    return None
+    previous_col_names = None
+    for col_index, col in variables.T.iterrows():
+
+        col_names = col[:nb_headers].unique()
+        col_name = col_names[-1]
+
+        if np.array_equal(col_names, previous_col_names):
+            col_name = ", ".join(col[nb_headers:].dropna().unique())
+        
+        df.iloc[:nb_headers, col_index] = col_name
+        previous_col_names = col_names
+    
+    return df
+
+
+def fill_headers(headers):
+    filled_headers = headers.fillna(method="ffill", axis=1).fillna("unknown")
+    return filled_headers
+
+
+
+def fill_variables(variables):
+    """
+    Remplit les colonnes de variables vers le bas (forward fill).
+    Si une seule colonne est présente, elle est également remplie.
+    
+    Args:
+        variables (pd.DataFrame or pd.Series): DataFrame ou Series contenant les colonnes des variables.
+    
+    Returns:
+        pd.DataFrame or pd.Series: Les colonnes de variables avec les valeurs manquantes remplies.
+    """
+    if isinstance(variables, pd.Series):
+        return variables.fillna(method="ffill")
+    
+    # Si une seule colonne dans un DataFrame, remplir directement
+    if variables.shape[1] == 1:
+        return variables.fillna(method="ffill")
+    
+    # Remplir toutes les colonnes sauf la dernière dans un DataFrame
+    variables.iloc[:, :-1] = variables.iloc[:, :-1].fillna(method="ffill")
+    
+    return variables
+
+
 
 def clean_multi_index(multi_index):
     """
@@ -308,14 +377,11 @@ def unpivot_df(df, nb_categ_headers, nb_variables, value_colname):
     if nb_categ_headers == 0:
         return df
     
-    # Extraire les lignes d'en-tête
-    header = df.iloc[:nb_categ_headers]
-
-    # Remplir les valeurs manquantes horizontalement
-    header = fill_header(header)
+    headers = df.iloc[:nb_categ_headers]
+    headers = fill_headers(headers)
 
     # Crée le MultiIndex (en-têtes)
-    df.columns = pd.MultiIndex.from_frame(header.T)
+    df.columns = pd.MultiIndex.from_frame(headers.T)
     df.columns = clean_multi_index(df.columns)
 
     # Réinitialise l'index
@@ -329,7 +395,10 @@ def unpivot_df(df, nb_categ_headers, nb_variables, value_colname):
 
     return df_unpivot
 
-
+def app(raw_df_list, meta_data):
+    for raw_df in raw_df_list:
+        dfs = preprocess(raw_df)
+    
 
 # data = [
 #     [None, "Homme", None, "Femme", None],
@@ -412,7 +481,7 @@ for i in range(len(dataframes)):
     df_unpivot = unpivot_df(df, nb_categ_headers=nb_categ_headers, nb_variables=nb_variables, value_colname="valeur")
     dfs.append(df_unpivot)
 
-show_dataframes(dataframes, dfs)
+# show_dataframes(dataframes, dfs)
 # print(df)
 
 # il faut remplir avant car total doit se remplir
