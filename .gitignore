@@ -1,1 +1,9 @@
-data\ratios_inpi_bce.csv
+test.txt
+test.py
+dashboard/test_app.py
+get_tables_PDF/process_tables_PDF/playground
+get_tables_PDF/extract_tables_PDF/scan_with_pdfplumber.py
+get_tables_PDF/extract_tables_PDF/old
+dashboard
+data_processing
+web_scraping
