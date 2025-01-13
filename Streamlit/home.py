@@ -33,7 +33,7 @@ st.title("📊 Analyse et comparaison des indicateurs d'entreprises")
 st.markdown("### Sélectionnez une entreprise pour explorer ses indicateurs:")
 
 # Logos des entreprises (exemple avec 3 entreprises)
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
     with stylable_container( key="r_buton", css_styles= button_style):
@@ -59,4 +59,21 @@ with col3:
     if details_bouton:
         switch_page("DECATHLON")
 
+
+with col4:
+    with stylable_container( key="r_buton", css_styles= button_style):
+        details_bouton= st.button("texte", key='entreprise 4', use_container_width= True)
+    img4 = Image.open("images/insa.png")  
+    st.image(img4, use_container_width=True)
+    if details_bouton:
+        switch_page("INSA")
+
    
+   
+with col5:
+    with stylable_container( key="r_buton", css_styles= button_style):
+        details_bouton= st.button("texte", key='entreprise 5', use_container_width= True)
+    img5 = Image.open("images/CNP-Logo.jpg")  
+    st.image(img5, use_container_width=True)
+    if details_bouton:
+        switch_page("CNP")
