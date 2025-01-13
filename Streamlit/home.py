@@ -1,5 +1,5 @@
 import streamlit as st
-<<<<<<< HEAD
+
 from PIL import Image
 import streamlit_extras
 from streamlit_extras.stylable_container import stylable_container
@@ -76,7 +76,6 @@ else:
     st.info("Veuillez sélectionner exactement deux entreprises pour continuer.")
 
    
-=======
 import pandas as pd 
 import plotly.express as px 
 
@@ -98,4 +97,3 @@ if st.button("Valider la sélection"):
         st.success("Vous avez sélectionné: " + ",".join(selected_entreprises))
     else:
         st.warning("Aucune entreprise n'a été sélectionnée")
->>>>>>> 97648cb (première liste déroulante)
