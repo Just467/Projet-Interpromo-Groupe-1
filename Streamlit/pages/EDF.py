@@ -57,9 +57,7 @@ if selection:
         dimension_1 = st.sidebar.selectbox("Veuillez choisir le 1er axe d'analyse :",dimension, index=1) 
         #dimension = dimension.remove(dimension_1) 
         dimension_2 = st.sidebar.selectbox("Veuillez choisir le 2eme axe d'analyse :",dimension, index=1) #Valeur année par défaut
-        #dimension = dimension.remove(dimension_2[0])
-        dimension_3 = st.sidebar.selectbox("Veuillez choisir le 3eme  axe d'analyse :",dimension, index=1) 
-        variables=[dimension_1,dimension_2,dimension_3]
+        variables=[dimension_1,dimension_2]
 
 
 #----Actualisation de la data----------------
@@ -68,19 +66,6 @@ if selection:
 ##############################################################
 #--########-------CREATION DES GRAPHIQUES----######
 ##############################################################
-#---------- Indicateur--------------------------
-a,b,c,d=st.columns(4)
-with a:
-    st.metric("Minimum", int(df["Valeur"].min()), delta=None)
-with b:
-    st.metric("Moyenne", int(df["Valeur"].mean()), delta=None)
-with c:
-    st.metric("Maximum", int(df["Valeur"].max()), delta=None)
-with d:
-    st.metric("Total", int(df["Valeur"].sum()), delta=None)
-style_metric_cards()
-
-
 
 #----------------Graph univarié-----------------------------
 if dimension_1=="Aucune variable":
