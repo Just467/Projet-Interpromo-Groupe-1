@@ -1,12 +1,13 @@
 import streamlit as st
 import pandas as pd  
 import plotly.express as px 
+#file_path = "..\data\transformed\EDF\"
 
-#  Dataframe
-df_abs_conge_aut = None
-df_abs_mal = None
-df_abs_mat_adopt = None
-df_abs_pater = None
+#  Dataframes
+df_abs_conge_aut = pd.read_csv("PROJET-INTERPROMO-GROUPE-1/abs_conges_autorises.csv", sep = ";")
+df_abs_mal = pd.read_csv("abs_maladie.csv", sep = ";")
+df_abs_mat_adopt = pd.read_csv("abs_mat_adoption.csv", sep  = ";")
+df_abs_pater =pd.read_csv("abs_apternite.csv", sep = ";")
 
 # Conditions de travail
 df_hor_ind = None
@@ -18,12 +19,12 @@ df_sal_serv_continu_50 = None
 df_sal_temps_part_dec = None
 
 # Droit
-df_nb_inst_judic = None
-df_nb_non_juri = None
+df_nb_inst_judic = pd.read_csv("nb_instances_judiciaires.csv", sep = ";")
+df_nb_non_juri =pd.read_csv("nb_recours_non_juridictionnels.csv", sep = ";")
 
 #  Effectif
-df_demis = None
-df_eff = None
+df_demis = pd.read_csv("demissions.csv", sep = ";")
+df_eff = pd.read_csv("effectif.csv", sep = ";")
 embauches_moins_25 = None
 
 # Exterieur
@@ -65,7 +66,7 @@ if selection_themes == "Condition de travail":
  
  # Absentéisme   
 elif selection_themes == "Absentéisme":
-    conges, maladie, mat_adop, paternite = st.columns(4)
+    conges, maladie, mat_adop, paternite = st.columns([2,2,3,2])
     with conges:
         if st.button("Congés autorisés"):
             None
@@ -91,7 +92,7 @@ elif selection_themes == "Droit":
             None
     # Effectif
 elif selection_themes == "Effectif":
-    eff, demis, embau_mn_25 = st.columns(3)
+    eff, demis, embau_mn_25 = st.columns([1,1,2])
     with eff:
         if st.button("Effectif"):
             None
