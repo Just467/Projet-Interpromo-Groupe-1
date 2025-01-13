@@ -43,6 +43,7 @@ def selection_menu (dossier_entreprise, col_inutiles):
             data = []
             # parcourrir tous les fichiers de cette thématique 
             for e in noms_fichiers:
+              
                 chemin = os.path.join(file_path,e)
                 df = pd.read_csv(chemin, sep=';')
                 data.append(df)

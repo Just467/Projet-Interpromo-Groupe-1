@@ -1,141 +1,107 @@
-
 import streamlit as st
-import pandas as pd  
-import plotly.express as px 
-file_path = "../data/transformed/EDF/"
-
-#  Dataframes
-df_abs_conge_aut = pd.read_csv( file_path + "absenteisme/abs_conges_autorises.csv", sep = ";")
-df_abs_mal = pd.read_csv(file_path + "absenteisme/abs_maladie.csv", sep = ";")
-df_abs_mat_adopt = pd.read_csv(file_path + "absenteisme/abs_mat_adoption.csv", sep  = ";")
-df_abs_pater =pd.read_csv(file_path + "absenteisme/abs_paternite.csv", sep = ";")
-
-# Conditions de travail
-df_hor_ind = None
-df_rep_comp = None
-df_sal_inapt_med = None
-df_sal_recl_inap = None
-df_reduc_coll = None
-df_sal_serv_continu_50 = None
-df_sal_temps_part_dec = None
-
-# Droit
-df_nb_inst_judic = pd.read_csv(file_path + "droit/nb_instances_judiciaires.csv", sep = ";")
-df_nb_non_juri =pd.read_csv(file_path + "droit/nb_recours_non_juridictionnels.csv", sep = ";")
-
-#  Effectif
-df_demis = pd.read_csv(file_path + "effectif/demissions.csv", sep = ";")
-df_eff = pd.read_csv(file_path + "effectif/effectif.csv", sep = ";")
-embauches_moins_25 = None
-
-# Exterieur
-df_duree_moye = None
-df_nb_moy_temp = None
-df_sal_det_acc = None
-df_sal_det_mob = None
-df_stage_sc = None
-
-# Formation
-df_heures = None
-
-# Handicap
-df_sal_hand = None
-
-# rémunération
-df_coll_sup = None
-
-# menu déroulant 
-
-entreprises = ["EDF", "ENGIE", "INSA", "DECATHLON","CNP"]
-selected_entreprises = []
+import os
+import pandas as pd
+dict_indicateurs_communs = {
+    ("EDF", "ENGIE") : [ "Démissions", "Stagiaires scolaires"],
+    ("EDF", "INSA"): ["Salariés en situation de handicap"],
+    ("EDF", "EDF"): ["Absence pour congés autorisés"]
+}
 
 
+def selection(dossier_entreprise_1, dossier_entreprise_2, col_inutiles, dimension):
+    entreprises = list(set([entreprise for duo in dict_indicateurs_communs.keys() for entreprise in duo]))
+    
+    st.sidebar.subheader("Sélection des entreprises")
+    entreprises_selectionnees = st.sidebar.multiselect(
+        "Veuillez choisir deux entreprises: ",
+        entreprises,
+        default = None,
+        max_selections = 2
+    )
+    
+    if not entreprises_selectionnees or len(entreprises_selectionnees) != 2:
+        st.warning("Veuillez sélectionner exactement deux entreprises.")
+        return(None, None, None, None)
+    
+    dossier_entreprise_1, dossier_entreprise_2 = entreprises_selectionnees
+    duo_selectionne = tuple(sorted(entreprises_selectionnees))
+    
+    # vérif  des indicateurs en commun
+    
+    if duo_selectionne not in dict_indicateurs_communs:
+        st.error("Aucun indicateur commun trouvé pour ces deux entreprises.")
+        return (None, None, None,None)
+    
+    indicateurs_communs = dict_indicateurs_communs[duo_selectionne]
+    
+    # selection d'un indicateur
+    
+    st.sidebar.subheader("Indicateur")
+    indicateur_ = st.sidebar.selectbox(
+        "Veuillez choisir un indicateur en commun:",
+        sorted(indicateurs_communs),
+        index = 0
+        
+    )
+    
+    if not indicateur_:
+        st.warning("Veuillez sélectionner un indicateur.")
+        return(None, None, None, None,None)
+    
+    def charger_donnees(dossier, indicateur):
+        sous_dossiers = [nom for nom in os.listdir(dossier) if os.path.isdir(os.path.join(dossier, nom))]
+        data = []
+        
+        for sous_dossier in sous_dossiers:
+            file_path = os.path.join(dossier, sous_dossier)
+            fichiers_csv = [f for f in os.listdir(file_path) if f.endswith('.csv')]
+            
+            for fichier in fichiers_csv:
+                chemin = os.path.join(file_path, fichier)
+                df = pd.read_csv(chemin, sep = ";")
+                if "Indicateur" in df.columns and indicateur in df["Indicateur"].values:
+                    data.append()
+                    
+        if data:
+            df_concatene = pd.concat(data, ignore_index = True)
+            for colonne in col_inutiles:
+                if colonne in df_concatene.columns:
+                    df_concatene = df_concatene.drop(columns = colonne)
+                
+            return df_concatene[df_concatene["Indicateur"] == indicateur]
+        else:
+            return pd.DataFrame()
+    
+    df_1 = charger_donnees(dossier_entreprise_1, indicateur_)
+    df_2 = charger_donnees(dossier_entreprise_2, indicateur_)
 
- #Multiselect pour choisir les entreprises
-selected_entreprises = st.multiselect(
-    "Sélectionnez les entreprises de votre choix :",
-    options=entreprises,
-    default=None  # Par défaut, aucune entreprise n'est sélectionnée
+
+    if df_1.empty or df_2.empty:
+        st.error("Impossible de charger les données pour cet indicateur.")
+        return(None, None, None, None)
+    
+    if dimension not in df_1.columns or dimension not in df_2.columns:
+        st.error(f"La dimension {dimension} n'est pas disponible pour les deux entreprises")
+        return(None, None, None, None)
+    
+    df_1_filtered = df_1[[dimension, "Indicateur"]].copy()
+    df_2_filtered = df_2[[dimension, "Indicateur"]].copy()
+    
+    return (entreprises_selectionnees, indicateur_, df_1_filtered, df_2_filtered)
+
+
+selection_entr, indicateur, df_entreprise_1, df_entreprise_2 = selection(
+    dossier_entreprise_1="/home/sid2018-3/Documents/Projet Interpromo/dashboard/Projet-Interpromo-Groupe-1/Projet-Interpromo-Groupe-1/data/transformed/EDF",
+    dossier_entreprise_2="/home/sid2018-3/Documents/Projet Interpromo/dashboard/Projet-Interpromo-Groupe-1/Projet-Interpromo-Groupe-1/data/transformed/EDF",
+    col_inutiles=["Perimètre juridique","Perimètre spatial","Chapitre du bilan social","Unité","Plage M3E"],
+    dimension="Année"
 )
- 
-        
-themes = ["Condition de travail","Absentéisme", "Droit", "Effectif", "Formation", "Handicap", "Rémunération"]
-selection_themes= st.selectbox("Choisissez une thématique: ", themes)
-# Déterminer ce qu'il y a à faire à l'intérieur de chaque thèmes !!!!
-if selection_themes == "Condition de travail":
-    inap, sal_50_ans = st.columns(2)
-    with inap:
-        if st.button("Salariés reclassés à la suite d'une inaptitude"):
-           None 
-    with sal_50_ans:
-        if st.button("Salariés en service continus de plus de 50 ans"):
-            None
-            
- 
- # Absentéisme   
-elif selection_themes == "Absentéisme":
-    conges, maladie, mat_adop, paternite = st.columns([2,2,3,2])
-    with conges:
-        if st.button("Congés autorisés"):
-            None
-    with maladie:
-        if st.button("Maladies"):
-            None
-    with mat_adop:
-        if st.button("Congés de maternité ou adoption"):
-            None
-    with paternite:
-        if st.button("Congés de paternité"):
-            None
-        
-   # Droit 
-elif selection_themes == "Droit":
-    instances, nb_recours = st.columns(2)
-    with instances:
-        if st.button("Instances judiciaires"):
-            None
-        
-    with nb_recours:
-        if st.button("Recours non juridictionnels"):
-            None
-    # Effectif
-elif selection_themes == "Effectif":
-    eff, demis, embau_mn_25 = st.columns([1,1,2])
-    with eff:
-        if st.button("Effectif"):
-            None
-    with demis:
-        if st.button("Démissions"):
-            None
-    with embau_mn_25:
-        if st.button("Embauches de salariés de moins de 25 ans"):
-            None
-    # Formation
-elif selection_themes == "Formation":
-    nb_heures, form_remu, cont_app, cont_pro = st.columns(4)
-    with nb_heures:
-        if st.button("Heurses de formation"):
-            None
-    with form_remu:
-        if st.button("Formations rémunérées"):
-            None
-    with cont_app:
-        if st.button("Contrats d'apprentissage"):
-            None
-    with cont_pro:
-        if st.button("Contrats de professionnalisation"):
-            None
-    # Handicap
-elif  selection_themes == "Handicap":
-    if st.button("Salariés handicapés"):
-        if st.button("Salariés handicapés"):
-            None
-            
-
+    
+if selection_entr and indicateur and not df_entreprise_1.empty and not df_entreprise_2.empty:
+    st.write(f"Comparaison des entreprises {selection[0]} et {selection[1]} sur l'indicateur {indicateur} par la dimension {dimension}.")
+    st.write("Données Entreprise 1 :")
+    st.dataframe(df_entreprise_1)
+    st.write("Données Entreprise 2 :")
+    st.dataframe(df_entreprise_2)
 else:
-    selection_themes == "Rémunération"
-    if st.button("Promotions"):
-        None
-
-
->>>>>>> 2eb80ba (code pour la page de comparaison)
+    st.write("Aucune comparaison possible avec les critères sélectionnés.")       
