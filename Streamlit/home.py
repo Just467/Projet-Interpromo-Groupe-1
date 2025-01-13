@@ -58,20 +58,5 @@ with col3:
     st.image(img3, use_container_width=True)
     if details_bouton:
         switch_page("DECATHLON")
-# ---------- Section: Comparaison entre entreprises ----------
-st.markdown("### Comparer deux entreprises sur un indicateur :")
-
-
-# Sélection des entreprises à comparer
-company_list = ["EDF", "ENGIE", "DECATHLON"]
-selected_companies = st.multiselect("Choisir les entreprises à comparer", company_list)
-
- # Validation des entreprises sélectionnées
-if len(selected_companies) == 2:
-    if st.button("Valider la sélection"):
-        st.session_state["comparison"] = selected_companies
-        switch_page("M_COMPARAISON")
-else:
-    st.info("Veuillez sélectionner exactement deux entreprises pour continuer.")
 
    
