@@ -43,6 +43,7 @@ df_sal_hand = None
 # rémunération
 df_coll_sup = None
 
+
 # menu déroulant 
 
 entreprises = ["EDF", "ENGIE", "INSA", "DECATHLON","CNP"]
@@ -60,12 +61,14 @@ selected_entreprises = st.multiselect(
         
 themes = ["Condition de travail","Absentéisme", "Droit", "Effectif", "Formation", "Handicap", "Rémunération"]
 selection_themes= st.selectbox("Choisissez une thématique: ", themes)
+
 # Déterminer ce qu'il y a à faire à l'intérieur de chaque thèmes !!!!
 if selection_themes == "Condition de travail":
     inap, sal_50_ans = st.columns(2)
     with inap:
         if st.button("Salariés reclassés à la suite d'une inaptitude"):
-           None 
+           None
+         
     with sal_50_ans:
         if st.button("Salariés en service continus de plus de 50 ans"):
             None
