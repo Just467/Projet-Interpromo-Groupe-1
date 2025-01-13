@@ -34,13 +34,11 @@ else:
     Edf_data = df_concatene
 
 #----selection d'indicateurs--------
-
 indicateurs = sorted(Edf_data["Indicateur"].unique())
 
 #----selection dimension--------
 dimension = Edf_data.select_dtypes(include=["object", "category"]).columns.tolist()
 dimension.remove("Indicateur")
-dimension.append("Année")
 
 if selection:  
     st.sidebar.subheader("Indicateur")
@@ -53,24 +51,21 @@ if selection:
     df = Edf_data[Edf_data["Indicateur"] == indicateur_]
     if indicateur_:
         st.sidebar.subheader("Axes d'analyse")
-        dimension.append("Aucune variable")
-        dimension_1 = st.sidebar.selectbox("Veuillez choisir le 1er axe d'analyse :",dimension, index=1) 
-        #dimension = dimension.remove(dimension_1) 
-        dimension_2 = st.sidebar.selectbox("Veuillez choisir le 2eme axe d'analyse :",dimension, index=1) #Valeur année par défaut
-        variables=[dimension_1,dimension_2]
-
-
-#----Actualisation de la data----------------
-#---------Filtre de la base de données
+        dimension_1 = st.sidebar.selectbox("Veuillez choisir le 1er axe d'analyse :",dimension, index=None, placeholder="Sélectionnez un axe d'analyse...") 
+        dimension_2 = st.sidebar.selectbox("Veuillez choisir le 2eme axe d'analyse :",dimension, index=None, placeholder="Sélectionnez un axe d'analyse...")
+        if dimension_2:
+            variables=[dimension_1,dimension_2]
+        else: 
+            variables=[dimension_1]
 
 ##############################################################
 #--########-------CREATION DES GRAPHIQUES----######
 ##############################################################
 
 #----------------Graph univarié-----------------------------
-if dimension_1=="Aucune variable":
-    st.write("Selectionner les variables/axes d'analyses")
-elif dimension_2=="Aucune variable":
+if not dimension_1:
+    st.write("Veuillez sélectionner au moins un axe d'analyse")
+elif not dimension_2:
     df_grouped = df.groupby(dimension_1, as_index=False).sum()
 
     fig_bar=px.bar(df_grouped, x=dimension_1, y="Valeur",
