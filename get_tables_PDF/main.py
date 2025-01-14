@@ -29,7 +29,11 @@ test = {'ENGIE':{'path':r'data\bilans_sociaux\ENGIE SA_Bilan social 2021_VD.pdf'
                               'pattern': r'\d{3}\. +'}}
 
 results = get_all_raw_tables_PDF(test['ENGIE'], pages = [12, 13])
+tables = []
+headers = []
 for result in results:
-    print(f"Résultat\n{result['title']}\n{result['pages']}\n{result['table']}\n\n")
+    tables.append(result['table'])
+    headers.append(f"{result['title']}\n{result['pages']}")
+show_dataframes(tables, headers=headers)
         
     

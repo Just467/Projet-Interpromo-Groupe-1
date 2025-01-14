@@ -6,40 +6,50 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
-
 class DataFrameViewer(QMainWindow):
-    def __init__(self, dataframes1, dataframes2=None):
+    def __init__(self, dataframes1, dataframes2=None, headers=None):
         super().__init__()
         self.setWindowTitle("DataFrame Viewer")
-        self.dataframes1 = [df.copy() for df in dataframes1]  # Première liste de DataFrames
+        
+        # Validate and copy DataFrames
+        self.dataframes1 = [df.copy() for df in dataframes1]  # First list of DataFrames
         for df in self.dataframes1:
             df.columns = df.columns.astype(str)
 
-        self.dataframes2 = [df.copy() for df in dataframes2] if dataframes2 else None  # Seconde liste de DataFrames (optionnelle)
+        self.dataframes2 = [df.copy() for df in dataframes2] if dataframes2 else None  # Second list of DataFrames (optional)
         if self.dataframes2:
             for df in self.dataframes2:
                 df.columns = df.columns.astype(str)
 
+        self.headers = headers if headers else [""] * len(self.dataframes1)  # Headers list
+        if len(self.headers) != len(self.dataframes1):
+            raise ValueError("The length of headers must match the length of dataframes1.")
+
         self.current_index = 0
 
-        # Créer les tableaux
+        # Create the tables
         self.table1 = QTableWidget()
         self.table2 = QTableWidget() if self.dataframes2 else None
 
-        # Boutons de navigation
+        # Header label
+        self.header_label = QLabel(self.headers[self.current_index])
+        self.header_label.setAlignment(Qt.AlignCenter)
+
+        # Navigation buttons
         self.prev_button = QPushButton("<< Previous")
         self.next_button = QPushButton("Next >>")
 
         self.prev_button.clicked.connect(self.show_prev_dataframe)
         self.next_button.clicked.connect(self.show_next_dataframe)
 
-        # Layout des boutons
+        # Button layout
         button_layout = QHBoxLayout()
         button_layout.addWidget(self.prev_button)
         button_layout.addWidget(self.next_button)
 
-        # Layout principal
+        # Main layout
         main_layout = QVBoxLayout()
+        main_layout.addWidget(self.header_label)  # Add header label to the layout
         table_layout = QHBoxLayout()
         table_layout.addWidget(self.table1)
         if self.table2:
@@ -50,16 +60,16 @@ class DataFrameViewer(QMainWindow):
         button_widget.setLayout(button_layout)
         main_layout.addWidget(button_widget)
 
-        # Définir le widget central
+        # Set the central widget
         container = QWidget()
         container.setLayout(main_layout)
         self.setCentralWidget(container)
 
-        # Afficher le premier DataFrame
+        # Display the first DataFrame
         self.display_dataframes()
 
     def display_dataframes(self):
-        """Affiche les DataFrames actuels dans les QTableWidgets."""
+        """Displays the current DataFrames in the QTableWidgets."""
         if self.dataframes1:
             dataframe1 = self.dataframes1[self.current_index]
             self.load_dataframe_into_table(self.table1, dataframe1)
@@ -68,12 +78,15 @@ class DataFrameViewer(QMainWindow):
             dataframe2 = self.dataframes2[self.current_index]
             self.load_dataframe_into_table(self.table2, dataframe2)
 
+        # Update header label text
+        self.header_label.setText(self.headers[self.current_index])
+        
         self.setWindowTitle(
             f"DataFrame Viewer - {self.current_index + 1}/{len(self.dataframes1)}"
         )
 
     def load_dataframe_into_table(self, table, dataframe):
-        """Charge un DataFrame dans un QTableWidget."""
+        """Loads a DataFrame into a QTableWidget."""
         table.setRowCount(len(dataframe))
         table.setColumnCount(len(dataframe.columns))
 
@@ -87,35 +100,34 @@ class DataFrameViewer(QMainWindow):
         table.resizeRowsToContents()
 
     def show_prev_dataframe(self):
-        """Affiche les DataFrames précédents."""
+        """Displays the previous DataFrames."""
         if self.current_index > 0:
             self.current_index -= 1
             self.display_dataframes()
 
     def show_next_dataframe(self):
-        """Affiche les DataFrames suivants."""
+        """Displays the next DataFrames."""
         if self.current_index < len(self.dataframes1) - 1:
             self.current_index += 1
             self.display_dataframes()
 
-
-def show_dataframes(dataframes1, dataframes2=None):
-    """Lance le visualiseur de DataFrames."""
+def show_dataframes(dataframes1, dataframes2=None, headers=None):
+    """Launches the DataFrame viewer."""
     if dataframes2 and len(dataframes1) != len(dataframes2):
-        raise ValueError("Les deux listes de DataFrames doivent avoir la même taille.")
+        raise ValueError("The two lists of DataFrames must have the same size.")
 
     app = QApplication.instance()
     if not app:
         app = QApplication(sys.argv)
 
-    viewer = DataFrameViewer(dataframes1, dataframes2)
+    viewer = DataFrameViewer(dataframes1, dataframes2, headers)
     viewer.resize(1200, 600 if dataframes2 else 800)
     viewer.show()
 
     sys.exit(app.exec_())
 
-# import sys
-# sys.path.append('get_tables_PDF/utils')
-# from dataframe_viewer import show_dataframes
-
-# show_dataframes(df_list)
+# Example usage
+# df1 = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+# df2 = pd.DataFrame({'A': [7, 8, 9], 'B': [10, 11, 12]})
+# headers = ["First DataFrame", "Second DataFrame"]
+# show_dataframes([df1, df2], headers=headers)
