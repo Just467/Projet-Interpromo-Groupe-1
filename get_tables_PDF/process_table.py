@@ -31,6 +31,26 @@ preprocess(df, missing_label)
 process_tables(raw_df_list, missing_label="unknown")
 """
 
+def split_dataframe(df:pd.core.frame.DataFrame, indexes:list)->list:
+    """Split a dataframes with a list of indexes to split. Does not split when value of indexes are consecutives.
+
+    Args:
+        df (pd.core.frame.DataFrame): a dataframe
+        indexes (list): a list of integers
+
+    Returns:
+        list: a list of dataframes
+    """
+    df_list = []
+    previous_index = indexes[0]
+    for index_pos, index in enumerate(indexes[1:], start=1):
+            if index != indexes[index_pos-1] + 1:
+                    df_list.append(df.iloc[previous_index:index])
+                    previous_index = index
+    df_list.append(df.iloc[index:])
+    return df_list
+
+
 def format_df(df):
     """
     Formate la DataFrame en supprimant les lignes et colonnes vides, 
