@@ -1,7 +1,7 @@
 import sys
 sys.path.append('get_tables_PDF')
 from extract_tables_PDF_page import extract_tables_page, extract_titles_page
-
+from process_table import clean_df, unpivot_df
 
 def get_all_raw_tables_PDF(PDF_file_settings:dict,
                            dict_tables:dict={}, pages=[-1], x_tolerance:float=7.25)->dict:

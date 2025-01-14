@@ -48,6 +48,7 @@ def format_df(df):
     df = df.map(lambda x: str(x) if pd.notnull(x) else "")
     return df
 
+
 def has_numerical_values(series):
     """
     Renvoie True si la ligne possède une ou plusieurs valeurs dites numériques
@@ -58,13 +59,14 @@ def has_numerical_values(series):
         Boolean
     """
     # Contient des chiffres, points, virgules, devises
-    pattern = r"^[\d.,%€$£₹]*$"
+    pattern = r"^[\d.,%€$£\s]*$"
 
     for value in series:
         if bool(re.match(pattern, value)):
             return True
         
     return False
+
 
 def has_year_sequency(series, series_index, min_year=2020, max_year=2025):
     """
@@ -92,6 +94,7 @@ def has_year_sequency(series, series_index, min_year=2020, max_year=2025):
 
     # Vérifie si toutes les valeurs sont dans la plage d'année
     return all(min_year <= num <= max_year for num in int_values)
+
 
 def detect_structure(df):
     """
@@ -126,6 +129,7 @@ def detect_structure(df):
 
     return structure
 
+
 def add_header(df, missing_label):
     """
     Ajoute une ligne tout en haut du DataFrame avec le label spécifié
@@ -139,6 +143,7 @@ def add_header(df, missing_label):
 
     structure = detect_structure(df)
     nb_headers = len(structure["headers"])
+
     if nb_headers > 0:
         return df    
     
@@ -150,6 +155,7 @@ def add_header(df, missing_label):
     df.columns = range(df.shape[1])
     
     return df
+
 
 def remove_totals(df):
     """
@@ -191,6 +197,7 @@ def remove_totals(df):
 
     return df
 
+
 def fill_variable_names(df, missing_label):
     structure = detect_structure(df)
 
@@ -210,6 +217,7 @@ def fill_variable_names(df, missing_label):
         previous_col_names = col_names
     
     return df
+
 
 def fill_headers(df, missing_label):
     """
@@ -235,6 +243,7 @@ def fill_headers(df, missing_label):
     )
 
     return df
+
 
 def fill_variables(df):
     """
@@ -269,6 +278,7 @@ def fill_variables(df):
 
     return df
 
+
 def clean_multi_index(multi_index):
     """
     Ajoute un suffixe `_i` aux éléments du MultiIndex pour rendre chaque tuple unique.
@@ -299,9 +309,83 @@ def clean_multi_index(multi_index):
 
     return pd.MultiIndex.from_tuples(new_tuples)
 
-def unpivot_df(df, value_colname, missing_label):
+
+def format_colnames(df, missing_label="unknown"):
     """
-    Dépivote les colonnes qui ne sont pas des variables d'une DataFrame
+    Formate les noms de colonnes après pivot :
+    - Si une colonne contient "unknown" dans son nom, remplace le nom par une concaténation des valeurs uniques de la colonne
+    - Sinon, garde le nom tel quel
+
+    args:
+        df (pd.DataFrame): DataFrame à formater.
+
+    returns:
+        list: Liste des noms de colonnes formatés
+    """
+    simplified = []
+    for colname in df.columns:
+        # Détermine le nom de base (premier élément pour MultiIndex)
+        primary_name = colname[0] if isinstance(colname, tuple) else colname
+
+        if missing_label in primary_name:
+            unique_values = df[colname].dropna().unique()
+            if len(unique_values) > 0:
+                # Concatène les valeurs
+                new_name = ", ".join(map(str, unique_values))
+            else:
+                new_name = missing_label
+            simplified.append(new_name)
+        else:
+            simplified.append(primary_name)
+
+    return simplified
+
+def add_unit_column(df, value_colname="value", unit_colname="unit", default_unit="nombre"):
+    """
+    Ajoute une colonne 'unit' à la df en analysant la colonne 'value'
+
+    args:
+        df (pd.DataFrame): DataFrame contenant une colonne 'value' en type str.
+
+    returns:
+        pd.DataFrame: DataFrame avec les colonnes nettoyées 'value' et 'unit'.
+    """
+    def clean_value_unit(value):
+        value = value.replace(" ", "")
+
+        # Extraire les chiffres avec la virgule (convertie en point)
+        number_match = re.search(r"[\d,]+", value)
+        number = number_match.group(0).replace(",", ".") if number_match else None
+
+        # Extraire les symboles non numériques
+        unit = re.sub(r"[\d.,]+", "", value)
+
+        # Si aucune unité trouvée, mettre "nombre" par défaut
+        unit = unit if unit else default_unit
+
+        return float(number) if number else None, unit
+
+    # Appliquer la transformation à la colonne 'value'
+    df[value_colname], df[unit_colname] = zip(*df[value_colname].map(clean_value_unit))
+
+    return df
+
+
+def clean_df(df, missing_label="unknown"):
+    """
+    Applique un nettoyage permettant de dépivoter la df correctement
+    """
+    df = format_df(df)
+    df = fill_headers(df, missing_label)
+    df = fill_variables(df)
+    df = remove_totals(df)
+    df = fill_variable_names(df, missing_label)
+    return df
+
+
+def unpivot_df(df, value_colname="value", unit_colname="unit", default_unit="nombre", missing_label="unknown"):
+    """
+    Dépivote les colonnes d'une df cleaned
     
     args:
         df: DataFrame à dépivoter
@@ -317,6 +401,7 @@ def unpivot_df(df, value_colname, missing_label):
     headers = df.iloc[:nb_headers]
 
     # Crée le MultiIndex (en-têtes)
+    df = add_header(df, missing_label)
     df.columns = pd.MultiIndex.from_frame(headers.T)
     df.columns = clean_multi_index(df.columns)
 
@@ -329,52 +414,24 @@ def unpivot_df(df, value_colname, missing_label):
     # Dépivote toutes les colonnes considérées comme des variables
     df_unpivot = df.melt(id_vars=variables_cols, var_name=missing_label, value_name=value_colname)
 
+    # Concaténation des valeurs pour les colonnes sans nom
+    df_unpivot.columns = format_colnames(df_unpivot)
+
+    # Ajout de la colonne "unit"
+    df_unpivot = add_unit_column(df_unpivot, value_colname, unit_colname, default_unit)
     return df_unpivot
 
-def format_colnames(columns):
-    """
-    Formate les noms de colonnes après pivot :
-    - Si le nom est un tuple (MultiIndex), conserve uniquement le premier élément
-    - Si le nom est une chaîne simple, le conserve tel quel
+# data1 = [
+#     [None, None, "Homme", None, "Femme", None],
+#     [None, "categ", "Fonctionnaire", "Non Fonctionnaire", "Fonctionnaire", "Non Fonctionnaire"],
+#     [2021, "Catégorie A", "8 €", 9, 10, 11],
+#     [2021, "Catégorie B", 15, 25, 20, 30],
+#     [2021, "Catégorie C", 45, 35, 40, 25],
+#     [2022, "Catégorie A", 50, 55, 60, 65],
+#     [2022, "Catégorie B", 70, 75, 80, 85]
+# ]
 
-    Args:
-        columns (pd.Index or list): Liste des noms de colonnes.
+# df = pd.DataFrame(data1)
 
-    Returns:
-        list: Liste des noms de colonnes formatés
-    """
-    simplified = []
-    for col in columns:
-        if isinstance(col, tuple):  # Si la colonne est un tuple (MultiIndex)
-            simplified.append(col[0])  # Conserve uniquement le premier élément
-        else:
-            simplified.append(col)  # Garde la colonne telle quelle si simple
-    return simplified
-
-def process_tables(df_list, missing_label="unknown"):
-    """
-    Dépivote toutes les df qui sont dans une liste
-
-    args:
-        raw_df_list (list): Liste des DataFrames bruts à traiter.
-        meta_data (dict): Métadonnées associées aux DataFrames.
-
-    Returns:
-        dict: Structure contenant les DataFrames bruts et leurs versions traitées.
-    """
-
-    processed_dfs = []
-    for idx, df in enumerate(df_list):
-        df = format_df(df)
-        df = add_header(df, missing_label)
-
-        df = fill_headers(df, missing_label)
-        df = fill_variables(df)
-        df = remove_totals(df)
-
-        # Dépivote chaque df
-        df_unpivot = unpivot_df(df, value_colname="valeur", missing_label=missing_label)
-        df_unpivot.columns = format_colnames(df_unpivot.columns)
-        processed_dfs.append(df_unpivot)
-
-    return processed_dfs
+# cleaned_df = clean_df(df)
+# print(unpivot_df(cleaned_df))
