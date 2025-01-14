@@ -11,8 +11,15 @@ class DataFrameViewer(QMainWindow):
     def __init__(self, dataframes1, dataframes2=None):
         super().__init__()
         self.setWindowTitle("DataFrame Viewer")
-        self.dataframes1 = dataframes1  # Première liste de DataFrames
-        self.dataframes2 = dataframes2  # Seconde liste de DataFrames (optionnelle)
+        self.dataframes1 = [df.copy() for df in dataframes1]  # Première liste de DataFrames
+        for df in self.dataframes1:
+            df.columns = df.columns.astype(str)
+
+        self.dataframes2 = [df.copy() for df in dataframes2] if dataframes2 else None  # Seconde liste de DataFrames (optionnelle)
+        if self.dataframes2:
+            for df in self.dataframes2:
+                df.columns = df.columns.astype(str)
+
         self.current_index = 0
 
         # Créer les tableaux
@@ -69,11 +76,8 @@ class DataFrameViewer(QMainWindow):
         """Charge un DataFrame dans un QTableWidget."""
         table.setRowCount(len(dataframe))
         table.setColumnCount(len(dataframe.columns))
-        print(dataframe.columns)
-        try:
-            table.setHorizontalHeaderLabels(dataframe.columns.astype(str))
-        except:
-            None
+
+        table.setHorizontalHeaderLabels(dataframe.columns)
 
         for i, row in dataframe.iterrows():
             for j, value in enumerate(row):
