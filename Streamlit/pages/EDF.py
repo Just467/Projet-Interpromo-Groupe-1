@@ -78,6 +78,13 @@ selection, df, indicateur_, dimension_1, dimension_2 = selection_menu(dossier_en
 #--########-------CREATION DES GRAPHIQUES----######
 ##############################################################
 
+#---------------Style container-----------------------------
+style_container = """{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: #ffffff;
+    }""" 
+
 #----------------Graph univarié-----------------------------
 if not dimension_1:
     st.write("Veuillez sélectionner au moins un axe d'analyse.")
@@ -139,11 +146,7 @@ else:
     # Colonne 1 : Secteur et Carte
     with col1:
         with stylable_container(key="graph_container1",
-                            css_styles="""{
-                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                                border-radius: 10px;
-                                background-color: #ffffff;
-                            }""" ): 
+                            css_styles=style_container): 
             
             # Titre et graphique Secteur
             #st.markdown("<h3 style='text-align: center; font-size: 16px;'>Secteur</h3>", unsafe_allow_html=True)
@@ -158,11 +161,7 @@ else:
                 )
             st.markdown("<br>", unsafe_allow_html=True)  # Espacement entre les graphiques
         with stylable_container(key="graph_container2",
-                            css_styles="""{
-                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                                border-radius: 10px;
-                                background-color: #ffffff;
-                            }"""):
+                            css_styles=style_container):
             # Titre et graphique Carte
             #st.markdown("<h3 style='text-align: center; font-size: 16px;'>Carte</h3>", unsafe_allow_html=True)
             st.plotly_chart(
@@ -177,11 +176,7 @@ else:
     # Colonne 2 : Ligne et Bar
     with col2:
         with stylable_container(key="graph_container3",
-                            css_styles="""{
-                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                                border-radius: 10px;
-                                background-color: #ffffff;
-                            }"""):
+                            css_styles=style_container):
             # Titre et graphique Ligne
             # st.markdown("<h3 style='text-align: center; font-size: 16px;'>Ligne</h3>", unsafe_allow_html=True)
             st.plotly_chart(
@@ -196,11 +191,7 @@ else:
             st.markdown("<br>", unsafe_allow_html=True)  # Espacement entre les graphiques
 
         with stylable_container(key="graph_container4",
-                            css_styles="""{
-                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                                border-radius: 10px;
-                                background-color: #ffffff;
-                            }"""):
+                            css_styles=style_container):
             # Titre et graphique Bar
             # st.markdown("<h3 style='text-align: center; font-size: 16px;'>Barre</h3>", unsafe_allow_html=True)
             st.plotly_chart(
