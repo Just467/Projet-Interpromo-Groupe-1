@@ -6,19 +6,28 @@ from utils.dataframe_viewer import show_dataframes
 
 bilan_sociaux_paths = {'CNP':{'path':r'data\bilans_sociaux\CNP-Assurances-Bilan-social-2023.pdf',
                               'extract_settings': {},
-                              'methods':['lines', 'explicit']},
+                              'methods':['lines', 'explicit'],
+                              'pattern': r'I+\.\d+\.?\d* - '},
                        'ENGIE':{'path':r'data\bilans_sociaux\ENGIE SA_Bilan social 2021_VD.pdf',
                               'extract_settings': {},
-                              'methods':['lines', 'lines']},
+                              'methods':['lines', 'lines'],
+                              'pattern': r'\d{3}\. +'},
                        'INSA':{'path':r'data\bilans_sociaux\INSA_bilan_soc_20_V2_21.pdf',
                               'extract_settings': {},
-                              'methods':['lines', 'lines']}
+                              'methods':['lines', 'lines'],
+                              'pattern': r''}
                        }
 
 test = {'CNP':{'path':r'data\bilans_sociaux\CNP-Assurances-Bilan-social-2023.pdf',
-               'extract_settings': {},
-               'methods':['lines', 'explicit']}}
+                              'extract_settings': {},
+                              'methods':['lines', 'explicit'],
+                              'pattern': r'I+\.\d+\.?\d* - '}}
 
-result = get_all_raw_tables_PDF(test, pages = [i for i in range(19)])
-show_dataframes(result['CNP_title'])        
+test = {'ENGIE':{'path':r'data\bilans_sociaux\ENGIE SA_Bilan social 2021_VD.pdf',
+                              'extract_settings': {},
+                              'methods':['lines', 'lines'],
+                              'pattern': r'\d{3}\. +'}}
+
+result = get_all_raw_tables_PDF(test, pages = [25])
+print(f"Résultat\n{result['ENGIE']}")        
     
