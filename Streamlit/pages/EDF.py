@@ -25,6 +25,7 @@ def selection_menu (dossier_entreprise, col_inutiles):
     #--IMPORTATION DE LA DATA----------------
     if not selection:
         st.write("Veuilliez sélectionner au moins une thématique.")
+        return ([],[],None,None,None)
     else:
         for s in selection: 
             file_path="..\\data\\transformed\\EDF\\"+s
@@ -58,9 +59,14 @@ def selection_menu (dossier_entreprise, col_inutiles):
             if indicateur_:
                 st.sidebar.subheader("Axes d'analyse")
                 dimension_1 = st.sidebar.selectbox("Veuillez choisir le 1er axe d'analyse :",dimension, index=None, placeholder="Sélectionnez un axe d'analyse...") 
-                reste = [d for d in dimension if d != dimension_1]
-                dimension_2 = st.sidebar.selectbox("Veuillez choisir le 2eme axe d'analyse :",reste, index=None, placeholder="Sélectionnez un axe d'analyse...")
-                return (selection,entreprise_data,indicateur_,dimension_1,dimension_2)
+                if dimension_1:
+                    reste = [d for d in dimension if d != dimension_1]
+                    dimension_2 = st.sidebar.selectbox("Veuillez choisir le 2eme axe d'analyse :",reste, index=None, placeholder="Sélectionnez un axe d'analyse...")
+                    return (selection,entreprise_data,indicateur_,dimension_1,dimension_2)
+                else: 
+                    return (selection,entreprise_data,indicateur_,None,None)
+            else:
+                return (selection,entreprise_data,None,None,None)
 
 ## Appel de la fonction 
 
