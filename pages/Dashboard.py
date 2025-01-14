@@ -99,11 +99,10 @@ if option == 'Handicap' and entreprise == "EDF":
             affichage_situ_handi_genre = px.sunburst(df_edf_situ_handi, path=['Collège','Type de contrat','Genre'], values='Valeur')
             st.plotly_chart(affichage_situ_handi_genre)
     elif indicateur == "Evolution du nombre de salariés en situation de handicap au cours du temps":
-        df_tot = df_edf_handi.groupby(['Année','Collège'])['Valeur'].sum().reset_index()
-        affichage_evol_temps = px.line(df_tot, x="Année", y="Valeur", color='Collège', title='Evolution du nombre de salariés en situation de handicap au cours du temps par collège')
+        df_tot = df_edf_handi.groupby(['Année','Collège','Genre'])['Valeur'].sum().reset_index()
+        affichage_evol_temps = px.line(df_tot, x="Année", y="Valeur", color='Collège', line_dash='Genre', title='Evolution du nombre de salariés en situation de handicap au cours du temps par collège')
         st.plotly_chart(affichage_evol_temps)
-        
 
-
+    
     
 

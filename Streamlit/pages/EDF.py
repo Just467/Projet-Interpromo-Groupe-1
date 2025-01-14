@@ -87,7 +87,7 @@ def selection_menu (dossier_entreprise, col_inutiles):
 
 ### Appel de la fonction ###
 
-dossier_entreprise = "E:/perso/Année scolaire 2024-2025/Cours/PIP/Projet-Interpromo-Groupe-1/data/transformed/EDF"
+dossier_entreprise = "..\\data\\transformed\\EDF"
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social","Unité","Plage M3E"]
 selection, indicateur_, df, dimension_1, dimension_2 = selection_menu(dossier_entreprise,col_inutiles)
 
@@ -102,14 +102,24 @@ style_container = """{
     background-color: #ffffff;
     }""" 
 
+def titre (texte):
+    """Fonction qui prend en paramètre le texte du titre
+    et retourne l'affichage."""
+    st.markdown(f"""<div style='text-align: center; 
+                font_size: 20px;
+                font-weight: bold;'> 
+                {texte} </div>""",
+                unsafe_allow_html=True)
+
 #----------------Graph univarié-----------------------------
-if not dimension_2:
+if selection and indicateur_ and dimension_1 and not dimension_2:
     df_grouped = df.groupby(["Année",dimension_1], as_index=False).sum()
 
     fig_ligne=px.line(df_grouped, x="Année",
                     y="Valeur",
                     color=dimension_1,
                     labels={dimension_1, "Valeur: "+indicateur_},
+                    markers=True,
                     # title="Evolution des "+ indicateur_+ "des employés par année",
                     color_discrete_sequence=px.colors.qualitative.D3
                     )
@@ -118,22 +128,43 @@ if not dimension_2:
             color=dimension_1,
             barmode="group",
             labels={dimension_1, "Valeur: "+indicateur_},
-        #     title="Evolution des "+ indicateur_+ "des employés par année",
+            #title="Evolution des "+ indicateur_+ "des employés par année",
             color_discrete_sequence=px.colors.qualitative.D3 )
 
     a,b=st.columns(2)
     with a:
-        st.plotly_chart(fig_bar)
+        with stylable_container(key="graph_containera",
+                            css_styles=style_container): 
+            st.plotly_chart(
+                    fig_bar.update_layout(
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),  # Légende en haut
+                        margin=dict(l=10, r=10, t=0, b=10),  # Marges pour éviter que ça soit trop collé
+                        height=300  # Taille réduite du graphique pour qu'il rentre bien
+                    ),
+                    use_container_width=True
+                )
+        titre(f"Evolution des {indicateur_} des employés par année")
     with b:
-        st.plotly_chart(fig_ligne)
-else:
+        with stylable_container(key="graph_containerb",
+                            css_styles=style_container): 
+            st.plotly_chart(
+                    fig_ligne.update_layout(
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),  # Légende en haut
+                        margin=dict(l=10, r=10, t=0, b=10),  # Marges pour éviter que ça soit trop collé
+                        height=300  # Taille réduite du graphique pour qu'il rentre bien
+                    ),
+                    use_container_width=True
+                )
+        titre(f"Evolution des {indicateur_} des employés par année")
+elif selection and indicateur_ and dimension_1:
 #----------------Graph multiple----------------------------
 
     df_grouped = df.groupby(["Année",dimension_1,dimension_2], as_index=False).sum()
     fig_secteur = px.sunburst(df_grouped, path=["Année",dimension_1,dimension_2], values="Valeur")
                     # title=indicateur_+ " des employés par année"
     fig_multi_lignes = px.line(df_grouped, x="Année", y="Valeur", 
-                                   color=dimension_1, line_dash=dimension_2)
+                                   color=dimension_1, line_dash=dimension_2,
+                                   markers=True)
 
     col1, col2 = st.columns(2)
 
@@ -150,6 +181,7 @@ else:
                     ),
                     use_container_width=True
                 )
+        titre(f"Evolution des {indicateur_} des employés par année")
 
     # Colonne 2 : Multi-lignes
     with col2:
@@ -165,6 +197,7 @@ else:
                 ),
                 use_container_width=True
             )
+        titre(f"Evolution des {indicateur_} des employés par année")
 
 
 
