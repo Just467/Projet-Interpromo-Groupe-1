@@ -32,7 +32,7 @@ st.title("📊 Analyse et comparaison des indicateurs d'entreprises")
 # ---------- Section: Logos avec boutons cliquables ----------
 st.markdown("### Sélectionnez une entreprise pour explorer ses indicateurs:")
 
-# Logos des entreprises (exemple avec 3 entreprises)
+# Logos des entreprises 
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
