@@ -88,7 +88,7 @@ def selection_menu (dossier_entreprise, col_inutiles):
 
 dossier_entreprise = "..\\data\\transformed\\EDF"
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social","Unité","Plage M3E"]
-selection, df, indicateur_, dimension_1, dimension_2 = selection_menu(dossier_entreprise,col_inutiles)
+selection, indicateur_, df, dimension_1, dimension_2 = selection_menu(dossier_entreprise,col_inutiles)
 
 ##############################################################
 #--########-------CREATION DES GRAPHIQUES----######
