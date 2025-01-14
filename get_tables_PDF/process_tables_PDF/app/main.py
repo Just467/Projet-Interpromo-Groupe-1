@@ -12,12 +12,12 @@ paths = [
 settings = {
 }
 
-for page_number in range(100):
-    with pdfplumber.open(paths[0]) as pdf:
-        page = pdf.pages[page_number]
-        result = complete_extract_tables_PDF(paths[0],
-                                            page, page_number, settings,
-                                            methods=['lines', 'explicit'],
-                                            show_debugging=True)
-        # show_dataframes(result)
+page_number=24
+with pdfplumber.open(paths[0]) as pdf:
+    page = pdf.pages[page_number]
+    result = complete_extract_tables_PDF(paths[0],
+                                        page, page_number, settings,
+                                        methods=['lines', 'explicit'],
+                                        show_debugging=True)
+    # show_dataframes(result)
     

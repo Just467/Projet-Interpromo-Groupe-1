@@ -1,46 +1,82 @@
+
+from functions_process_tables_PDF import *
+
+# data = [
+#     [None, "Homme", None, "Femme", None],
+#     [None, "Fonctionnaire", "Non Fonctionnaire", "Fonctionnaire", "Non Fonctionnaire"],
+#     [2021, 8, 9, 10, 11],
+#     [2025, 15, 45, 46, 10]
+# ]
+
 import pandas as pd
 
-def format_df(df):
-    """
-    Formate simplement une DataFrame en supprimant les lignes et colonnes vides, 
-    convertissant toutes les valeurs et colonnes en chaînes de caractères, 
-    et en supprimant les espaces.
+# Générer une liste de DataFrames avec différentes configurations
+dataframes = []
+
+# Exemple 1 : Deux en-têtes, plusieurs variables
+data1 = [
+    [None, None, "Homme", None, "Femme", None],
+    [None, "categ", "Fonctionnaire", "Non Fonctionnaire", "Fonctionnaire", "Non Fonctionnaire"],
+    [2021, "Catégorie A", 8, 9, 10, 11],
+    [2021, "Catégorie B", 15, 25, 20, 30],
+    [2021, "Catégorie C", 45, 35, 40, 25],
+    [2022, "Catégorie A", 50, 55, 60, 65],
+    [2022, "Catégorie B", 70, 75, 80, 85]
+]
+dataframes.append(pd.DataFrame(data1))
+
+# Exemple 2 : Une seule en-tête, plusieurs variables
+data2 = [
+    ["année", "Homme", "Femme"],
+    [2021, 8, 10],
+    [2022, 15, 25]
+]
+dataframes.append(pd.DataFrame(data2))
+
+# Exemple 3 : Deux en-têtes, une seule variable
+data3 = [
+    [None, "Population"],
+    ["Homme", 8],
+    ["Femme", 10]
+]
+dataframes.append(pd.DataFrame(data3))
+
+# Exemple 4 : Une seule en-tête, une seule variable
+data4 = [
+    ["Année", "Population"],
+    [2021, 18],
+    [2022, 20]
+]
+dataframes.append(pd.DataFrame(data4))
+
+# Exemple 5 : Trois en-têtes, plusieurs variables
+data5 = [
+    [None, None, "Homme", None, "Femme", None],
+    [None, None, "Fonctionnaire", "Non Fonctionnaire", "Fonctionnaire", "Non Fonctionnaire"],
+    [None, None, "Salaire Moyen", "Salaire Moyen", "Salaire Moyen", "Salaire Moyen"],
+    [2021, "Catégorie A", 8, 9, 10, 11],
+    [2021, "Catégorie B", 15, 25, 20, 30],
+    [2022, "Catégorie A", 50, 55, 60, 65],
+    [2022, "Catégorie B", 70, 75, 80, 85]
+]
+dataframes.append(pd.DataFrame(data5))
+
+# Exemple 6 : Une seule en-tête, trois variables
+data6 = [
+    ["Année", "Catégorie", "Population"],
+    [2021, "Catégorie A", 18],
+    [2021, "Catégorie B", 20],
+    [2022, "Catégorie A", 22],
+    [2022, "Catégorie B", 24]
+]
+
+processed_data = {}
+for idx, df in enumerate(dataframes):
+    processed_df = process_tables([df])
+
+    processed_data[idx] = {
+            "raw_df": df,
+            "processed_df": processed_df
+        }
     
-    args: 
-        df (DataFrame): df à formater
-
-    return:
-        DataFrame: df formatée
-    """
-
-    # Supprime les lignes et colonnes entièrement vides
-    df = df.dropna(how='all', axis=0)
-    df = df.dropna(how='all', axis=1)
-
-    # Converti toutes les valeurs en str et supprime les espaces
-    df = df.applymap(lambda x: str(x).replace(" ", "") if pd.notnull(x) else "")
-
-    # Supprime tous les espaces des noms de colonnes
-    df.columns = [str(col).replace(" ", "") for col in df.columns]
-
-    return df
-
-
-# Générer une DataFrame d'exemple
-def generate_example_df():
-    data = {
-        " Colonne 1 ": ["  Valeur 1  ", None, "  Valeur 3  "],
-        "Colonne 2": [None, None, None],
-        " Colonne 3 ": ["   ", "  Valeur 4  ", "  Valeur 5 "]
-    }
-    df = pd.DataFrame(data)
-    return df
-
-# Exemple d'utilisation
-example_df = generate_example_df()
-print("Avant formatage :")
-print(example_df)
-
-formatted_df = format_df(example_df)
-print("\nAprès formatage :")
-print(formatted_df)
+show_processed_dataframes(processed_data)
