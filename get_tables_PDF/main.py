@@ -1,7 +1,7 @@
 import pdfplumber
 import sys
 sys.path.append('get_tables_PDF')
-from function_get_tables_PDF import get_all_raw_tables_PDF
+from extract_tables_PDF.functions_extract_tables_PDF import get_all_raw_tables_PDF
 from utils.dataframe_viewer import show_dataframes
 
 bilan_sociaux_paths = {'CNP':{'path':r'data\bilans_sociaux\CNP-Assurances-Bilan-social-2023.pdf',
