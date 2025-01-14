@@ -1,7 +1,10 @@
 import streamlit as st
-
+from utils import importation_data, selection_menu, affichage_graphs
 import os
 import pandas as pd
+'''
+
+
 dict_indicateurs_communs = {
     ("EDF", "ENGIE") : [ "Démissions", "Stagiaires scolaires"],
     ("EDF", "INSA"): ["Salariés en situation de handicap"],
@@ -107,3 +110,11 @@ if selection_entr and indicateur and not df_entreprise_1.empty and not df_entrep
     st.dataframe(df_entreprise_2)
 else:
     st.write("Aucune comparaison possible avec les critères sélectionnés.")       
+
+'''
+
+
+data = pd.read_csv("/home/sid2018-3/Téléchargements/brouillon comparaison handicap.csv", sep=';')
+affichage_graphs (True, "Salariés en situation de handicap", data, "Entreprise", None)
+# True: suppose 
+# None: 
