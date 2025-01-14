@@ -1,7 +1,7 @@
 import pdfplumber
 import sys
 sys.path.append('get_tables_PDF')
-from get_tables_PDF.extract_tables_PDF_page import get_all_raw_tables_PDF
+from function_get_tables_PDF import get_all_raw_tables_PDF
 from utils.dataframe_viewer import show_dataframes
 
 bilan_sociaux_paths = {'CNP':{'path':r'data\bilans_sociaux\CNP-Assurances-Bilan-social-2023.pdf',
@@ -28,6 +28,8 @@ test = {'ENGIE':{'path':r'data\bilans_sociaux\ENGIE SA_Bilan social 2021_VD.pdf'
                               'methods':['lines', 'lines'],
                               'pattern': r'\d{3}\. +'}}
 
-result = get_all_raw_tables_PDF(test, pages = [25])
-print(f"Résultat\n{result['ENGIE']}")        
+results = get_all_raw_tables_PDF(test['ENGIE'], pages = [12, 13])
+for result in results:
+    print(f"Résultat\n{result['title']}\n{result['pages']}\n{result['table']}\n\n")
+        
     
