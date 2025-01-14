@@ -80,13 +80,14 @@ def selection_menu (dossier_entreprise, col_inutiles):
                     dimension_2 = st.sidebar.selectbox("Veuillez choisir le 2eme axe d'analyse :",reste, index=None, placeholder="Sélectionnez un axe d'analyse...")
                     return (selection,indicateur_,df,dimension_1,dimension_2)
                 else: 
+                    st.write("Veuillez sélectionner au moins un axe d'analyse.")
                     return (selection,indicateur_,df,None,None)
             else:
                 return (selection,None,df,None,None)
 
 ### Appel de la fonction ###
 
-dossier_entreprise = "..\\data\\transformed\\EDF"
+dossier_entreprise = "E:/perso/Année scolaire 2024-2025/Cours/PIP/Projet-Interpromo-Groupe-1/data/transformed/EDF"
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social","Unité","Plage M3E"]
 selection, indicateur_, df, dimension_1, dimension_2 = selection_menu(dossier_entreprise,col_inutiles)
 
@@ -102,70 +103,44 @@ style_container = """{
     }""" 
 
 #----------------Graph univarié-----------------------------
-if not dimension_1:
-    st.write("Veuillez sélectionner au moins un axe d'analyse.")
-elif not dimension_2:
-    df_grouped = df.groupby(dimension_1, as_index=False).sum()
+if not dimension_2:
+    df_grouped = df.groupby(["Année",dimension_1], as_index=False).sum()
 
-    fig_bar=px.bar(df_grouped, x=dimension_1, y="Valeur",
-                labels={dimension_1, "Valeur :" + indicateur_},
-                title=indicateur_ +" des employés par année"
-                )
-
-    #  graphique en anneau
-    fig_donut = px.pie(df_grouped, names=dimension_1, values="Valeur", 
-                    title= indicateur_+" des employés par année", hole=0.6)
-
-    a,b=st.columns(2)
-    with a:
-        st.plotly_chart(fig_donut)
-    with b:
-        st.plotly_chart(fig_bar)
-else:
-#----------------Graph multiple----------------------------
-
-    df_grouped = df.groupby([dimension_1,dimension_2], as_index=False).sum()
-    fig_secteur = px.sunburst(df_grouped, path=[dimension_1,dimension_2], values="Valeur",
-                    # title=indicateur_+ " des employés par année"
-                    )
-        
-    fig_ligne=px.line(df_grouped, x=dimension_1,
+    fig_ligne=px.line(df_grouped, x="Année",
                     y="Valeur",
-                    color=dimension_2,
-                    labels={dimension_2, "Valeur: "+indicateur_},
+                    color=dimension_1,
+                    labels={dimension_1, "Valeur: "+indicateur_},
                     # title="Evolution des "+ indicateur_+ "des employés par année",
                     color_discrete_sequence=px.colors.qualitative.D3
                     )
-        
-    fig_bar=px.bar(df_grouped, x=dimension_1,
-                y="Valeur",
-                color=dimension_2,
-                barmode="group",
-                labels={dimension_2, "Valeur: "+indicateur_},
-            #     title="Evolution des "+ indicateur_+ "des employés par année",
-                color_discrete_sequence=px.colors.qualitative.D3  )
+    fig_bar=px.bar(df_grouped, x="Année",
+            y="Valeur",
+            color=dimension_1,
+            barmode="group",
+            labels={dimension_1, "Valeur: "+indicateur_},
+        #     title="Evolution des "+ indicateur_+ "des employés par année",
+            color_discrete_sequence=px.colors.qualitative.D3 )
 
-    # Créer la carte de chaleur
-    map_data = df.pivot_table(values="Valeur", index=dimension_1, columns=dimension_2, aggfunc="sum")
-    fig_carte = px.imshow(
-        map_data,
-        text_auto=True,
-        color_continuous_scale="Viridis",
-        #title="Carte des valeurs par "+ dimension_1+ " et "+ dimension_2
-        )
-    
-    # Désactiver la barre latérale si nécessaire
+    a,b=st.columns(2)
+    with a:
+        st.plotly_chart(fig_bar)
+    with b:
+        st.plotly_chart(fig_ligne)
+else:
+#----------------Graph multiple----------------------------
 
-    # Créer une grille 2x2 pour afficher les graphiques
+    df_grouped = df.groupby(["Année",dimension_1,dimension_2], as_index=False).sum()
+    fig_secteur = px.sunburst(df_grouped, path=["Année",dimension_1,dimension_2], values="Valeur")
+                    # title=indicateur_+ " des employés par année"
+    fig_multi_lignes = px.line(df_grouped, x="Année", y="Valeur", 
+                                   color=dimension_1, line_dash=dimension_2)
+
     col1, col2 = st.columns(2)
 
-    # Colonne 1 : Secteur et Carte
+    # Colonne 1 : Secteur 
     with col1:
         with stylable_container(key="graph_container1",
                             css_styles=style_container): 
-            
-            # Titre et graphique Secteur
-            #st.markdown("<h3 style='text-align: center; font-size: 16px;'>Secteur</h3>", unsafe_allow_html=True)
             
             st.plotly_chart(
                     fig_secteur.update_layout(
@@ -175,43 +150,15 @@ else:
                     ),
                     use_container_width=True
                 )
-            st.markdown("<br>", unsafe_allow_html=True)  # Espacement entre les graphiques
+
+    # Colonne 2 : Multi-lignes
+    with col2:
         with stylable_container(key="graph_container2",
                             css_styles=style_container):
             # Titre et graphique Carte
             #st.markdown("<h3 style='text-align: center; font-size: 16px;'>Carte</h3>", unsafe_allow_html=True)
             st.plotly_chart(
-                fig_carte.update_layout(
-                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),  # Légende en haut
-                    margin=dict(l=10, r=10, t=0, b=10),  # Marges pour éviter que ça soit trop collé
-                    height=300  # Taille réduite du graphique pour qu'il rentre bien
-                ),
-                use_container_width=True
-            )
-
-    # Colonne 2 : Ligne et Bar
-    with col2:
-        with stylable_container(key="graph_container3",
-                            css_styles=style_container):
-            # Titre et graphique Ligne
-            # st.markdown("<h3 style='text-align: center; font-size: 16px;'>Ligne</h3>", unsafe_allow_html=True)
-            st.plotly_chart(
-                fig_ligne.update_layout(
-                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),  # Légende en haut
-                    margin=dict(l=10, r=10, t=0, b=10),  # Marges pour éviter que ça soit trop collé
-                    height=300  # Taille réduite du graphique pour qu'il rentre bien
-                ),
-                use_container_width=True
-            )
-
-            st.markdown("<br>", unsafe_allow_html=True)  # Espacement entre les graphiques
-
-        with stylable_container(key="graph_container4",
-                            css_styles=style_container):
-            # Titre et graphique Bar
-            # st.markdown("<h3 style='text-align: center; font-size: 16px;'>Barre</h3>", unsafe_allow_html=True)
-            st.plotly_chart(
-                fig_bar.update_layout(
+                fig_multi_lignes.update_layout(
                     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),  # Légende en haut
                     margin=dict(l=10, r=10, t=0, b=10),  # Marges pour éviter que ça soit trop collé
                     height=300  # Taille réduite du graphique pour qu'il rentre bien
@@ -225,4 +172,4 @@ else:
 
 
 
-#Zone, treemap, ligne, nuage de points et bulles pour la comparaison d'entreprise
+
