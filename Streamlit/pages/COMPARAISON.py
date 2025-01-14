@@ -12,8 +12,8 @@ dict_indicateurs_communs = {
 def selection(dossier_entreprise_1, dossier_entreprise_2, col_inutiles, dimension):
     entreprises = list(set([entreprise for duo in dict_indicateurs_communs.keys() for entreprise in duo]))
     
-    st.sidebar.subheader("Sélection des entreprises")
-    entreprises_selectionnees = st.sidebar.multiselect(
+    st.subheader("Sélection des entreprises")
+    entreprises_selectionnees = st.multiselect(
         "Veuillez choisir deux entreprises: ",
         entreprises,
         default = None,
@@ -37,8 +37,8 @@ def selection(dossier_entreprise_1, dossier_entreprise_2, col_inutiles, dimensio
     
     # selection d'un indicateur
     
-    st.sidebar.subheader("Indicateur")
-    indicateur_ = st.sidebar.selectbox(
+    st.subheader("Indicateur")
+    indicateur_ = st.selectbox(
         "Veuillez choisir un indicateur en commun:",
         sorted(indicateurs_communs),
         index = 0
@@ -92,8 +92,8 @@ def selection(dossier_entreprise_1, dossier_entreprise_2, col_inutiles, dimensio
 
 
 selection_entr, indicateur, df_entreprise_1, df_entreprise_2 = selection(
-    dossier_entreprise_1="/home/sid2018-3/Documents/Projet Interpromo/dashboard/Projet-Interpromo-Groupe-1/Projet-Interpromo-Groupe-1/data/transformed/EDF",
-    dossier_entreprise_2="/home/sid2018-3/Documents/Projet Interpromo/dashboard/Projet-Interpromo-Groupe-1/Projet-Interpromo-Groupe-1/data/transformed/EDF",
+    dossier_entreprise_1="../data/transformed/EDF/",
+    dossier_entreprise_2="../data/transformed/EDF/",
     col_inutiles=["Perimètre juridique","Perimètre spatial","Chapitre du bilan social","Unité","Plage M3E"],
     dimension="Année"
 )

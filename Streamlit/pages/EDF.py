@@ -68,7 +68,7 @@ def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
 
 ### Appel de la fonction ###
 
-dossier_entreprise = "..\\data\\transformed\\EDF"
+dossier_entreprise = "../data/transformed/EDF/"
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social","Unité","Plage M3E"]
 selection, indicateur_, df, dimension_1, dimension_2 = selection_menu(dossier_entreprise,col_inutiles)
 affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2)

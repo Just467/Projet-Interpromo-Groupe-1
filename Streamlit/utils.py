@@ -38,7 +38,7 @@ def selection_menu (dossier_entreprise, col_inutiles):
         resultats={}
         # parcourir toutes les thématiques sélectionnées 
         for s in selection: 
-            file_path="..\\data\\transformed\\EDF\\"+s
+            file_path="../data/transformed/EDF/"+s
             noms_fichiers = [f for f in os.listdir(file_path) if f.endswith('.csv')]
             data = []
             # parcourrir tous les fichiers de cette thématique 
