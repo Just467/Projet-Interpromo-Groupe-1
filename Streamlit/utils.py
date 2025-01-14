@@ -80,6 +80,12 @@ def selection_menu (dossier_entreprise, col_inutiles):
             df = entreprise_data[entreprise_data["Indicateur"] == indicateur_]
             dimension = df.select_dtypes(include=["object", "category"]).columns.tolist()
             dimension.remove("Indicateur")
+            
+            #Eliminer les colonnes qui n'ont pas de valeur pour unindicateur
+            for element in dimension:
+                if df[element].isnull().all():
+                    dimension.remove(element)
+
 
             #----selection axes d'analyse--------
             if indicateur_:
