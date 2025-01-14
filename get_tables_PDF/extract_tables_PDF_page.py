@@ -6,27 +6,29 @@ import regex as re
 
 extract_tables_PDF_methods = ['lines', 'lines_strict', 'explicit']
 
-def is_header_row(row,
+def is_header_row(row, page_height,
                   numeric_pattern:str=r'^[\d.,\s€$£¥]*$', year_pattern:str=r'^20[0-2]\d$'):
     """_summary_
 
     Args:
         row (_type_): _description_
-        numeric_pattern (str, optional): _description_. Defaults to r'^[\d.,\s€$£¥]*$'.
-        year_pattern (str, optional): _description_. Defaults to r'^20[0-2]\d$'.
+        numeric_pattern (str, optional): _description_. 
+        year_pattern (str, optional): _description_. 
 
     Returns:
         _type_: _description_
     """
+    top = 0
     for cell in row:
-        if cell is None or cell.text is None:
+        if cell is not None or cell.text is not None:
+            top = cell.y1
             cell_text = cell.text.strip()
             if re.match(numeric_pattern, cell_text) and not re.match(year_pattern, cell_text):
-                return True
-    return False
+                return True, top
+    return (False, page_height-top)
 
 def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
-                 user_settings={}):
+                 settings={}):
     """
     Renvoie une liste de 'rows' à mettre dans is_header
 
@@ -63,14 +65,10 @@ def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
         return [x1, top, x2, bottom]
 
     # à adapter selon user_setting
-    settings = {
-        "vertical_strategy": "text",
-        "horizontal_strategy": "lines"
-    }
-
-    rows = []
+    tables_rows = []
     tables = page.find_tables(settings)
     for table in tables:
+        rows = []
         for _, row in enumerate(table.rows):
             try:
                 x1, y1, x2, y2 = get_row_corners(row.cells)
@@ -88,7 +86,8 @@ def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
                 print(f"Skipping row due to error: {e}")
             except Exception as e:
                 print(f"Unexpected error: {e}")
-    return rows
+        tables_rows.append(rows)
+    return tables_rows
 
 
 def get_lines_stream(tables:camelot.core.TableList, axis:int)->list:

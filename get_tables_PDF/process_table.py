@@ -31,25 +31,6 @@ preprocess(df, missing_label)
 process_tables(raw_df_list, missing_label="unknown")
 """
 
-def split_dataframe(df:pd.core.frame.DataFrame, indexes:list)->list:
-    """Split a dataframes with a list of indexes to split. Does not split when value of indexes are consecutives.
-
-    Args:
-        df (pd.core.frame.DataFrame): a dataframe
-        indexes (list): a list of integers
-
-    Returns:
-        list: a list of dataframes
-    """
-    df_list = []
-    previous_index = indexes[0]
-    for index_pos, index in enumerate(indexes[1:], start=1):
-            if index != indexes[index_pos-1] + 1:
-                    df_list.append(df.iloc[previous_index:index])
-                    previous_index = index
-    df_list.append(df.iloc[index:])
-    return df_list
-
 
 def format_df(df):
     """
@@ -523,3 +504,40 @@ def unpivot_df(df, value_colname="value", unit_colname="unit", default_unit="nom
 # cleaned_df = clean_df(df)
 # print(cleaned_df)
 # # print(unpivot_df(cleaned_df))
+
+
+def split_dataframe(df:pd.core.frame.DataFrame, indexes:list)->list:
+    """Split a dataframes with a list of indexes to split. Does not split when value of indexes are consecutives.
+
+    Args:
+        df (pd.core.frame.DataFrame): a dataframe
+        indexes (list): a list of integers
+
+    Returns:
+        list: a list of dataframes
+    """
+    df_list = []
+    if indexes:
+        previous_index = indexes[0][0]
+        for index_pos, (index, top) in enumerate(indexes[1:], start=1):
+                if index != indexes[index_pos-1][0] + 1:
+                        df_list.append( (df.iloc[previous_index:index], top))
+                        previous_index = index
+        df_list.append((df.iloc[index:], top))
+        return df_list
+    else:
+        return [(df, 0)]
+
+
+def clean_df(df, header_list,
+             missing_label="unknown"):
+    """
+    Applique un nettoyage puis détecte s'il y a plusieurs dfs et les split
+    permettant de dépivoter la df correctement
+    """
+    df = format_df(df)
+    df = fill_headers(df, missing_label)
+    df = fill_variables(df)
+    df = remove_totals(df)
+    df_list = split_dataframe(df, [(i, top) for i, (header, top) in enumerate(header_list) if header])
+    return df_list 
