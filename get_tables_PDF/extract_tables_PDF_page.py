@@ -38,21 +38,24 @@ def extract_tables_page(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
     """Extract tables from a page of a PDF using a Page object from pdfplumber
 
     Args:
-        pdf_path (str): path of the PDF file
         page (pdfplumber.page.Page): the pdfplumber page object
         page_number (int): the number of the page (starting from 0)
+        pdf_path (str): path of the original PDF file
         settings (dict): settings of the function extract_tables from pdfplumber
         methods (list): methods to use parse the rows and the columns of the tables.
             The first value is for the rows, the second value for the columns.
-            Both values must be one of lines, lines_strict, explicit.
+            Both values must be one of : lines, lines_strict, explicit.
         show_debugging (bool, optional): Whether to show the pdfplumber visual debugging or not.
             Defaults to False.
 
     Raises:
-        ValueError: Both values of methods must be one of lines, lines_strict, explicit.
+        ValueError: Both values of methods must be one of : lines, lines_strict, explicit.
 
     Returns:
-        list: a list of pandas dataframes, one for each table found.
+        list: a list of tuple, one for each table.
+        Each tuple contains (in this order):
+            - the raw table extracted with pdfplumber
+            - the y-coordinates in the PDF of the top line of the table
     """
     if methods[0] not in extract_tables_PDF_methods or methods[1] not in extract_tables_PDF_methods:
         raise ValueError(f"Both values of methods must be one of {", ".join([str(elem) for elem in extract_tables_PDF_methods])}")
@@ -75,13 +78,25 @@ def extract_tables_page(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
         if show_debugging:
             page.to_image().debug_tablefinder(settings).show()
 
-    return all_tables, tops
+    return [(all_table, top) for all_table, top in  zip(all_tables, tops)]
 
 
 def extract_titles_page(page: pdfplumber.page.Page,
                         pattern: str,
-                        x_tolerance: float = 7.25, regex_match_pred=False) -> list:
-    titles = []
+                        x_tolerance: float = 7.25) -> list:
+    """Extract all titles from a page of a PDF using a Page object from pdfplumber.
+       Title are detected with a regex.
+
+    Args:
+        page (pdfplumber.page.Page): the pdfplumber page object.
+        pattern (str): a string defining the regex to use to detect titles.
+        x_tolerance (float, optional): Tables within that range are still considered to be under the current title, even though they are above it.
+        Defaults to 7.25.
+
+    Returns:
+        list: _description_
+    """
+    titles, regex_match_pred = [], False
     text = page.extract_text_lines()
     first_line = text[0]
     regex_match = re.search(pattern, first_line['text'])
@@ -91,17 +106,17 @@ def extract_titles_page(page: pdfplumber.page.Page,
 
     for line in text[1:]:
         regex_match = re.search(pattern, line['text'])
-        if regex_match: # on regarde si il y a un match
-            if regex_match_pred: # si il y avait un match à la ligne précédente, on l'enregistre comme un titre
+        if regex_match: # if the current line is a title
+            if regex_match_pred: # if the previous line was a title, we save the previous line as a title
                 titles.append((current_title, top_pred))
                 regex_match_pred = False
             current_title = line['text']#.replace(regex_match.group(0), '')
             top_pred, regex_match_pred = line['top'], True
-        elif regex_match_pred: # si il y avait un match à la ligne précédente et que cette ligne n'est pas un titre
-            if  line['top']-top_pred <= x_tolerance: # si dans la tolérance, on rajoute cette ligne au titre
+        elif regex_match_pred: # if the current line is not a title but the previous line was
+            if  line['top']-top_pred <= x_tolerance: # if within tolerance, this line is considered to be part of the title
                 current_title += " "+line['text']
                 top_pred = line['top']
-            else: # sinon on enregistre la ligne précédente comme étant un titre
+            else: # if not, the previous line is saved as a title
                 titles.append((current_title, top_pred))
                 regex_match_pred = False
                 
