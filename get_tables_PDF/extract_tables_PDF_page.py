@@ -7,60 +7,15 @@ import regex as re
 
 extract_tables_PDF_methods = ['lines', 'lines_strict', 'explicit']
 
-def is_header_row(tables, min_year=2020, max_year=2025):
-    """
-    Vérifie si une ligne Camelot est un header.
+def is_header_row(row,
+                  numeric_pattern:str=r'^[\d.,\s€$£¥]*$', year_pattern:str=r'^20[0-2]\d$'):
+    for cell in row:
+        if cell is None or cell.text is None:
+            cell_text = cell.text.strip()
+            if re.match(numeric_pattern, cell_text) and not re.match(year_pattern, cell_text):
+                return True
+    return False
 
-    Args:
-        tables (list): Liste de tables Camelot.
-        min_year (int): Année minimale autorisée.
-        max_year (int): Année maximale autorisée.
-
-    Returns:
-        bool: True si une ligne est un header, False sinon.
-    """
-    # Regex pour détecter les chiffres, devises, points, virgules et espaces
-    numeric_pattern = r'^[\d.,\s€$£¥]*$'
-
-    def is_pure_number(value):
-        """Vérifie si une valeur est un entier positif."""
-        return re.match(r"^\d+$", str(value).strip()) is not None
-
-    def is_valid_year(value):
-        """Vérifie si une valeur est une année valide."""
-        return min_year <= int(value) <= max_year
-
-    for table in tables:
-        for row in table.cells:
-            numerical_values = []
-            for cell in row:
-                if cell is None or cell.text is None:
-                    continue
-
-                cell_text = cell.text.strip()
-
-                # Vérifie si la cellule contient une valeur numérique
-                if re.fullmatch(numeric_pattern, cell_text):
-                    if is_pure_number(cell_text):
-                        numerical_values.append(int(cell_text))
-
-            # Vérification des conditions
-            if numerical_values:
-                if len(numerical_values) == 1:
-                    # Une seule valeur numérique : Vérifier si c'est une année en première cellule
-                    if is_valid_year(numerical_values[0]) and row[0].text.strip() == str(numerical_values[0]):
-                        return True
-                    else:
-                        return False
-                elif all(is_valid_year(num) for num in numerical_values):
-                    # Toutes les valeurs numériques sont des années
-                    return True
-                else:
-                    # Des valeurs numériques non conformes
-                    return False
-
-    # Si aucune valeur numérique n'est trouvée, c'est un header
-    return True
 
 def get_lines_stream(tables:camelot.core.TableList, axis:int)->list:
         """Get the coordinates of lines (of an axis) used by camelot to extract a table with Stream
@@ -99,6 +54,7 @@ def extract_tables_page(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
         methods (list): methods to use parse the rows and the columns of the tables.
             The first value is for the rows, the second value for the columns.
             Both values must be one of : lines, lines_strict, explicit.
+            Explicit use Camelot with Stream method to determine the lines that will be passed to pdfplumber.
         show_debugging (bool, optional): Whether to show the pdfplumber visual debugging or not.
             Defaults to False.
 
