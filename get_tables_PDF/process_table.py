@@ -208,10 +208,15 @@ def fill_variable_names(df, missing_label):
     previous_col_names = None
     for col_index, col in variables.T.iterrows():
         col_names = col[:nb_headers].unique()
-        col_name = col_names[-1]
 
-        if np.array_equal(col_names, previous_col_names):
-            col_name = missing_label
+        # Vérifiez si col_names est vide
+        if len(col_names) == 0:
+            col_name = missing_label  # Si vide, utilisez une valeur par défaut
+        else:
+            col_name = col_names[-1]
+
+        if previous_col_names is not None and np.array_equal(col_names, previous_col_names):
+            col_name = missing_label  # Si les noms sont identiques, utilisez missing_label
         
         df.iloc[:nb_headers, col_index] = col_name
         previous_col_names = col_names
@@ -371,16 +376,78 @@ def add_unit_column(df, value_colname="value", unit_colname="unit", default_unit
     return df
 
 
+def split_df(df):
+    """
+    Divise la DataFrame en plusieurs sous-DataFrames en fonction des headers et des variables trouvées
+    
+    args:
+        df (pd.DataFrame): le DataFrame d'origine
+        structure (dict):
+            "headers": liste des index des headers
+            "variables": liste des index des variables
+    
+    Returns:
+        list: liste des sous-DataFrames découpés
+    """
+    structure = detect_structure(df)
+    splitted_dfs = []
+    
+    # Obtenir les index des headers (lignes) et des variables (colonnes)
+    header_indexes = structure["headers"]
+    variable_indexes = structure["variables"]
+
+    # Identifier les intervalles pour les headers
+    header_intervals = []
+    if header_indexes:  # Vérifier qu'il y a au moins un header
+        current_start = header_indexes[0]  # Initialiser au premier header
+        for i in range(len(header_indexes) - 1):
+            if header_indexes[i + 1] > header_indexes[i] + 1:  # Gap détecté
+                header_intervals.append((current_start, header_indexes[i] + 1))
+                current_start = header_indexes[i + 1]  # Début du prochain intervalle
+        # Ajouter le dernier intervalle
+        header_intervals.append((current_start, None))
+
+    # Identifier les intervalles pour les variables
+    variable_intervals = []
+    if variable_indexes:  # Vérifier qu'il y a au moins une variable
+        current_start = variable_indexes[0]  # Initialiser à la première variable
+        for i in range(len(variable_indexes) - 1):
+            if variable_indexes[i + 1] > variable_indexes[i] + 1:  # Gap détecté
+                variable_intervals.append((current_start, variable_indexes[i] + 1))
+                current_start = variable_indexes[i + 1]  # Début du prochain intervalle
+        # Ajouter le dernier intervalle
+        variable_intervals.append((current_start, None))
+
+    # Découper la DataFrame en fonction des intervalles
+    for h_start, h_end in header_intervals:
+        for v_start, v_end in variable_intervals:
+            # Si h_end ou v_end est None, cela signifie "jusqu'à la fin"
+            sub_df = df.iloc[
+                h_start:(h_end if h_end is not None else None),  # Lignes
+                v_start:(v_end if v_end is not None else None)   # Colonnes
+            ]
+            # Réindexer le sous-DataFrame
+            sub_df = sub_df.reset_index(drop=True)  # Réinitialiser l'index des lignes
+            sub_df.columns = range(sub_df.shape[1])  # Réinitialiser les colonnes
+            splitted_dfs.append(sub_df)
+
+    return splitted_dfs
+
+
 def clean_df(df, missing_label="unknown"):
     """
-    Applique un nettoyage permettant de dépivoter la df correctement
+    Applique un nettoyage puis détecte s'il y a plusieurs dfs et les split
+    permettant de dépivoter la df correctement
     """
     df = format_df(df)
     df = fill_headers(df, missing_label)
     df = fill_variables(df)
     df = remove_totals(df)
-    df = fill_variable_names(df, missing_label)
-    return df
+
+    df_splitted = split_df(df)
+    df_splitted = [fill_variable_names(df, missing_label) for df in df_splitted]
+
+    return df_splitted
 
 
 def unpivot_df(df, value_colname="value", unit_colname="unit", default_unit="nombre", missing_label="unknown"):
@@ -434,4 +501,5 @@ def unpivot_df(df, value_colname="value", unit_colname="unit", default_unit="nom
 # df = pd.DataFrame(data1)
 
 # cleaned_df = clean_df(df)
-# print(unpivot_df(cleaned_df))
+# print(cleaned_df)
+# # print(unpivot_df(cleaned_df))
