@@ -28,7 +28,7 @@ if "secteur" in choix_graph:
     tabs.append("secteur")
 
 if "ligne" in choix_graph: 
-    figures["ligne"]=px.line(df_grouped, x="Année",
+figures["ligne"]=px.line(df_grouped, x="Année",
                 y="Valeur",
                 color=col_z,
                 labels={"Année": "Année", "Valeur":"Effectif"},
