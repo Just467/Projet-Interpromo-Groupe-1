@@ -4,17 +4,91 @@ import numpy as np
 import pdfplumber
 import regex as re
 
-
 extract_tables_PDF_methods = ['lines', 'lines_strict', 'explicit']
 
 def is_header_row(row,
                   numeric_pattern:str=r'^[\d.,\s€$£¥]*$', year_pattern:str=r'^20[0-2]\d$'):
+    """_summary_
+
+    Args:
+        row (_type_): _description_
+        numeric_pattern (str, optional): _description_. Defaults to r'^[\d.,\s€$£¥]*$'.
+        year_pattern (str, optional): _description_. Defaults to r'^20[0-2]\d$'.
+
+    Returns:
+        _type_: _description_
+    """
     for cell in row:
         if cell is None or cell.text is None:
             cell_text = cell.text.strip()
             if re.match(numeric_pattern, cell_text) and not re.match(year_pattern, cell_text):
                 return True
     return False
+
+def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
+                 user_settings={}):
+    """
+    Renvoie une liste de 'rows' à mettre dans is_header
+
+    Args:
+        pdf_path (str): pdf path
+        page (pdfplumber.page.Page): pdfplumber page object
+        page_number (int)
+        user_settings (dict): settings rentrés par l'utilisateur
+
+    Returns:
+        list: liste des rows
+    """
+
+    def get_row_corners(row):
+        """
+        Renvoie les coordonnées des 2 coins d'une row
+
+        Args:
+            row (list): List des coordonnées de chaque cell [(x0, top, x1, bottom), ...]
+
+        Returns:
+            list: coordonnées des 2 coins [x1, y1, x2, y2].
+
+        Raises:
+            ValueError: Si vide ou contient des `None`
+        """
+        filtered_row = [cell for cell in row if cell is not None]
+        if not filtered_row:
+            raise ValueError("Row is empty or contains only None values.")
+
+        x1, top, _, _ = filtered_row[0]
+        _, _, x2, bottom = filtered_row[-1]
+
+        return [x1, top, x2, bottom]
+
+    # à adapter selon user_setting
+    settings = {
+        "vertical_strategy": "text",
+        "horizontal_strategy": "lines"
+    }
+
+    rows = []
+    tables = page.find_tables(settings)
+    for table in tables:
+        for _, row in enumerate(table.rows):
+            try:
+                x1, y1, x2, y2 = get_row_corners(row.cells)
+                str_row_corners = f"{x1},{page.height - y1},{x2},{page.height - y2}"
+                camelot_row = camelot.read_pdf(
+                    pdf_path,
+                    flavor="stream",
+                    pages=f"{page_number + 1}",
+                    table_areas=[str_row_corners],
+                    flag_size=True
+                )
+                rows.append(camelot_row[0].cells[0])
+
+            except ValueError as e:
+                print(f"Skipping row due to error: {e}")
+            except Exception as e:
+                print(f"Unexpected error: {e}")
+    return rows
 
 
 def get_lines_stream(tables:camelot.core.TableList, axis:int)->list:
@@ -83,12 +157,10 @@ def extract_tables_page(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
         settings["horizontal_strategy"], settings["vertical_strategy"] = methods[0], methods[1]
         settings["explicit_horizontal_lines"], settings["explicit_vertical_lines"] = lines[0], lines[1]
         all_tables = page.extract_tables(settings)
-        tables_coordinates = page.find_tables(settings)
-        tops = [table_coordinates.cells[0][1] for table_coordinates in tables_coordinates]
         if show_debugging:
             page.to_image().debug_tablefinder(settings).show()
 
-    return [(all_table, top) for all_table, top in  zip(all_tables, tops)]
+    return all_tables
 
 
 def extract_titles_page(page: pdfplumber.page.Page,
