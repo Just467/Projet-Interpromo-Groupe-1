@@ -4,63 +4,72 @@ import numpy as np
 import pdfplumber
 import regex as re
 
-
 extract_tables_PDF_methods = ['lines', 'lines_strict', 'explicit']
 
-def is_header_row(tables, min_year=2020, max_year=2025):
+def extract_rows(pdf_path, page, page_number, user_settings):
     """
-    Vérifie si une ligne Camelot est un header.
+    Renvoie une liste de 'rows' à mettre dans is_header
 
     Args:
-        tables (list): Liste de tables Camelot.
-        min_year (int): Année minimale autorisée.
-        max_year (int): Année maximale autorisée.
+        pdf_path (str): pdf path
+        page (pdfplumber.page.Page): pdfplumber page object
+        page_number (int)
+        user_settings (dict): settings rentrés par l'utilisateur
 
     Returns:
-        bool: True si une ligne est un header, False sinon.
+        list: liste des rows
     """
-    # Regex pour détecter les chiffres, devises, points, virgules et espaces
-    numeric_pattern = r'^[\d.,\s€$£¥]*$'
 
-    def is_pure_number(value):
-        """Vérifie si une valeur est un entier positif."""
-        return re.match(r"^\d+$", str(value).strip()) is not None
+    def get_row_corners(row):
+        """
+        Renvoie les coordonnées des 2 coins d'une row
 
-    def is_valid_year(value):
-        """Vérifie si une valeur est une année valide."""
-        return min_year <= int(value) <= max_year
+        Args:
+            row (list): List des coordonnées de chaque cell [(x0, top, x1, bottom), ...]
 
+        Returns:
+            list: coordonnées des 2 coins [x1, y1, x2, y2].
+
+        Raises:
+            ValueError: Si vide ou contient des `None`
+        """
+        filtered_row = [cell for cell in row if cell is not None]
+        if not filtered_row:
+            raise ValueError("Row is empty or contains only None values.")
+
+        x1, top, _, _ = filtered_row[0]
+        _, _, x2, bottom = filtered_row[-1]
+
+        return [x1, top, x2, bottom]
+
+    # à adapter selon user_setting
+    settings = {
+        "vertical_strategy": "text",
+        "horizontal_strategy": "lines"
+    }
+
+    rows = []
+    tables = page.find_tables(settings)
     for table in tables:
-        for row in table.cells:
-            numerical_values = []
-            for cell in row:
-                if cell is None or cell.text is None:
-                    continue
+        for _, row in enumerate(table.rows):
+            try:
+                x1, y1, x2, y2 = get_row_corners(row.cells)
+                str_row_corners = f"{x1},{page.height - y1},{x2},{page.height - y2}"
+                camelot_row = camelot.read_pdf(
+                    pdf_path,
+                    flavor="stream",
+                    pages=f"{page_number + 1}",
+                    table_areas=[str_row_corners],
+                    flag_size=True
+                )
+                rows.append(camelot_row[0].cells[0])
 
-                cell_text = cell.text.strip()
+            except ValueError as e:
+                print(f"Skipping row due to error: {e}")
+            except Exception as e:
+                print(f"Unexpected error: {e}")
+    return rows
 
-                # Vérifie si la cellule contient une valeur numérique
-                if re.fullmatch(numeric_pattern, cell_text):
-                    if is_pure_number(cell_text):
-                        numerical_values.append(int(cell_text))
-
-            # Vérification des conditions
-            if numerical_values:
-                if len(numerical_values) == 1:
-                    # Une seule valeur numérique : Vérifier si c'est une année en première cellule
-                    if is_valid_year(numerical_values[0]) and row[0].text.strip() == str(numerical_values[0]):
-                        return True
-                    else:
-                        return False
-                elif all(is_valid_year(num) for num in numerical_values):
-                    # Toutes les valeurs numériques sont des années
-                    return True
-                else:
-                    # Des valeurs numériques non conformes
-                    return False
-
-    # Si aucune valeur numérique n'est trouvée, c'est un header
-    return True
 
 def get_lines_stream(tables:camelot.core.TableList, axis:int)->list:
         """Get the coordinates of lines (of an axis) used by camelot to extract a table with Stream
@@ -127,12 +136,10 @@ def extract_tables_page(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
         settings["horizontal_strategy"], settings["vertical_strategy"] = methods[0], methods[1]
         settings["explicit_horizontal_lines"], settings["explicit_vertical_lines"] = lines[0], lines[1]
         all_tables = page.extract_tables(settings)
-        tables_coordinates = page.find_tables(settings)
-        tops = [table_coordinates.cells[0][1] for table_coordinates in tables_coordinates]
         if show_debugging:
             page.to_image().debug_tablefinder(settings).show()
 
-    return [(all_table, top) for all_table, top in  zip(all_tables, tops)]
+    return all_tables
 
 
 def extract_titles_page(page: pdfplumber.page.Page,
