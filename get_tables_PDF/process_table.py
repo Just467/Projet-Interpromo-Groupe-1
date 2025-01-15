@@ -519,11 +519,13 @@ def split_dataframe(df:pd.core.frame.DataFrame, indexes:list)->list:
     df_list = []
     if indexes:
         previous_index = indexes[0][0]
+        previous_top = indexes[0][1]
         for index_pos, (index, top) in enumerate(indexes[1:], start=1):
                 if index != indexes[index_pos-1][0] + 1:
-                        df_list.append( (df.iloc[previous_index:index], top) )
+                        df_list.append( (df.iloc[previous_index:index].reset_index(drop=True), previous_top) )
                         previous_index = index
-        df_list.append((df.iloc[index:], top))
+                        previous_top = top
+        df_list.append((df.iloc[index:].reset_index(drop=True), top))
         return df_list
     else:
         return [(df, 0)]

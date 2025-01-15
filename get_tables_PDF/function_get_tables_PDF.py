@@ -41,7 +41,6 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                 cleaned_tables = []
                 for table, sub_header_list in zip(extracted_tables, header_list):
                     cleaned_tables = cleaned_tables + clean_df(pd.DataFrame(table), sub_header_list)
-                print(cleaned_tables)
                 # associating titles and tables
                 start_index = 1
                 current_title_name = titles[0][0]
@@ -49,9 +48,7 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                     for index_title, title in enumerate(titles[start_index:], start=start_index):
                         if title[1] - top >= x_tolerance:
                             break
+                        start_index = index_title
                         current_title_name = title[0]
                     final_tables.append({'table': df, 'title': current_title_name, 'pages':list(range(last_title_page, page_number+1))})
-                else:
-                    index_title = -1
-                start_index = index_title       
     return final_tables

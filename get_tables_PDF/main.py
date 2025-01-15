@@ -31,7 +31,9 @@ test2 = {'ENGIE':{'path':r'data\bilans_sociaux\ENGIE SA_Bilan social 2021_VD.pdf
 results = get_all_raw_tables_PDF(test1['CNP'], pages = [17])
 tables = []
 headers = []
+#print(results)
 for result in results:
+    print(result['table'])
     tables.append(result['table'])
     headers.append(f"{result['title']}\n{result['pages']}")
 show_dataframes(tables, headers=headers)
