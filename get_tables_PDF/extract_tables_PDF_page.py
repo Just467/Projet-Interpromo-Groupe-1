@@ -47,7 +47,7 @@ def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
         Renvoie les coordonnées des 2 coins d'une row
 
         Args:
-            row (list): List des coordonnées de chaque cell [(x0, top, x1, bottom), ...]
+            row (list): List des coordonnées de chaque cell [(x0, top, x1, bottom), ...].
 
         Returns:
             list: coordonnées des 2 coins [x1, y1, x2, y2].
@@ -70,6 +70,7 @@ def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
     for table in tables:
         rows = []
         for _, row in enumerate(table.rows):
+            added_none = False  # Variable de contrôle pour éviter les doublons
             try:
                 x1, y1, x2, y2 = get_row_corners(row.cells)
                 str_row_corners = f"{x1},{page.height - y1},{x2},{page.height - y2}"
@@ -77,14 +78,22 @@ def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
                     pdf_path,
                     flavor="stream",
                     pages=f"{page_number + 1}",
-                    table_areas=[str_row_corners]
+                    table_areas=[str_row_corners],
+                    row_tol=1000
                 )
                 #camelot.plot(camelot_row[0], kind='grid').show()
                 rows.append(camelot_row[0].cells[0])
 
             except ValueError as e:
+                if not added_none:
+                    rows.append(None)
+                    added_none = True
                 print(f"Skipping row due to error: {e}")
+
             except Exception as e:
+                if not added_none:
+                    rows.append(None)
+                    added_none = True
                 print(f"Unexpected error: {e}")
         tables_rows.append(rows)
     return tables_rows
