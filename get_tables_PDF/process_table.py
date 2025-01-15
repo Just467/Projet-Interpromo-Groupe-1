@@ -6,7 +6,7 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 sys.path.append("get_tables_PDF/utils")
-from dataframe_viewer import show_dataframes
+from utils.dataframe_viewer import show_dataframes
 from processed_dataframe_viewer import show_processed_dataframes
 
 
@@ -521,8 +521,8 @@ def split_dataframe(df:pd.core.frame.DataFrame, indexes:list)->list:
         previous_index = indexes[0][0]
         for index_pos, (index, top) in enumerate(indexes[1:], start=1):
                 if index != indexes[index_pos-1][0] + 1:
-                        df_list.append( (df.iloc[previous_index:index], top))
-                        previous_index = index
+                        df_list.append( (df.iloc[previous_index:index+1], top) )
+                        previous_index = index+1
         df_list.append((df.iloc[index:], top))
         return df_list
     else:
@@ -538,6 +538,7 @@ def clean_df(df, header_list,
     df = format_df(df)
     df = fill_headers(df, missing_label)
     df = fill_variables(df)
-    df = remove_totals(df)
+    #df = remove_totals(df)
+    #print([(i, top) for i, (header, top) in enumerate(header_list) if header])
     df_list = split_dataframe(df, [(i, top) for i, (header, top) in enumerate(header_list) if header])
     return df_list 

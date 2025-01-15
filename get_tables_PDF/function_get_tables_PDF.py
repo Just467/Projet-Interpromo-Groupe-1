@@ -33,21 +33,19 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                     titles = [last_title]
                 # extracting tables from one page and rows to have all the correct and cleaned tables
                 extracted_tables = extract_tables_page(page, page_number,path,
-                                                       extract_settings, methods)
+                                                       extract_settings, methods,
+                                                       show_debugging=True)
                 extracted_table_rows = extract_rows(page, page_number,path,
-                                              extract_settings)
-                header_list = [[is_header_row(row, page.height)for row in extracted_table_row] for extracted_table_row in extracted_table_rows]
+                                                    extract_settings)
+                header_list = [[is_header_row(row)for row in extracted_table_row] for extracted_table_row in extracted_table_rows]
                 cleaned_tables = []
                 for table, sub_header_list in zip(extracted_tables, header_list):
                     cleaned_tables = cleaned_tables + clean_df(pd.DataFrame(table), sub_header_list)
-                print(cleaned_tables)
                 # associating titles and tables
                 start_index = 1
                 current_title_name = titles[0][0]
                 for df, top in cleaned_tables:
                     for index_title, title in enumerate(titles[start_index:], start=start_index):
-                        print(title[1])
-                        print(top)
                         if title[1] - top >= x_tolerance:
                             break
                         current_title_name = title[0]

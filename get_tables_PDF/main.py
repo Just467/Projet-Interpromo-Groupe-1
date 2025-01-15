@@ -28,7 +28,7 @@ test2 = {'ENGIE':{'path':r'data\bilans_sociaux\ENGIE SA_Bilan social 2021_VD.pdf
                               'methods':['lines', 'lines'],
                               'pattern': r'\d{3}\. +'}}
 
-results = get_all_raw_tables_PDF(test1['CNP'], pages = [7])
+results = get_all_raw_tables_PDF(test1['CNP'], pages = [17])
 tables = []
 headers = []
 for result in results:

@@ -6,8 +6,8 @@ import regex as re
 
 extract_tables_PDF_methods = ['lines', 'lines_strict', 'explicit']
 
-def is_header_row(row, page_height,
-                  numeric_pattern:str=r'^[\d.,\s€$£¥]*$', year_pattern:str=r'^20[0-2]\d$'):
+def is_header_row(row,
+                  numeric_pattern:str=r'^[\d.,\s€$£¥]*(?: *ans)?$', year_pattern:str=r'^20[0-2]\d$'):
     """_summary_
 
     Args:
@@ -23,9 +23,9 @@ def is_header_row(row, page_height,
         if cell is not None or cell.text is not None:
             top = cell.y1
             cell_text = cell.text.strip()
-            if re.match(numeric_pattern, cell_text) and not re.match(year_pattern, cell_text):
-                return True, top
-    return (False, page_height-top)
+            if cell_text != '' and re.match(numeric_pattern, cell_text) and not re.match(year_pattern, cell_text):
+                return False, top
+    return (True, top)
 
 def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
                  settings={}):
@@ -77,9 +77,9 @@ def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
                     pdf_path,
                     flavor="stream",
                     pages=f"{page_number + 1}",
-                    table_areas=[str_row_corners],
-                    flag_size=True
+                    table_areas=[str_row_corners]
                 )
+                #camelot.plot(camelot_row[0], kind='grid').show()
                 rows.append(camelot_row[0].cells[0])
 
             except ValueError as e:
