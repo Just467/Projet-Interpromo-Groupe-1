@@ -1,4 +1,5 @@
 import streamlit as st
+
 import os
 import pandas as pd
 dict_indicateurs_communs = {
@@ -96,6 +97,7 @@ selection_entr, indicateur, df_entreprise_1, df_entreprise_2 = selection(
     col_inutiles=["Perimètre juridique","Perimètre spatial","Chapitre du bilan social","Unité","Plage M3E"],
     dimension="Année"
 )
+
     
 if selection_entr and indicateur and not df_entreprise_1.empty and not df_entreprise_2.empty:
     st.write(f"Comparaison des entreprises {selection[0]} et {selection[1]} sur l'indicateur {indicateur} par la dimension {dimension}.")
