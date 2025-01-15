@@ -280,6 +280,7 @@ def format_colnames(df, missing_label="unknown"):
 
     return simplified
 
+
 def add_unit_column(df, value_colname="value", unit_colname="unit", default_unit="nombre"):
     """
     Ajoute une colonne 'unit' à la df en analysant la colonne 'value'
@@ -388,7 +389,7 @@ def split_dataframe(df:pd.core.frame.DataFrame, header_list:list)->list:
                         previous_top = top
         splitted_df_list.append((df.iloc[previous_index:].reset_index(drop=True),
                                  previous_top,
-                                 header_list[previous_index:index]))
+                                 header_list[previous_index:]))
         return splitted_df_list
     else:
         return [(df, 0, header_list)]

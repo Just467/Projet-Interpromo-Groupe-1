@@ -6,7 +6,8 @@ from extract_tables_PDF_page import extract_tables_page, extract_titles_page, ex
 from process_table import clean_df, unpivot_df
 
 def get_all_raw_tables_PDF(PDF_file_settings:dict,
-                           final_tables:list=[], pages=[-1], x_tolerance:float=7.25)->dict:
+                           final_tables:list=[], pages=[-1], x_tolerance:float=7.25,
+                           split=True)->dict:
     """Function that uses complete_extract_tables_PDF to extract all the tables of multiple PDF files.
 
     Args:
@@ -44,11 +45,19 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                 # associating titles and tables
                 start_index = 1
                 current_title_name = titles[0][0]
-                for df, top, header_list in cleaned_tables:
+                for df, top, df_header_list in cleaned_tables:
                     for index_title, title in enumerate(titles[start_index:], start=start_index):
                         if title[1] - top >= x_tolerance:
                             break
                         start_index = index_title
                         current_title_name = title[0]
-                    final_tables.append({'table': df, 'title': current_title_name, 'pages':list(range(last_title_page, page_number+1))})
+                    final_tables.append({'table': df,
+                                         'title': current_title_name,
+                                         'pages':list(range(last_title_page, page_number+1)),
+                                         'header_list': df_header_list})
+    if split:
+        for index, final_table in enumerate(final_tables):
+            print(final_table['table'])
+            print(final_table['header_list'])
+            final_tables[index]['table'] = unpivot_df(final_table['table'], final_table['header_list'])
     return final_tables
