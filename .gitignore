@@ -6,6 +6,7 @@ get_tables_PDF/process_tables_PDF/app/test2.py
 get_tables_PDF/extract_tables_PDF/scan_with_pdfplumber.py
 get_tables_PDF/old
 get_tables_PDF/extract_tables_PDF/functions_extract_tables_PDF_3bis.py
+get_tables_PDF/extract_tables_PDF/functions_extract_tables_PDF_3bis copy.py
 
 
 dashboard

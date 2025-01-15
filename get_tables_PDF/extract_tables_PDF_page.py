@@ -52,6 +52,7 @@ def extract_rows(pdf_path, page, page_number, user_settings):
     tables = page.find_tables(settings)
     for table in tables:
         for _, row in enumerate(table.rows):
+            added_none = False
             try:
                 x1, y1, x2, y2 = get_row_corners(row.cells)
                 str_row_corners = f"{x1},{page.height - y1},{x2},{page.height - y2}"
@@ -65,10 +66,16 @@ def extract_rows(pdf_path, page, page_number, user_settings):
                 rows.append(camelot_row[0].cells[0])
 
             except ValueError as e:
+                if not added_none:
+                    rows.append(None)
+                    added_none = True
                 print(f"Skipping row due to error: {e}")
+
             except Exception as e:
+                if not added_none:
+                    rows.append(None)
+                    added_none = True
                 print(f"Unexpected error: {e}")
-    return rows
 
 
 def get_lines_stream(tables:camelot.core.TableList, axis:int)->list:
