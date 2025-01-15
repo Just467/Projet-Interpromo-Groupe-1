@@ -1,347 +1,83 @@
 import streamlit as st
-import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+import pandas as pd
 import plotly.express as px
+import os 
+from streamlit_extras.metric_cards import style_metric_cards
+from streamlit_extras.stylable_container import stylable_container
+# Mise en forme avec Streamlit Extras pour ajouter des bordures, etc.
+import streamlit_extras 
 
-st.title("Visualusation des indicateur" )
+from utils import selection_menu, titre, mise_en_forme_graph  #, affichage_graphs
 
-st.markdown("Nous allons afficher les graphiques:")
-
-
-##         Salariés en situation de hadicap 
-st.title("Salariés en situation de hadicap" )
-
-df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/handicap/sal_handicap.csv", sep=";")
-st.write(df.head(10))
-#Figure  
-fig = px.bar(data_frame = df, x="Année", y = "Valeur", title="Nombre de Salariés en situation de hadicap par Année")
-st.plotly_chart(fig)
-
- # Grouper les données par Année_Genre et calculer le total
-st.header("1 : Nombre de Salariés en situation de hadicap par Année et Genre")
-total_par_année_genre = df.groupby(['Année', 'Genre'])['Valeur'].sum().reset_index()
-st.write("Nombre de salariés en situation de handicap par année_Genre:")
-st.write(total_par_année_genre)
-# figure
-fig = px.bar(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    barmode='group',  # Barres groupées par genre
-    title="Graphe: Nombre de salariés en situation de handicap par année et par genre",
-    labels={'nombre_de_salariés_handicap': 'Nombre de salariés'}
-)
-st.plotly_chart(fig)
-
-# Représentation de l'évolution du nombre de salariés par genre avec des lignes
-fig = px.line(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    markers=True,
-    title="Évolution du nombre de salariés en situation de handicap par année et par genre",
-    labels={"Valeur": 'nombre_de_salariés_handicap'},
-)
-st.plotly_chart(fig)
+st.set_page_config(layout="wide")  # Utiliser toute la largeur de l'écran
 
 
-##         Salariés reconnus travailleurs handicapés suite à accidents du travail survenus dans l'entreprise 
-# Ici il n'y avait pas de genre dans la dataframe
-st.header("2 : Nombre de salariés reconnus travailleurs handicapés suite à accidents du travail survenus dans l'entreprise par Année")
-df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/handicap/sal_handicap_at.csv", sep=";")
-total_par_année = df.groupby(['Année'])['Valeur'].sum().reset_index()
-st.write("Nombre de salariés reconnus travailleurs handicapés suite à accidents du travail survenus dans l'entreprise:")
-st.write(total_par_année)
-#Figure 
- 
-fig = px.bar(data_frame = df, x="Année", y = "Valeur", title="Graphe: Nombre de Salariés reconnus travailleurs handicapés suite à accidents du travail survenus dans l'entreprise")
-st.plotly_chart(fig)
+##############################################################
+#--########-------CREATION DES GRAPHIQUES----######
+##############################################################
 
-# Représentation de  l'évolution du nombre de salariés reconnus travailleurs handicapés suite à accidents du travail survenus dans l'entreprise par année avec des lignes
-fig = px.line(
-    total_par_année,
-    x='Année',
-    y='Valeur',
-    markers=True,
-    title="Évolution du nombre de salariés reconnus travailleurs handicapés suite à accidents du travail survenus dans l'entreprise par année",
-    labels={"Valeur": 'nombre_de_salariés_handicap'},
-)
-st.plotly_chart(fig)
+def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
+    """Fonction qui prends en paramètres la ou les thématiques, l'indicateur choisi, les données en lien et les axes d'analyse choisis
+    et qui retourne l'affichage de l'ensembles des graphiques."""
 
+    #----------------Graph univarié-----------------------------
+    if selection and indicateur_ and dimension_1 and not dimension_2:
+        df_grouped = df.groupby(["Année",dimension_1], as_index=False).sum()
 
-##           Nbre de stagiairres scolaire par Année
+        fig_ligne=px.line(df_grouped, x="Année",
+                        y="Valeur",
+                        color=dimension_1,
+                        labels={dimension_1, "Valeur: "+indicateur_},
+                        markers=True,
+                        # title="Evolution des "+ indicateur_+ "des employés par année",
+                        color_discrete_sequence=px.colors.qualitative.D3
+                        )
+        fig_bar=px.bar(df_grouped, x="Année",
+                y="Valeur",
+                color=dimension_1,
+                barmode="group",
+                labels={dimension_1, "Valeur: "+indicateur_},
+                #title="Evolution des "+ indicateur_+ "des employés par année",
+                color_discrete_sequence=px.colors.qualitative.D3 )
 
-df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/exterieur/stagiaires_scolaires.csv", sep=";")
-st.header("3 : Nombre de stagiairres scolaire par Année par Année et Genre")
-total_par_année_genre = df.groupby(['Année', 'Genre'])['Valeur'].sum().reset_index()
-st.write("Nombre de stagiairres scolaire par année_Genre:")
-st.write(total_par_année_genre)
-#Figure  
-fig = px.bar(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    barmode='group',  # Barres groupées par genre
-    title="Graphe: Nombre de stagiairres scolaire par année et par genre",
-    labels={"Valeur": 'Nombre de stagiairres scolaire'}
-)
-# Afficher le graphique
-st.plotly_chart(fig)
+        a,b=st.columns(2)
+        with a:
+            mise_en_forme_graph (fig_bar, "graph_containera", indicateur_)
+        with b:
+            mise_en_forme_graph (fig_ligne, "graph_containerb", indicateur_)
+    elif selection and indicateur_ and dimension_1:
+    #----------------Graph multiple----------------------------
 
-# Représentation de l'évolution du Nombre de stagiairres scolaire par Année_genre avec des lignes
-fig = px.line(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    markers=True,
-    title="Évolution du Nombre de stagiairres scolaire par année et par genre",
-    labels={"Valeur": 'Nombre de stagiairres scolaire'},
-)
-st.plotly_chart(fig)
+        df_grouped = df.groupby(["Année",dimension_1,dimension_2], as_index=False).sum()
+        fig_secteur = px.sunburst(df_grouped, path=["Année",dimension_1,dimension_2], values="Valeur")
+                        # title=indicateur_+ " des employés par année"
+        fig_multi_lignes = px.line(df_grouped, x="Année", y="Valeur", 
+                                    color=dimension_1, line_dash=dimension_2,
+                                    markers=True)
 
+        col1, col2 = st.columns(2)
 
+        # Colonne 1 : Secteur 
+        with col1:
+            mise_en_forme_graph (fig_secteur, "graph_container1", indicateur_)
 
-##  nbre de Salarié exterieur par année 
+        # Colonne 2 : Multi-lignes
+        with col2:
+            mise_en_forme_graph (fig_multi_lignes, "graph_container2", indicateur_)
 
-#       Salariés détachés accueillis
-df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/exterieur/sal_detaches_accueillis.csv", sep=";")
-st.header("4 : Nombre de Salariés détachés accueillis par Année et Genre")
-total_par_année_genre = df.groupby(['Année', 'Genre'])['Valeur'].sum().reset_index()
-st.write("Nombre de Salariés détachés accueillis par année_Genre:")
-st.write(total_par_année_genre)
-#Figure  
-fig = px.bar(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    barmode='group',  # Barres groupées par genre
-    title="Graphe: Nombre de Salariés détachés accueillis par année et par genre",
-    labels={'Nombre de Salariés détachés accueillis'}
-)
-# Afficher le graphique
-st.plotly_chart(fig)
+### Appel de la fonction ###
 
-# Représentation de l'évolution du Nombre de Salariés détachés accueillis par Année_genre avec des lignes
-fig = px.line(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    markers=True,
-    title="Évolution du Nombre de Salariés détachés accueillis par année et par genre",
-    labels={"Valeur": 'Nombre de Salariés détachés accueillis'},
-)
-st.plotly_chart(fig)
-
-
-#    Nombre moyen mensuel de travailleurs temporaires
-df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/exterieur/nb_moyen_temp.csv", sep=";")
-st.header("5 : nombre moyen mensuel de travailleurs temporaires par Année et Genre")
-total_par_année_genre = df.groupby(['Année', 'Genre'])['Valeur'].sum().reset_index()
-st.write("Nombre moyen mensuel de travailleurs temporaires par année_Genre:")
-st.write(total_par_année_genre)
-#Figure  
-fig = px.bar(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    barmode='group',  # Barres groupées par genre
-    title="Graphe: Nombre moyen mensuel de travailleurs temporaires par année et genre",
-    labels={'Nombre moyen mensuel de travailleurs temporaires'}
-)
-st.plotly_chart(fig)
-
-# Représentation de l'évolution du Nombre moyen mensuel de travailleurs temporaires par Année_genre avec des lignes
-fig = px.line(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    markers=True,
-    title="Évolution du Nombre moyen mensuel de travailleurs temporaires par année et genre",
-    labels={"Valeur": 'Nombre moyen mensuel de travailleurs temporaires'},
-)
-st.plotly_chart(fig)
-
-
-#    Embauches de salariés de moins de 25 ans par Annnée
-df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/effectif/embauches_moins25.csv", sep=";")
-st.header("5 : Nombre Embauches de salariés de moins de 25 ans par Année par Année et Genre")
-total_par_année_genre = df.groupby(['Année', 'Genre'])['Valeur'].sum().reset_index()
-st.write("Nombre Embauches de salariés de moins de 25 ans par année_Genre:")
-st.write(total_par_année_genre)
-#Figure  
-fig = px.bar(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    barmode='group',  # Barres groupées par genre
-    title="Graphe: Nombre Embauches de salariés de moins de 25 ans par année_Genre",
-    labels={'Nombre Embauches de salariés de moins de 25 ans par année_Genre'}
-)
-st.plotly_chart(fig)
-
-# Représentation de l'évolution du Nombre Embauches de salariés de moins de 25 ans par Année_genre avec des lignes
-fig = px.line(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    markers=True,
-    title="Évolution du Nombre Embauches de salariés de moins de 25 ans par année et genre",
-    labels={"Valeur": 'Nombre Embauches de salariés de moins de 25 ans'},
-)
-st.plotly_chart(fig)
-
-
-#     Nombre demissions par Annnée
-df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/effectif/demissions.csv", sep=";")
-st.header("6 : Nombre demissions par Année et Genre")
-total_par_année_genre = df.groupby(['Année', 'Genre'])['Valeur'].sum().reset_index()
-st.write("Nombre demissions par année_Genre:")
-st.write(total_par_année_genre)
-#Figure  
-fig = px.bar(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    barmode='group',  # Barres groupées par genre
-    title="Graphe: Nombre demissions par année_Genre",
-    labels={"Valeur": "Nombre demissions par année_Genre"}
-)
-# Afficher le graphique
-st.plotly_chart(fig)
-
-# Représentation de l'évolution du Nombre demissions par Année_genre avec des lignes
-fig = px.line(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    markers=True,
-    title="Évolution du Nombre demissions par année et genre",
-    labels={"Valeur": 'Nombre demissions par année_Genre'},
-)
-st.plotly_chart(fig)
-
-
-
-#    Absence pour maladie
-df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/absenteisme/abs_maladie.csv", sep=";")
-st.header("7 : Nombre Absence pour maladie par Année et Genre")
-total_par_année_genre = df.groupby(['Année', 'Genre'])['Valeur'].sum().reset_index()
-st.write("Nombre Absence pour maladie par année_Genre:")
-st.write(total_par_année_genre)
-#Figure  
-fig = px.bar(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    barmode='group',  # Barres groupées par genre
-    title="Graphe: Nombre Absence pour maladie par année_Genre",
-    labels={'Valeur':'Nombre Absence pour maladie'}
-)
-st.plotly_chart(fig)
-
-# Représentation de l'évolution du Nombre Absence pour maladie par Année_genre avec des lignes
-fig = px.line(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    markers=True,
-    title="Évolution du Nombre Absence pour maladie par année et genre",
-    labels={"Valeur": 'Nombre Absence pour maladie'},
-)
-st.plotly_chart(fig)
-
-
-#  Absence pour congé de maternité ou d'adoption
-# ici pas besoins du Genre 
-df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/absenteisme/abs_mat_adoption.csv", sep=";")
-st.header("8 : Nombre Absence pour congé de maternité ou d'adoption par Année")
-total_par_année = df.groupby(['Année'])['Valeur'].sum().reset_index()
-st.write("Nombre Absence pour congé de maternité ou d'adoption par année:")
-st.write(total_par_année)
-#Figure  
-fig = px.bar(data_frame = df, x="Année", y = "Valeur", title="Graphe: Nombre Absence pour congé de maternité ou d'adoption par année")
-st.plotly_chart(fig)
-
-# Représentation de l'évolution du Nombre Absence pour congé de maternité ou d'adoption par Année avec des lignes
-fig = px.line(
-    total_par_année,
-    x='Année',
-    y='Valeur',
-    markers=True,
-    title="Évolution du Nombre Absence pour congé de maternité ou d'adoption par année",
-    labels={"Valeur": "Nombre Absence pour congé de maternité ou d'adoption"},
-)
-st.plotly_chart(fig)
-
-
-
-#     Absence pour congé de paternité et d'accueil de l'enfant
-# ici pas besoins du Genre
-df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/absenteisme/abs_paternite.csv", sep=";")
-st.header("9 : Nombre Absence pour congé de paternité et d'accueil de l'enfant par Année")
-total_par_année = df.groupby(['Année'])['Valeur'].sum().reset_index()
-st.write("Nombre Absence pour congé de paternité et d'accueil de l'enfant par année:")
-st.write(total_par_année)
-#Figure  
-fig = px.bar(data_frame = df, x="Année", y = "Valeur", title="Graphe: Nombre Absence pour congé de paternité et d'accueil de l'enfant par année")
-st.plotly_chart(fig)
-
-# Représentation de l'évolution du Nombre Absence pour congé de paternité et d'accueil de l'enfant par Année avec des lignes
-fig = px.line(
-    total_par_année,
-    x='Année',
-    y='Valeur',
-    markers=True,
-    title="Évolution du Nombre Absence pour congé de paternité et d'accueil de l'enfant par année",
-    labels={"Valeur": "Nombre Absence pour congé de paternité et d'accueil de l'enfant"},
-)
-st.plotly_chart(fig)
+dossier_entreprise = "..\\data\\transformed\\EDF"
+col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social","Unité","Plage M3E"]
+selection, indicateur_, df, dimension_1, dimension_2 = selection_menu(dossier_entreprise,col_inutiles)
+affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2)
 
 
 
 
-# salariés ayant bénéficié d’un congé individuel de formation non rémunéré
-df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/formation/cif_non_remun.csv", sep=";")
-st.header("10 : Nombre de salariés ayant bénéficié d’un congé individuel de formation non rémunéré par Année et Genre")
-total_par_année_genre = df.groupby(['Année', 'Genre'])['Valeur'].sum().reset_index()
-st.write("Nombre de salariés ayant bénéficié d’un congé individuel de formation non rémunéré par année_Genre:")
-st.write(total_par_année_genre)
-#Figure  
-fig = px.bar(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    barmode='group',  # Barres groupées par genre
-    title="Graphe: Nombre de salariés ayant bénéficié d’un congé individuel de formation non rémunéré par année_Genre",
-    labels={'Valeur': 'Salariés ayant bénéficié_congé_formation non rémunéré', 'Année': 'année', 'Genre': 'genre'}
-)
-st.plotly_chart(fig)
 
-# Représentation de l'évolution du Nombre de Salariés ayant bénéficié_congé_formation non rémunéré par Année_genre avec des lignes
-fig = px.line(
-    total_par_année_genre,
-    x='Année',
-    y='Valeur',
-    color='Genre',
-    markers=True,
-    title="Évolution du Nombre de Salariés ayant bénéficié_congé_formation non rémunéré par année et genre",
-    labels={"Valeur": 'Salariés ayant bénéficié_congé_formation non rémunéré'},
-)
-st.plotly_chart(fig)
+
+
+
+
