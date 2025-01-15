@@ -44,7 +44,7 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                 # associating titles and tables
                 start_index = 1
                 current_title_name = titles[0][0]
-                for df, top in cleaned_tables:
+                for df, top, header_list in cleaned_tables:
                     for index_title, title in enumerate(titles[start_index:], start=start_index):
                         if title[1] - top >= x_tolerance:
                             break

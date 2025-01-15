@@ -364,7 +364,7 @@ def unpivot_df(df, header_list, current_year="2023", year_colname="Année", valu
     return df_unpivot
 
 
-def split_dataframe(df:pd.core.frame.DataFrame, indexes:list)->list:
+def split_dataframe(df:pd.core.frame.DataFrame, header_list:list)->list:
     """Split a dataframes with a list of indexes to split. Does not split when value of indexes are consecutives.
 
     Args:
@@ -374,19 +374,24 @@ def split_dataframe(df:pd.core.frame.DataFrame, indexes:list)->list:
     Returns:
         list: a list of dataframes
     """
-    df_list = []
+    indexes = [(i, top) for i, (header, top) in enumerate(header_list) if header]
+    splitted_df_list = []
     if indexes:
         previous_index = indexes[0][0]
         previous_top = indexes[0][1]
         for index_pos, (index, top) in enumerate(indexes[1:], start=1):
                 if index != indexes[index_pos-1][0] + 1:
-                        df_list.append( (df.iloc[previous_index:index].reset_index(drop=True), previous_top) )
+                        splitted_df_list.append( (df.iloc[previous_index:index].reset_index(drop=True),
+                                                  previous_top,
+                                                  header_list[previous_index:index]) )
                         previous_index = index
                         previous_top = top
-        df_list.append((df.iloc[previous_index:].reset_index(drop=True), top))
-        return df_list
+        splitted_df_list.append((df.iloc[previous_index:].reset_index(drop=True),
+                                 previous_top,
+                                 header_list[previous_index:index]))
+        return splitted_df_list
     else:
-        return [(df, 0)]
+        return [(df, 0, header_list)]
 
 
 def clean_df(df, header_list,
@@ -399,16 +404,16 @@ def clean_df(df, header_list,
     index_none_row = [i for i, (header, top) in enumerate(header_list) if header=='none']
     header_list = [(header, top) for header, top in header_list if header!='none']
     df = df.drop(index_none_row)
-    df_list = split_dataframe(df, [(i, top) for i, (header, top) in enumerate(header_list) if header])
+    splitted_df_list = split_dataframe(df, header_list)
 
     # Formatting
     final_df_list = []
     # for df, top, header_list in df_list:
-    for df, top in df_list:
+    for df, top, header_list in splitted_df_list:
         df = df.fillna("").astype(str)
         df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
         df = fill_headers(df, header_list, missing_label)
         df = fill_variable_names(df, header_list, missing_label)
         df = fill_variables(df, header_list)
-        final_df_list.append(df)
+        final_df_list.append((df, top, header_list))
     return final_df_list 
