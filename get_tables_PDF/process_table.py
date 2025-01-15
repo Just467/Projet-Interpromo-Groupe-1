@@ -365,6 +365,14 @@ def unpivot_df(df, header_list, current_year="2023", year_colname="Année", valu
     return df_unpivot
 
 
+def detect_bad_df(df, header_list):
+    if df.shape[0] < 2 or df.shape[1] < 2:
+        return True
+    if len([header_type for header_type, header_top in header_list if not header_type]) == 0:
+        return True
+    return False
+
+
 def split_dataframe(df:pd.core.frame.DataFrame, header_list:list)->list:
     """Split a dataframes with a list of indexes to split. Does not split when value of indexes are consecutives.
 
@@ -416,5 +424,7 @@ def clean_df(df, header_list,
         df = fill_headers(df, header_list, missing_label)
         df = fill_variable_names(df, header_list, missing_label)
         df = fill_variables(df, header_list)
-        final_df_list.append((df, top, header_list))
+        bad_df = detect_bad_df(df, header_list)
+        if not bad_df:
+            final_df_list.append((df, top, header_list))
     return final_df_list 
