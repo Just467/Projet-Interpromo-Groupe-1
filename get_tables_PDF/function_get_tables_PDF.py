@@ -1,13 +1,14 @@
 import pandas as pd
 import pdfplumber
 import sys
+import os
 sys.path.append('get_tables_PDF')
 from extract_tables_PDF_page import extract_tables_page, extract_titles_page, extract_rows, is_header_row
 from process_table import clean_df, unpivot_df
 
 def get_all_raw_tables_PDF(PDF_file_settings:dict,
                            final_tables:list=[], pages=[-1], x_tolerance:float=7.25,
-                           split=True)->dict:
+                           split=True, save=False, save_folder_path="")->dict:
     """Function that uses complete_extract_tables_PDF to extract all the tables of multiple PDF files.
 
     Args:
@@ -57,7 +58,24 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                                          'header_list': df_header_list})
     if split:
         for index, final_table in enumerate(final_tables):
-            print(final_table['table'])
-            print(final_table['header_list'])
             final_tables[index]['table'] = unpivot_df(final_table['table'], final_table['header_list'])
+    
+    if save:
+        for final_table in final_tables:
+            df = final_table['table']
+
+            # Crée le dossier
+            folder_name = os.path.join(save_folder_path, final_table['title'])
+            os.makedirs(folder_name, exist_ok=True)
+
+            # Génère un nom de fichier unique
+            file_name_base = final_table['title']
+            file_name = f"{file_name_base}.csv"
+            counter = 1
+            while os.path.exists(os.path.join(folder_name, file_name)):
+                counter += 1
+                file_name = f"{file_name_base}_{counter}.csv"
+
+            df.to_csv(os.path.join(folder_name, file_name), index=False)
+
     return final_tables
