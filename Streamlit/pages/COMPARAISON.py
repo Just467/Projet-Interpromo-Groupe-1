@@ -51,6 +51,15 @@ df_coll_sup = None
 entreprises = ["EDF", "ENGIE", "INSA", "DECATHLON","CNP"]
 selected_entreprises = []
 
+# Liste des indicateurs (n'affiché que si 2 entreprises ou plus sont sélectionnées)
+indicateurs = [
+        "Absences pour congés autorisés", "Absences pour maladie", "Absences pour congés maternité ou adoption",
+        "Absences pour congés paternité", "Salariés de plus de 50 ans", "Nombre d'instances judiciaires",
+        "Nombre de recours non juridictionnels", "Démissions", "Effectif", "Salariés de moins de 25 ans",
+        "Stagiaires scolaires", "Contrats d'apprentissage", "Contrats de professionnalisation", "Promotions"
+    ]
+
+
 
 
  #Multiselect pour choisir les entreprises
@@ -59,51 +68,143 @@ selected_entreprises = st.multiselect(
     options=entreprises,
     default=None  # Par défaut, aucune entreprise n'est sélectionnée
 )
-nom_fichier_to_intitule = {
-    "abs_conges_autorises": "Absences pour congés autorisés",
-    "abs_maladie": "Absences pour maladie",
-    "abs_mat_adoption": "Absences pour congés maternité ou adoption",
-    "abs_paternite": "Absences pour congés paternité",
-    "sal_services_continus_50plus": "Salariés de plus de 50 ans",
-    "nb_instances_judiciaires": "Nombre d'instances judiciaires",
-    "nb_recours_non_juridictionnels": "Nombre de recours non juridictionnels",
-    "demissions": "Démissions",
-    "effectif": "Effectif",
-    "embauches_moins25": "Salariés de moins de 25 ans",
-    "stagiaires_scolaires": "Stagiaires scolaires",
-    "contrats_apprentissage": "Contrats d'apprentissage",
-    "contrats_pro": "Contrats de professionnalisation",
-    "promo_college_sup": "Promotions",
-}
-base_path = "../data/transformed"
 
-def charger_csv(nom_entreprise):
-    chemin_entreprise = os.path.join(base_path, nom_entreprise)
-    entreprise_dataframes = {}
-    liste_indicateurs = []
-    if nom_entreprise == "EDF":
-        liste_cible = ["abs_conges_autorises.csv", "abs_maladie.csv", "abs_mat_adoption.csv", "abs_paternite.csv", "sal_services_continus_50plus.csv","nb_instances_judiciaires.csv", "nb_recours_non_juridictionnels.csv", "demissions.csv", "effectif.csv", "embauches_moins25.csv", "stagiaires_scolaires.csv", "contrats_apprentissage.csv", "contrats_pro.csv", "promo_college_sup.csv"]
-        
-    if os.path.exists(chemin_entreprise) :
-        for root, dirs, files in os.walk(chemin_entreprise):
-            for file in files:
-                if file.endswith(".csv"):
-                    file_name = os.path.splitext(file)[0]
-                    
-                    if file_name in nom_fichier_to_intitule:
-                        try:
-                            file_path = os.path.join(root, file)
-                            df= pd.read_csv(file_path, sep = ";")
-                            entreprise_dataframes[file_name] = df
-                            
-                            liste_indicateurs.append(nom_fichier_to_intitule[file_name])
-                        except Exception as e:
-                            st.error(f"Erreur lors du chargement de {file}: {e}")
-                  
-           
-    for indic in liste_indicateurs:
-        st.write(indic)
-for entreprise in selected_entreprises:
-    st.write(charger_csv(entreprise))
- 
- 
+# Affichage d'un message si moins de 2 entreprises sont sélectionnées
+if len(selected_entreprises) != 2:
+    st.warning("Veuillez sélectionner **exactement deux entreprises** pour choisir un indicateur.")
+else:
+    
+    # Affichage du selectbox pour les indicateurs
+    selection_indicateur = st.selectbox(
+        "Choisissez un indicateur :",
+        options=indicateurs
+    )
+
+
+# Affichage des résultats pour l'indicateur sélectionné (exemple)
+    st.write(f"Vous avez sélectionné l'indicateur : **{selection_indicateur}**")
+    st.write(f"Comparaison entre les entreprises : {', '.join(selected_entreprises)} en terme de : **{selection_indicateur}**")
+
+
+
+ # Logique spécifique pour l'indicateur "Absences pour congés paternité"
+    if selection_indicateur == "Absences pour congés paternité":
+        # Vérifiez les deux entreprises sélectionnées
+        entreprise_1, entreprise_2 = selected_entreprises[:2]
+
+        # Créez des colonnes pour afficher les graphiques côte à côte
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.subheader(f"Résultats pour {entreprise_1}")
+            if entreprise_1 == "EDF":
+                # Graphiques pour EDF
+                df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/absenteisme/abs_paternite.csv", sep=";")
+                st.header("Nombre Absence pour congé de paternité et d'accueil de l'enfant par Année")
+                total_par_année = df.groupby(['Année'])['Valeur'].sum().reset_index()
+
+                # Bar Chart
+                fig = px.bar(
+                    data_frame=df,
+                    x="Année",
+                    y="Valeur",
+                    title="Graphe: Nombre Absence pour congé de paternité et d'accueil de l'enfant par année"
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+                # Line Chart
+                fig = px.line(
+                    total_par_année,
+                    x='Année',
+                    y='Valeur',
+                    markers=True,
+                    title="Évolution du Nombre Absence pour congé de paternité et d'accueil de l'enfant par année",
+                    labels={"Valeur": "Nombre Absence pour congé de paternité et d'accueil de l'enfant"},
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+            elif entreprise_1 == "INSA":
+                # Graphiques pour INSA
+                df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/effectif/embauches_moins25.csv", sep=";")
+                st.header("Nombre Embauches de salariés de moins de 25 ans par Année et Genre")
+                total_par_année_genre = df.groupby(['Année', 'Genre'])['Valeur'].sum().reset_index()
+
+                # Bar Chart
+                fig = px.bar(
+                    total_par_année_genre,
+                    x='Année',
+                    y='Valeur',
+                    color='Genre',
+                    barmode='group',  # Barres groupées par genre
+                    title="Graphe: Nombre Embauches de salariés de moins de 25 ans par année et genre",
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+                # Line Chart
+                fig = px.line(
+                    total_par_année_genre,
+                    x='Année',
+                    y='Valeur',
+                    color='Genre',
+                    markers=True,
+                    title="Évolution du Nombre Embauches de salariés de moins de 25 ans par année et genre",
+                    labels={"Valeur": 'Nombre Embauches de salariés de moins de 25 ans'},
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+        with col2:
+            st.subheader(f"Résultats pour {entreprise_2}")
+            if entreprise_2 == "EDF":
+                # Graphiques pour EDF
+                df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/absenteisme/abs_paternite.csv", sep=";")
+                st.header("Nombre Absence pour congé de paternité et d'accueil de l'enfant par Année")
+                total_par_année = df.groupby(['Année'])['Valeur'].sum().reset_index()
+
+                # Bar Chart
+                fig = px.bar(
+                    data_frame=df,
+                    x="Année",
+                    y="Valeur",
+                    title="Graphe: Nombre Absence pour congé de paternité et d'accueil de l'enfant par année"
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+                # Line Chart
+                fig = px.line(
+                    total_par_année,
+                    x='Année',
+                    y='Valeur',
+                    markers=True,
+                    title="Évolution du Nombre Absence pour congé de paternité et d'accueil de l'enfant par année",
+                    labels={"Valeur": "Nombre Absence pour congé de paternité et d'accueil de l'enfant"},
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+            elif entreprise_2 == "INSA":
+                # Graphiques pour INSA
+                df = pd.read_csv("D:/Mon M1/EDF/Projet-Interpromo-Groupe-1/data/transformed/EDF/effectif/embauches_moins25.csv", sep=";")
+                st.header("Nombre Embauches de salariés de moins de 25 ans par Année et Genre")
+                total_par_année_genre = df.groupby(['Année', 'Genre'])['Valeur'].sum().reset_index()
+
+                # Bar Chart
+                fig = px.bar(
+                    total_par_année_genre,
+                    x='Année',
+                    y='Valeur',
+                    color='Genre',
+                    barmode='group',  # Barres groupées par genre
+                    title="Graphe: Nombre Embauches de salariés de moins de 25 ans par année et genre",
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+                # Line Chart
+                fig = px.line(
+                    total_par_année_genre,
+                    x='Année',
+                    y='Valeur',
+                    color='Genre',
+                    markers=True,
+                    title="Évolution du Nombre Embauches de salariés de moins de 25 ans par année et genre",
+                    labels={"Valeur": 'Nombre Embauches de salariés de moins de 25 ans'},
+                )
+                st.plotly_chart(fig, use_container_width=True)
