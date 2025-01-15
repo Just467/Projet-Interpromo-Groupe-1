@@ -31,6 +31,7 @@ def is_header_row(row, page_height:int=842,
     else:
         return('none', page_height-top)
 
+
 def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
                  settings={}):
     """

@@ -63,19 +63,20 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
     if save:
         for final_table in final_tables:
             df = final_table['table']
+            title = final_table['title'].replace(r'\n', ' ')
 
             # Crée le dossier
-            folder_name = os.path.join(save_folder_path, final_table['title'])
+            folder_name = os.path.join(save_folder_path, title)
             os.makedirs(folder_name, exist_ok=True)
 
             # Génère un nom de fichier unique
-            file_name_base = final_table['title']
+            file_name_base = title
             file_name = f"{file_name_base}.csv"
             counter = 1
             while os.path.exists(os.path.join(folder_name, file_name)):
                 counter += 1
                 file_name = f"{file_name_base}_{counter}.csv"
 
-            df.to_csv(os.path.join(folder_name, file_name), index=False)
+            df.to_csv(os.path.join(folder_name, file_name), index=False, sep=';')
 
     return final_tables

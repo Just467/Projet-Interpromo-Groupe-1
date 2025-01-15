@@ -21,14 +21,14 @@ bilan_sociaux_paths = {'CNP':{'path':r'data\bilans_sociaux\CNP-Assurances-Bilan-
 test1 = {'CNP':{'path':r'data\bilans_sociaux\CNP-Assurances-Bilan-social-2023.pdf',
                               'extract_settings': {},
                               'methods':['lines', 'explicit'],
-                              'pattern': r'I+\.\d+\.?\d* - '}}
+                              'pattern': r'[IV]+\.\d+\.?\d* - '}}
 
 test2 = {'ENGIE':{'path':r'data\bilans_sociaux\ENGIE SA_Bilan social 2021_VD.pdf',
                               'extract_settings': {},
                               'methods':['lines', 'lines'],
                               'pattern': r'\d{3}\. +'}}
 
-results = get_all_raw_tables_PDF(test1['CNP'], pages = [8], save=True, save_folder_path=r"data\transformed\CNP")
+results = get_all_raw_tables_PDF(test1['CNP'], pages = [57, 58, 59], save=True, save_folder_path=r"data\transformed\CNP")
 tables = []
 headers = []
 for result in results:
