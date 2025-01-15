@@ -61,7 +61,7 @@ def extract_rows(pdf_path, page, page_number, user_settings):
                     flavor="stream",
                     pages=f"{page_number + 1}",
                     table_areas=[str_row_corners],
-                    flag_size=True
+                    row_tol=1000
                 )
                 rows.append(camelot_row[0].cells[0])
 
