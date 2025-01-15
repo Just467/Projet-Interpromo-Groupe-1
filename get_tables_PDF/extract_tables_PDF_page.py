@@ -6,7 +6,7 @@ import regex as re
 
 extract_tables_PDF_methods = ['lines', 'lines_strict', 'explicit']
 
-def is_header_row(row,
+def is_header_row(row, page_height:int=842,
                   numeric_pattern:str=r'^[\d.,\s€$£¥]*(?: *ans)?$', year_pattern:str=r'^20[0-2]\d$'):
     """_summary_
 
@@ -20,12 +20,16 @@ def is_header_row(row,
     """
     top = 0
     for cell in row:
-        if cell is not None or cell.text is not None:
-            top = cell.y1
-            cell_text = cell.text.strip()
-            if cell_text != '' and re.match(numeric_pattern, cell_text) and not re.match(year_pattern, cell_text):
-                return False, top
-    return (True, top)
+        if cell is not None:
+            if cell.text is not None:
+                top = cell.y1
+                cell_text = cell.text.strip()
+                if cell_text != '' and re.match(numeric_pattern, cell_text) and not re.match(year_pattern, cell_text):
+                    return False, page_height-top
+    if top != 0:
+        return ('header', page_height-top)
+    else:
+        return('none', page_height-top)
 
 def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
                  settings={}):
@@ -81,18 +85,17 @@ def extract_rows(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
                     table_areas=[str_row_corners],
                     row_tol=1000
                 )
-                #camelot.plot(camelot_row[0], kind='grid').show()
                 rows.append(camelot_row[0].cells[0])
 
             except ValueError as e:
                 if not added_none:
-                    rows.append(None)
+                    rows.append([None])
                     added_none = True
                 print(f"Skipping row due to error: {e}")
 
             except Exception as e:
                 if not added_none:
-                    rows.append(None)
+                    rows.append([None])
                     added_none = True
                 print(f"Unexpected error: {e}")
         tables_rows.append(rows)

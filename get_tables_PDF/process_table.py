@@ -521,8 +521,8 @@ def split_dataframe(df:pd.core.frame.DataFrame, indexes:list)->list:
         previous_index = indexes[0][0]
         for index_pos, (index, top) in enumerate(indexes[1:], start=1):
                 if index != indexes[index_pos-1][0] + 1:
-                        df_list.append( (df.iloc[previous_index:index+1], top) )
-                        previous_index = index+1
+                        df_list.append( (df.iloc[previous_index:index], top) )
+                        previous_index = index
         df_list.append((df.iloc[index:], top))
         return df_list
     else:
@@ -538,7 +538,8 @@ def clean_df(df, header_list,
     df = format_df(df)
     df = fill_headers(df, missing_label)
     df = fill_variables(df)
-    #df = remove_totals(df)
-    #print([(i, top) for i, (header, top) in enumerate(header_list) if header])
+    index_none_row = [i for i, (header, top) in enumerate(header_list) if header=='none']
+    header_list = [(header, top) for header, top in header_list if header!='none']
+    df = df.drop(index_none_row)
     df_list = split_dataframe(df, [(i, top) for i, (header, top) in enumerate(header_list) if header])
     return df_list 

@@ -41,6 +41,7 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                 cleaned_tables = []
                 for table, sub_header_list in zip(extracted_tables, header_list):
                     cleaned_tables = cleaned_tables + clean_df(pd.DataFrame(table), sub_header_list)
+                print(cleaned_tables)
                 # associating titles and tables
                 start_index = 1
                 current_title_name = titles[0][0]
