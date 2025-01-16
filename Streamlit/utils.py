@@ -90,45 +90,6 @@ def selection_menu (selection, resultats, liste_indicateurs):
                         dimension.remove("Indicateur")
                         dimension.remove("Unité")
 
-<<<<<<< HEAD
-        #----selection d'indicateurs--------
-        if selection:  
-            st.sidebar.subheader("Indicateur")
-            indicateur_ = st.sidebar.selectbox(
-                    "Veuillez choisir un indicateur :",
-                    liste_indicateurs,
-                    index=None,
-                    placeholder="Sélectionnez un indicateur...",
-                )
-            # récupération données liées à l'indicateur choisi 
-            for dossier, contenu in resultats.items(): 
-                for indicateur in contenu['indicateurs']: 
-                    if indicateur == indicateur_:
-                        entreprise_data=contenu['entreprise_data']
-            df = entreprise_data[entreprise_data["Indicateur"] == indicateur_]
-            dimension = df.select_dtypes(include=["object", "category"]).columns.tolist()
-            dimension.remove("Indicateur")
-            
-            #Eliminer les colonnes qui n'ont pas de valeur pour unindicateur
-            for element in dimension:
-                if df[element].isnull().all():
-                    dimension.remove(element)
-
-
-            #----selection axes d'analyse--------
-            if indicateur_:
-                st.sidebar.subheader("Axes d'analyse")
-                dimension_1 = st.sidebar.selectbox("Veuillez choisir le 1er axe d'analyse :",dimension, index=None, placeholder="Sélectionnez un axe d'analyse...") 
-                if dimension_1:
-                    reste = [d for d in dimension if d != dimension_1]
-                    dimension_2 = st.sidebar.selectbox("Veuillez choisir le 2eme axe d'analyse :",reste, index=None, placeholder="Sélectionnez un axe d'analyse...")
-                    return (selection,indicateur_,df,dimension_1,dimension_2)
-                else: 
-                    st.write("Veuillez sélectionner au moins un axe d'analyse.")
-                    return (selection,indicateur_,df,None,None)
-            else:
-                return (selection,None,df,None,None)
-=======
         #----selection axes d'analyse--------
         if indicateur_:
             st.sidebar.subheader("Axes d'analyse")
@@ -143,7 +104,6 @@ def selection_menu (selection, resultats, liste_indicateurs):
             st.write("Veuillez saisir un indicateur.")
             return (selection,None,[],None,None)
         
->>>>>>> 10ea3b7073a2fa4b0cc5948a9ef3f716e7334a36
             
 def titre (variable):
     """Fonction qui prend en paramètre la variable du titre
@@ -168,28 +128,12 @@ def mise_en_forme_graph (nom_fig, key_fig, indicateur_, df):
                     ),
                     use_container_width=True
                 )
-<<<<<<< HEAD
-    titre(f"Evolution des {indicateur_} des employés par année")
-=======
     titre(indicateur_)
->>>>>>> 10ea3b7073a2fa4b0cc5948a9ef3f716e7334a36
 
 def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
     """Fonction qui prends en paramètres la ou les thématiques, l'indicateur choisi, les données en lien et les axes d'analyse choisis
     et qui retourne l'affichage de l'ensembles des graphiques."""
 
-<<<<<<< HEAD
-    #----------------Graph univarié-----------------------------
-    if selection and indicateur_ and dimension_1 and not dimension_2:
-        df_grouped = df.groupby(["Année",dimension_1], as_index=False).sum()
-
-        fig_ligne=px.line(df_grouped, x="Année",
-                        y="Valeur",
-                        color=dimension_1,
-                        labels={dimension_1, "Valeur: "+indicateur_},
-                        markers=True,
-                        # title="Evolution des "+ indicateur_+ "des employés par année",
-=======
     #----------------Graph simple évol au cours du temps---------
     if selection and indicateur_ and not dimension_1:
         df_grouped = df.groupby(["Année"], as_index=False).sum()
@@ -219,7 +163,6 @@ def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
                         color=dimension_1,
                         labels={dimension_1, "Valeur: "+indicateur_},
                         markers=True,
->>>>>>> 10ea3b7073a2fa4b0cc5948a9ef3f716e7334a36
                         color_discrete_sequence=px.colors.qualitative.D3
                         )
         fig_bar=px.bar(df_grouped, x="Année",
@@ -227,32 +170,18 @@ def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
                 color=dimension_1,
                 barmode="group",
                 labels={dimension_1, "Valeur: "+indicateur_},
-<<<<<<< HEAD
-                #title="Evolution des "+ indicateur_+ "des employés par année",
-=======
->>>>>>> 10ea3b7073a2fa4b0cc5948a9ef3f716e7334a36
                 color_discrete_sequence=px.colors.qualitative.D3 )
 
         a,b=st.columns(2)
         with a:
-<<<<<<< HEAD
-            mise_en_forme_graph (fig_bar, "graph_containera", indicateur_)
-        with b:
-            mise_en_forme_graph (fig_ligne, "graph_containerb", indicateur_)
-=======
             mise_en_forme_graph (fig_bar, "graph_containera", indicateur_, df)
         with b:
             mise_en_forme_graph (fig_ligne, "graph_containerb", indicateur_, df)
->>>>>>> 10ea3b7073a2fa4b0cc5948a9ef3f716e7334a36
     elif selection and indicateur_ and dimension_1:
     #----------------Graph multiple----------------------------
 
         df_grouped = df.groupby(["Année",dimension_1,dimension_2], as_index=False).sum()
         fig_secteur = px.sunburst(df_grouped, path=["Année",dimension_1,dimension_2], values="Valeur")
-<<<<<<< HEAD
-                        # title=indicateur_+ " des employés par année"
-=======
->>>>>>> 10ea3b7073a2fa4b0cc5948a9ef3f716e7334a36
         fig_multi_lignes = px.line(df_grouped, x="Année", y="Valeur", 
                                     color=dimension_1, line_dash=dimension_2,
                                     markers=True)
@@ -261,17 +190,9 @@ def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
 
         # Colonne 1 : Secteur 
         with col1:
-<<<<<<< HEAD
-            mise_en_forme_graph (fig_secteur, "graph_container1", indicateur_)
-
-        # Colonne 2 : Multi-lignes
-        with col2:
-            mise_en_forme_graph (fig_multi_lignes, "graph_container2", indicateur_)
-=======
             mise_en_forme_graph (fig_secteur, "graph_container1", indicateur_, df)
 
         # Colonne 2 : Multi-lignes
         with col2:
             mise_en_forme_graph (fig_multi_lignes, "graph_container2", indicateur_, df)
     
->>>>>>> 10ea3b7073a2fa4b0cc5948a9ef3f716e7334a36
