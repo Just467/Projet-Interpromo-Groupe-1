@@ -1,31 +1,31 @@
-Grade académique;Année;Type promotion;Valeur;Unité;Indicateur
-PR Classe exceptionnelle échelon 2;2018;CNU;0;nombre;Nombre de promotions
-PR Classe exceptionnelle échelon 1;2018;CNU;0;nombre;Nombre de promotions
+Grade acadÃ©mique;AnnÃ©e;Type promotion;Valeur;UnitÃ©;Indicateur
+PR Classe exceptionnelle Ã©chelon 2;2018;CNU;0;nombre;Nombre de promotions
+PR Classe exceptionnelle Ã©chelon 1;2018;CNU;0;nombre;Nombre de promotions
 PR 1er classe;2018;CNU;2;nombre;Nombre de promotions
-MCF échelon exceptionnel;2018;CNU;0;nombre;Nombre de promotions
+MCF Ã©chelon exceptionnel;2018;CNU;0;nombre;Nombre de promotions
 MCF hors classe;2018;CNU;1;nombre;Nombre de promotions
-PR Classe exceptionnelle échelon 2;2018;Établissement;0;nombre;Nombre de promotions
-PR Classe exceptionnelle échelon 1;2018;Établissement;0;nombre;Nombre de promotions
-PR 1er classe;2018;Établissement;0;nombre;Nombre de promotions
-MCF échelon exceptionnel;2018;Établissement;1;nombre;Nombre de promotions
-MCF hors classe;2018;Établissement;1;nombre;Nombre de promotions
-PR Classe exceptionnelle échelon 2;2019;CNU;0;nombre;Nombre de promotions
-PR Classe exceptionnelle échelon 1;2019;CNU;1;nombre;Nombre de promotions
+PR Classe exceptionnelle Ã©chelon 2;2018;Ã©tablissement;0;nombre;Nombre de promotions
+PR Classe exceptionnelle Ã©chelon 1;2018;Ã©tablissement;0;nombre;Nombre de promotions
+PR 1er classe;2018;Ã©tablissement;0;nombre;Nombre de promotions
+MCF Ã©chelon exceptionnel;2018;Ã©tablissement;1;nombre;Nombre de promotions
+MCF hors classe;2018;Ã©tablissement;1;nombre;Nombre de promotions
+PR Classe exceptionnelle Ã©chelon 2;2019;CNU;0;nombre;Nombre de promotions
+PR Classe exceptionnelle Ã©chelon 1;2019;CNU;1;nombre;Nombre de promotions
 PR 1er classe;2019;CNU;2;nombre;Nombre de promotions
-MCF échelon exceptionnel;2019;CNU;3;nombre;Nombre de promotions
+MCF Ã©chelon exceptionnel;2019;CNU;3;nombre;Nombre de promotions
 MCF hors classe;2019;CNU;1;nombre;Nombre de promotions
-PR Classe exceptionnelle échelon 2;2019;Établissement;0;nombre;Nombre de promotions
-PR Classe exceptionnelle échelon 1;2019;Établissement;0;nombre;Nombre de promotions
-PR 1er classe;2019;Établissement;0;nombre;Nombre de promotions
-MCF échelon exceptionnel;2019;Établissement;0;nombre;Nombre de promotions
-MCF hors classe;2019;Établissement;0;nombre;Nombre de promotions
-PR Classe exceptionnelle échelon 2;2020;CNU;0;nombre;Nombre de promotions
-PR Classe exceptionnelle échelon 1;2020;CNU;0;nombre;Nombre de promotions
+PR Classe exceptionnelle Ã©chelon 2;2019;Ã©tablissement;0;nombre;Nombre de promotions
+PR Classe exceptionnelle Ã©chelon 1;2019;Ã©tablissement;0;nombre;Nombre de promotions
+PR 1er classe;2019;Ã©tablissement;0;nombre;Nombre de promotions
+MCF Ã©chelon exceptionnel;2019;Ã©tablissement;0;nombre;Nombre de promotions
+MCF hors classe;2019;Ã©tablissement;0;nombre;Nombre de promotions
+PR Classe exceptionnelle Ã©chelon 2;2020;CNU;0;nombre;Nombre de promotions
+PR Classe exceptionnelle Ã©chelon 1;2020;CNU;0;nombre;Nombre de promotions
 PR 1er classe;2020;CNU;0;nombre;Nombre de promotions
-MCF échelon exceptionnel;2020;CNU;0;nombre;Nombre de promotions
+MCF Ã©chelon exceptionnel;2020;CNU;0;nombre;Nombre de promotions
 MCF hors classe;2020;CNU;1;nombre;Nombre de promotions
-PR Classe exceptionnelle échelon 2;2020;Établissement;0;nombre;Nombre de promotions
-PR Classe exceptionnelle échelon 1;2020;Établissement;0;nombre;Nombre de promotions
-PR 1er classe;2020;Établissement;0;nombre;Nombre de promotions
-MCF échelon exceptionnel;2020;Établissement;1;nombre;Nombre de promotions
-MCF hors classe;2020;Établissement;1;nombre;Nombre de promotions
+PR Classe exceptionnelle Ã©chelon 2;2020;Ã©tablissement;0;nombre;Nombre de promotions
+PR Classe exceptionnelle Ã©chelon 1;2020;Ã©tablissement;0;nombre;Nombre de promotions
+PR 1er classe;2020;Ã©tablissement;0;nombre;Nombre de promotions
+MCF Ã©chelon exceptionnel;2020;Ã©tablissement;1;nombre;Nombre de promotions
+MCF hors classe;2020;Ã©tablissement;1;nombre;Nombre de promotions
