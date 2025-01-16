@@ -1,19 +1,19 @@
 Type salaire;Année;Cadres / Non Cadres;Valeur;Unité;Indicateur
-Salaire net;2021;Cadres;62127;€;Rémunération moyenne
-Salaire moyen brut;2021;Cadres;75071;€;Rémunération moyenne
-Salaire moyen chargé;2021;Cadres;129709;€;Rémunération moyenne
-Salaire net;2021;Non cadres;33368;€;Rémunération moyenne
-Salaire moyen brut;2021;Non cadres;39875;€;Rémunération moyenne
-Salaire moyen chargé;2021;Non cadres;67911;€;Rémunération moyenne
-Salaire net;2022;Cadres;63570;€;Rémunération moyenne
-Salaire moyen brut;2022;Cadres;77273;€;Rémunération moyenne
-Salaire moyen chargé;2022;Cadres;134887;€;Rémunération moyenne
-Salaire net;2022;Non cadres;33674;€;Rémunération moyenne
-Salaire moyen brut;2022;Non cadres;41250;€;Rémunération moyenne
-Salaire moyen chargé;2022;Non cadres;70372;€;Rémunération moyenne
-Salaire net;2023;Cadres;65227;€;Rémunération moyenne
-Salaire moyen brut;2023;Cadres;79254;€;Rémunération moyenne
-Salaire moyen chargé;2023;Cadres;138571;€;Rémunération moyenne
-Salaire net;2023;Non cadres;36181;€;Rémunération moyenne
-Salaire moyen brut;2023;Non cadres;43239;€;Rémunération moyenne
-Salaire moyen chargé;2023;Non cadres;74489;€;Rémunération moyenne
+Salaire net;2021;Cadres;62127;;Rémunération moyenne
+Salaire moyen brut;2021;Cadres;75071;;Rémunération moyenne
+Salaire moyen chargé;2021;Cadres;129709;;Rémunération moyenne
+Salaire net;2021;Non cadres;33368;;Rémunération moyenne
+Salaire moyen brut;2021;Non cadres;39875;;Rémunération moyenne
+Salaire moyen chargé;2021;Non cadres;67911;;Rémunération moyenne
+Salaire net;2022;Cadres;63570;;Rémunération moyenne
+Salaire moyen brut;2022;Cadres;77273;;Rémunération moyenne
+Salaire moyen chargé;2022;Cadres;134887;;Rémunération moyenne
+Salaire net;2022;Non cadres;33674;;Rémunération moyenne
+Salaire moyen brut;2022;Non cadres;41250;;Rémunération moyenne
+Salaire moyen chargé;2022;Non cadres;70372;;Rémunération moyenne
+Salaire net;2023;Cadres;65227;;Rémunération moyenne
+Salaire moyen brut;2023;Cadres;79254;;Rémunération moyenne
+Salaire moyen chargé;2023;Cadres;138571;;Rémunération moyenne
+Salaire net;2023;Non cadres;36181;;Rémunération moyenne
+Salaire moyen brut;2023;Non cadres;43239;;Rémunération moyenne
+Salaire moyen chargé;2023;Non cadres;74489;;Rémunération moyenne
