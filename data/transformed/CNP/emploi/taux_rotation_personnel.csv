@@ -1,31 +1,31 @@
-Genre;Cadres/Non Cadres;Global;Année;CCNIA / hors CCNIA;Valeur;Unité
-Hommes;;;2021;CCNIA;4.3;%
-Femmes;;;2021;CCNIA;5.2;%
-Hommes;;;2021;hors CCNIA;4.1;%
-Femmes;;;2021;hors CCNIA;5.2;%
-Hommes;;;2022;CCNIA;5.5;%
-Femmes;;;2022;CCNIA;5.2;%
-Hommes;;;2022;hors CCNIA;5.2;%
-Femmes;;;2022;hors CCNIA;5.1;%
-Hommes;;;2023;CCNIA;5.7;%
-Femmes;;;2023;CCNIA;4.3;%
-Hommes;;;2023;hors CCNIA;5.6;%
-Femmes;;;2023;hors CCNIA;3.9;%
-;Cadres;;2021;CCNIA;4.7;%
-;Non Cadres;;2021;CCNIA;5.2;%
-;Cadres;;2021;hors CCNIA;4.5;%
-;Non Cadres;;2021;hors CCNIA;5.2;%
-;Cadres;;2022;CCNIA;5.3;%
-;Non Cadres;;2022;CCNIA;5.4;%
-;Cadres;;2022;hors CCNIA;5.0;%
-;Non Cadres;;2022;hors CCNIA;5.4;%
-;Cadres;;2023;CCNIA;5.2;%
-;Non Cadres;;2023;CCNIA;4.0;%
-;Cadres;;2023;hors CCNIA;4.9;%
-;Non Cadres;;2023;hors CCNIA;4.0;%
-;;Taux global;2021;CCNIA;4.8;%
-;;Taux global;2021;hors CCNIA;4.7;%
-;;Taux global;2022;CCNIA;5.3;%
-;;Taux global;2022;hors CCNIA;5.1;%
-;;Taux global;2023;CCNIA;4.9;%
-;;Taux global;2023;hors CCNIA;4.7;%
+Genre;Cadres / Non Cadres;Global;Annï¿½e;CCNIA / hors CCNIA;Valeur;Unitï¿½;Indicateur
+Hommes;;;2021;CCNIA;4.3;%;Taux de rotation du personnel
+Femmes;;;2021;CCNIA;5.2;%;Taux de rotation du personnel
+Hommes;;;2021;hors CCNIA;4.1;%;Taux de rotation du personnel
+Femmes;;;2021;hors CCNIA;5.2;%;Taux de rotation du personnel
+Hommes;;;2022;CCNIA;5.5;%;Taux de rotation du personnel
+Femmes;;;2022;CCNIA;5.2;%;Taux de rotation du personnel
+Hommes;;;2022;hors CCNIA;5.2;%;Taux de rotation du personnel
+Femmes;;;2022;hors CCNIA;5.1;%;Taux de rotation du personnel
+Hommes;;;2023;CCNIA;5.7;%;Taux de rotation du personnel
+Femmes;;;2023;CCNIA;4.3;%;Taux de rotation du personnel
+Hommes;;;2023;hors CCNIA;5.6;%;Taux de rotation du personnel
+Femmes;;;2023;hors CCNIA;3.9;%;Taux de rotation du personnel
+;Cadres;;2021;CCNIA;4.7;%;Taux de rotation du personnel
+;Non Cadres;;2021;CCNIA;5.2;%;Taux de rotation du personnel
+;Cadres;;2021;hors CCNIA;4.5;%;Taux de rotation du personnel
+;Non Cadres;;2021;hors CCNIA;5.2;%;Taux de rotation du personnel
+;Cadres;;2022;CCNIA;5.3;%;Taux de rotation du personnel
+;Non Cadres;;2022;CCNIA;5.4;%;Taux de rotation du personnel
+;Cadres;;2022;hors CCNIA;5.0;%;Taux de rotation du personnel
+;Non Cadres;;2022;hors CCNIA;5.4;%;Taux de rotation du personnel
+;Cadres;;2023;CCNIA;5.2;%;Taux de rotation du personnel
+;Non Cadres;;2023;CCNIA;4.0;%;Taux de rotation du personnel
+;Cadres;;2023;hors CCNIA;4.9;%;Taux de rotation du personnel
+;Non Cadres;;2023;hors CCNIA;4.0;%;Taux de rotation du personnel
+;;Taux global;2021;CCNIA;4.8;%;Taux de rotation du personnel
+;;Taux global;2021;hors CCNIA;4.7;%;Taux de rotation du personnel
+;;Taux global;2022;CCNIA;5.3;%;Taux de rotation du personnel
+;;Taux global;2022;hors CCNIA;5.1;%;Taux de rotation du personnel
+;;Taux global;2023;CCNIA;4.9;%;Taux de rotation du personnel
+;;Taux global;2023;hors CCNIA;4.7;%;Taux de rotation du personnel
