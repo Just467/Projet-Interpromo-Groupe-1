@@ -50,16 +50,11 @@ def importation_data (dossier_entreprise, col_inutiles):
                 chemin = os.path.join(file_path,e)
                 # Détecter l'encodage du fichier
                 with open(chemin, "rb") as f:
-                    rawdata = f.read()
-                    result = chardet.detect(rawdata)
-                    encoding_detected = result['encoding']
-                    st.write(encoding_detected)
-
-                #Importer le fichier
-                    df = pd.read_csv(chemin, sep=';', encoding=encoding_detected)
-                    st.write(df)
+                    result = chardet.detect(f.read())
+                    encoding_detect = result["encoding"]
+                    df = pd.read_csv(chemin, sep=';', encoding=encoding_detect)
                     data.append(df)
-            df_concatene = pd.concat(data, ignore_index=True)
+                    df_concatene = pd.concat(data, ignore_index=True)
             # suppression colonnes inutiles 
             for colonne in col_inutiles:
                 if colonne in df_concatene.columns:
