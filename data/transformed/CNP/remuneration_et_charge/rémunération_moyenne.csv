@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Type salaire;Ann�e;Cadres / Non Cadres;Valeur;Unit�;Indicateur
 Salaire net;2021;Cadres;62127;;R�mun�ration moyenne
 Salaire moyen brut;2021;Cadres;75071;;R�mun�ration moyenne
@@ -17,3 +18,24 @@ Salaire moyen charg�;2023;Cadres;138571;;R�mun�ration moyenne
 Salaire net;2023;Non cadres;36181;;R�mun�ration moyenne
 Salaire moyen brut;2023;Non cadres;43239;;R�mun�ration moyenne
 Salaire moyen charg�;2023;Non cadres;74489;;R�mun�ration moyenne
+=======
+Type salaire;Année;Cadres / Non Cadres;Valeur;Unité;Indicateur
+Salaire net;2021;Cadres;62127;é;Rémunération moyenne
+Salaire moyen brut;2021;Cadres;75071;é;Rémunération moyenne
+Salaire moyen chargé;2021;Cadres;129709;é;Rémunération moyenne
+Salaire net;2021;Non cadres;33368;é;Rémunération moyenne
+Salaire moyen brut;2021;Non cadres;39875;é;Rémunération moyenne
+Salaire moyen chargé;2021;Non cadres;67911;é;Rémunération moyenne
+Salaire net;2022;Cadres;63570;é;Rémunération moyenne
+Salaire moyen brut;2022;Cadres;77273;é;Rémunération moyenne
+Salaire moyen chargé;2022;Cadres;134887;é;Rémunération moyenne
+Salaire net;2022;Non cadres;33674;é;Rémunération moyenne
+Salaire moyen brut;2022;Non cadres;41250;é;Rémunération moyenne
+Salaire moyen chargé;2022;Non cadres;70372;é;Rémunération moyenne
+Salaire net;2023;Cadres;65227;é;Rémunération moyenne
+Salaire moyen brut;2023;Cadres;79254;é;Rémunération moyenne
+Salaire moyen chargé;2023;Cadres;138571;é;Rémunération moyenne
+Salaire net;2023;Non cadres;36181;é;Rémunération moyenne
+Salaire moyen brut;2023;Non cadres;43239;é;Rémunération moyenne
+Salaire moyen chargé;2023;Non cadres;74489;é;Rémunération moyenne
+>>>>>>> 3c809e0f0dd0d4fb45dec4345b2fc5d4b99e726f

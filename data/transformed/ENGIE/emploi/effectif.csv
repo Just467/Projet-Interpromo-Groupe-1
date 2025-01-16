@@ -1,0 +1,22 @@
+<<<<<<< HEAD
+=======
+Année;Genre;Collège;Valeur;Unité;Indicateur
+2021;Homme;Cadre;1320;nombre;Effectif
+2021;Femme;Cadre;1200;nombre;Effectif
+2020;Homme;Cadre;1345;nombre;Effectif
+2020;Femme;Cadre;1181;nombre;Effectif
+2019;Homme;Cadre;1311;nombre;Effectif
+2019;Femme;Cadre;1123;nombre;Effectif
+2022;Homme;Maitrise;414;nombre;Effectif
+2022;Femme;Maitrise;984;nombre;Effectif
+2021;Homme;Maitrise;447;nombre;Effectif
+2021;Femme;Maitrise;1038;nombre;Effectif
+2020;Homme;Maitrise;451;nombre;Effectif
+2020;Femme;Maitrise;1018;nombre;Effectif
+2023;Homme;Execution;28;nombre;Effectif
+2023;Femme;Execution;77;nombre;Effectif
+2022;Homme;Execution;29;nombre;Effectif
+2022;Femme;Execution;91;nombre;Effectif
+2021;Homme;Execution;34;nombre;Effectif
+2021;Femme;Execution;108;nombre;Effectif
+>>>>>>> 3c809e0f0dd0d4fb45dec4345b2fc5d4b99e726f

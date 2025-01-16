@@ -1,13 +1,13 @@
-Type fonctionnaire;Quotité;Genre;Valeur;Unité;Indicateur;Année
-Enseignement et recherche;Temps partiel;Femme;0;nombre;Nombre de fonctionnaire par quotité;2020
-ATSS;Temps partiel;Femme;1;nombre;Nombre de fonctionnaire par quotité;2020
-ITRF;Temps partiel;Femme;6;nombre;Nombre de fonctionnaire par quotité;2020
-Enseignement et recherche;Temps partiel;Homme;0;nombre;Nombre de fonctionnaire par quotité;2020
-ATSS;Temps partiel;Homme;0;nombre;Nombre de fonctionnaire par quotité;2020
-ITRF;Temps partiel;Homme;3;nombre;Nombre de fonctionnaire par quotité;2020
-Enseignement et recherche;Temps plein;Femme;20;nombre;Nombre de fonctionnaire par quotité;2020
-ATSS;Temps plein;Femme;12;nombre;Nombre de fonctionnaire par quotité;2020
-ITRF;Temps plein;Femme;18;nombre;Nombre de fonctionnaire par quotité;2020
-Enseignement et recherche;Temps plein;Homme;77;nombre;Nombre de fonctionnaire par quotité;2020
-ATSS;Temps plein;Homme;4;nombre;Nombre de fonctionnaire par quotité;2020
-ITRF;Temps plein;Homme;28;nombre;Nombre de fonctionnaire par quotité;2020
+Type fonctionnaire;QuotitÃ©;Genre;Valeur;UnitÃ©;Indicateur;AnnÃ©e
+Enseignement et recherche;Temps partiel;Femme;0;nombre;Nombre de fonctionnaire par quotitÃ©;2020
+ATSS;Temps partiel;Femme;1;nombre;Nombre de fonctionnaire par quotitÃ©;2020
+ITRF;Temps partiel;Femme;6;nombre;Nombre de fonctionnaire par quotitÃ©;2020
+Enseignement et recherche;Temps partiel;Homme;0;nombre;Nombre de fonctionnaire par quotitÃ©;2020
+ATSS;Temps partiel;Homme;0;nombre;Nombre de fonctionnaire par quotitÃ©;2020
+ITRF;Temps partiel;Homme;3;nombre;Nombre de fonctionnaire par quotitÃ©;2020
+Enseignement et recherche;Temps plein;Femme;20;nombre;Nombre de fonctionnaire par quotitÃ©;2020
+ATSS;Temps plein;Femme;12;nombre;Nombre de fonctionnaire par quotitÃ©;2020
+ITRF;Temps plein;Femme;18;nombre;Nombre de fonctionnaire par quotitÃ©;2020
+Enseignement et recherche;Temps plein;Homme;77;nombre;Nombre de fonctionnaire par quotitÃ©;2020
+ATSS;Temps plein;Homme;4;nombre;Nombre de fonctionnaire par quotitÃ©;2020
+ITRF;Temps plein;Homme;28;nombre;Nombre de fonctionnaire par quotitÃ©;2020

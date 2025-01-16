@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 Ann�e;Valeur;Unit�;Indicateur
 2018;17845651;;Masse salariale
 2019;17995221;;Masse salariale
 2020;18040838;;Masse salariale
+=======
+Année;Valeur;Unité;Indicateur
+2018;17845651;€;Masse salariale
+2019;17995221;€;Masse salariale
+2020;18040838;€;Masse salariale
+>>>>>>> 3c809e0f0dd0d4fb45dec4345b2fc5d4b99e726f

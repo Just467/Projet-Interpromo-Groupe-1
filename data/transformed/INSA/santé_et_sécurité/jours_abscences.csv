@@ -1,16 +1,16 @@
-Type congés;Année;Valeur;Unité;Indicateur
-Congé de longue durée;2018;305;jours;Nombre de jours d'absence
-Congé de longue maladie;2018;127;jours;Nombre de jours d'absence
-Congé ordinaire;2018;1895;jours;Nombre de jours d'absence
+Type congÃ©s;AnnÃ©e;Valeur;UnitÃ©;Indicateur
+CongÃ© de longue durÃ©e;2018;305;jours;Nombre de jours d'absence
+CongÃ© de longue maladie;2018;127;jours;Nombre de jours d'absence
+CongÃ© ordinaire;2018;1895;jours;Nombre de jours d'absence
 Maladie professionnelle;2018;0;jours;Nombre de jours d'absence
-Temps partiel thérapeutique;2018;9;jours;Nombre de jours d'absence
-Congé de longue durée;2019;0;jours;Nombre de jours d'absence
-Congé de longue maladie;2019;616;jours;Nombre de jours d'absence
-Congé ordinaire;2019;2137;jours;Nombre de jours d'absence
+Temps partiel thÃ©rapeutique;2018;9;jours;Nombre de jours d'absence
+CongÃ© de longue durÃ©e;2019;0;jours;Nombre de jours d'absence
+CongÃ© de longue maladie;2019;616;jours;Nombre de jours d'absence
+CongÃ© ordinaire;2019;2137;jours;Nombre de jours d'absence
 Maladie professionnelle;2019;20;jours;Nombre de jours d'absence
-Temps partiel thérapeutique;2019;36;jours;Nombre de jours d'absence
-Congé de longue durée;2020;0;jours;Nombre de jours d'absence
-Congé de longue maladie;2020;366;jours;Nombre de jours d'absence
-Congé ordinaire;2020;1189;jours;Nombre de jours d'absence
+Temps partiel thÃ©rapeutique;2019;36;jours;Nombre de jours d'absence
+CongÃ© de longue durÃ©e;2020;0;jours;Nombre de jours d'absence
+CongÃ© de longue maladie;2020;366;jours;Nombre de jours d'absence
+CongÃ© ordinaire;2020;1189;jours;Nombre de jours d'absence
 Maladie professionnelle;2020;21;jours;Nombre de jours d'absence
-Temps partiel thérapeutique;2020;55.5;jours;Nombre de jours d'absence
+Temps partiel thÃ©rapeutique;2020;55.5;jours;Nombre de jours d'absence
