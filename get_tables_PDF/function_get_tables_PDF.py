@@ -78,5 +78,5 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                 file_name = f"{file_name_base}_{counter}.csv"
 
             df.to_csv(os.path.join(folder_name, file_name), index=False, sep=';')
-
+    
     return final_tables

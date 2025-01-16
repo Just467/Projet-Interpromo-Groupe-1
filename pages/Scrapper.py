@@ -24,8 +24,11 @@ def convert_df(df):
 @st.fragment
 def show_extrated_tables(extracted_tables):
     select_box = st.selectbox(label='Table', options=[i for i in range(len(extracted_tables))])
-    st.session_state.df_selector = select_box
-    st.data_editor(extracted_tables[st.session_state.df_selector]['table'], use_container_width=True)
+    try:
+        st.session_state.df_selector = select_box
+        st.data_editor(extracted_tables[st.session_state.df_selector]['table'], use_container_width=True)
+    except:
+        pass
 
 
 # Page style
@@ -69,8 +72,9 @@ if b_pdf and page_number and confirm_button:
                                                'methods':['lines', 'lines'],
                                                'pattern': r''},
                                                pages=[page_number-1],
+                                               final_tables=[],
                                                pivot=False)
-
+    st.write(len(extracted_tables))
 if 'df_selector' not in st.session_state:
     st.session_state.df_selector = 0
 
