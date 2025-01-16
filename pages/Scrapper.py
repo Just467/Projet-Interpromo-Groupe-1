@@ -19,14 +19,23 @@ def uploaded_to_binary(uploaded_file) :
 @st.cache_data
 def convert_df(df):
     # IMPORTANT: Cache the conversion to prevent computation on every rerun
-    return df.to_csv().encode("utf-8")
+    return df.to_csv(sep = ';').encode("iso-8859-1")
 
 @st.fragment
-def show_extrated_tables(extracted_tables):
+def show_extrated_tables(extracted_tables, page_number):
     select_box = st.selectbox(label='Table', options=[i for i in range(len(extracted_tables))])
     try:
+        # get index of table
         st.session_state.df_selector = select_box
-        st.data_editor(extracted_tables[st.session_state.df_selector]['table'], use_container_width=True)
+        # get table
+        edited_df = st.data_editor(extracted_tables[st.session_state.df_selector]['table'], use_container_width=True)
+        csv = convert_df(edited_df)
+        st.download_button(
+            label="Download table as CSV",
+            data=csv,
+            file_name=f"page_{page_number}_table_{st.session_state.df_selector}.csv",
+            mime="text/csv",
+            use_container_width=True)
     except:
         pass
 
@@ -83,13 +92,4 @@ with col2:
     if b_pdf and page_number:
         pdf_viewer(b_pdf, pages_to_render=[page_number], width=100000)
 with col3:
-    show_extrated_tables(extracted_tables)
-    button = st.button('Click me')
-    # csv = convert_df(edited_df)
-    # st.download_button(
-    #     label="Download data as CSV",
-    #     data=csv,
-    #     file_name="table_data.csv",
-    #     mime="text/csv",
-    #     use_container_width=True)
-
+    show_extrated_tables(extracted_tables, page_number)
