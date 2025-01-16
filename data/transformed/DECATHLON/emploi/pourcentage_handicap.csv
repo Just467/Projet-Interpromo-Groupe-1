@@ -1,4 +1,4 @@
-Pays;Année;Valeur;Unité;Indicateur
+Pays;AnnÃ©e;Valeur;UnitÃ©;Indicateur
 France;2022;3.2;%;Proportion de reconnaissance d'handicap
 Espagne;2022;2.0;%;Proportion de reconnaissance d'handicap
 Belgique;2022;;%;Proportion de reconnaissance d'handicap
@@ -10,15 +10,15 @@ Russie;2022;0.5;%;Proportion de reconnaissance d'handicap
 Allemagne;2022;0.6;%;Proportion de reconnaissance d'handicap
 Hongrie;2022;1.1;%;Proportion de reconnaissance d'handicap
 Inde;2022;0.7;%;Proportion de reconnaissance d'handicap
-Brésil;2022;2.2;%;Proportion de reconnaissance d'handicap
-République Tchèque;2022;0.3;%;Proportion de reconnaissance d'handicap
+BrÃ©sil;2022;2.2;%;Proportion de reconnaissance d'handicap
+RÃ©publique TchÃ©que;2022;0.3;%;Proportion de reconnaissance d'handicap
 Turquie;2022;1.6;%;Proportion de reconnaissance d'handicap
 Roumanie;2022;3.5;%;Proportion de reconnaissance d'handicap
 Royaume-Uni;2022;0.1;%;Proportion de reconnaissance d'handicap
 Maroc;2022;0.2;%;Proportion de reconnaissance d'handicap
 Mexique;2022;0.2;%;Proportion de reconnaissance d'handicap
 Pays-Bas;2022;0.2;%;Proportion de reconnaissance d'handicap
-Taïwan;2022;1.5;%;Proportion de reconnaissance d'handicap
+TaÃ©wan;2022;1.5;%;Proportion de reconnaissance d'handicap
 Suisse;2022;0.2;%;Proportion de reconnaissance d'handicap
 Singapour;2022;0.4;%;Proportion de reconnaissance d'handicap
 Canada;2022;;%;Proportion de reconnaissance d'handicap
@@ -33,15 +33,15 @@ Russie;2023;;%;Proportion de reconnaissance d'handicap
 Allemagne;2023;0.5;%;Proportion de reconnaissance d'handicap
 Hongrie;2023;1.2;%;Proportion de reconnaissance d'handicap
 Inde;2023;0.6;%;Proportion de reconnaissance d'handicap
-Brésil;2023;2.4;%;Proportion de reconnaissance d'handicap
-République Tchèque;2023;0.3;%;Proportion de reconnaissance d'handicap
+BrÃ©sil;2023;2.4;%;Proportion de reconnaissance d'handicap
+RÃ©publique TchÃ©que;2023;0.3;%;Proportion de reconnaissance d'handicap
 Turquie;2023;1.2;%;Proportion de reconnaissance d'handicap
 Roumanie;2023;3.8;%;Proportion de reconnaissance d'handicap
 Royaume-Uni;2023;0.0;%;Proportion de reconnaissance d'handicap
 Maroc;2023;0.3;%;Proportion de reconnaissance d'handicap
 Mexique;2023;0.2;%;Proportion de reconnaissance d'handicap
 Pays-Bas;2023;;%;Proportion de reconnaissance d'handicap
-Taïwan;2023;1.5;%;Proportion de reconnaissance d'handicap
+TaÃ©wan;2023;1.5;%;Proportion de reconnaissance d'handicap
 Suisse;2023;0.3;%;Proportion de reconnaissance d'handicap
 Singapour;2023;0.4;%;Proportion de reconnaissance d'handicap
 Canada;2023;2.1;%;Proportion de reconnaissance d'handicap

@@ -1,47 +1,47 @@
-Pays;Année;Valeur;Unité;Indicateur
-France;2022;4.4;%;Proportion d'absentéisme en contrats permanents
-Espagne;2022;3.3;%;Proportion d'absentéisme en contrats permanents
-Belgique;2022;;%;Proportion d'absentéisme en contrats permanents
-Italie;2022;6.0;%;Proportion d'absentéisme en contrats permanents
-Chine continentale;2022;8.0;%;Proportion d'absentéisme en contrats permanents
-Portugal;2022;3.3;%;Proportion d'absentéisme en contrats permanents
-Pologne;2022;8.5;%;Proportion d'absentéisme en contrats permanents
-Russie;2022;0.1;%;Proportion d'absentéisme en contrats permanents
-Allemagne;2022;8.0;%;Proportion d'absentéisme en contrats permanents
-Hongrie;2022;5.7;%;Proportion d'absentéisme en contrats permanents
-Inde;2022;;%;Proportion d'absentéisme en contrats permanents
-Brésil;2022;4.8;%;Proportion d'absentéisme en contrats permanents
-République Tchèque;2022;5.3;%;Proportion d'absentéisme en contrats permanents
-Turquie;2022;3.1;%;Proportion d'absentéisme en contrats permanents
-Roumanie;2022;1.2;%;Proportion d'absentéisme en contrats permanents
-Royaume-Uni;2022;2.5;%;Proportion d'absentéisme en contrats permanents
-Maroc;2022;3.0;%;Proportion d'absentéisme en contrats permanents
-Mexique;2022;8.9;%;Proportion d'absentéisme en contrats permanents
-Pays-Bas;2022;5.7;%;Proportion d'absentéisme en contrats permanents
-Taïwan;2022;0.3;%;Proportion d'absentéisme en contrats permanents
-Suisse;2022;5.9;%;Proportion d'absentéisme en contrats permanents
-Singapour;2022;2.6;%;Proportion d'absentéisme en contrats permanents
-Canada;2022;7.0;%;Proportion d'absentéisme en contrats permanents
-France;2023;3.6;%;Proportion d'absentéisme en contrats permanents
-Espagne;2023;5.0;%;Proportion d'absentéisme en contrats permanents
-Belgique;2023;;%;Proportion d'absentéisme en contrats permanents
-Italie;2023;3.5;%;Proportion d'absentéisme en contrats permanents
-Chine continentale;2023;1.7;%;Proportion d'absentéisme en contrats permanents
-Portugal;2023;0.7;%;Proportion d'absentéisme en contrats permanents
-Pologne;2023;7.0;%;Proportion d'absentéisme en contrats permanents
-Russie;2023;;%;Proportion d'absentéisme en contrats permanents
-Allemagne;2023;9.4;%;Proportion d'absentéisme en contrats permanents
-Hongrie;2023;5.2;%;Proportion d'absentéisme en contrats permanents
-Inde;2023;;%;Proportion d'absentéisme en contrats permanents
-Brésil;2023;4.7;%;Proportion d'absentéisme en contrats permanents
-République Tchèque;2023;3.1;%;Proportion d'absentéisme en contrats permanents
-Turquie;2023;2.3;%;Proportion d'absentéisme en contrats permanents
-Roumanie;2023;1.0;%;Proportion d'absentéisme en contrats permanents
-Royaume-Uni;2023;2.6;%;Proportion d'absentéisme en contrats permanents
-Maroc;2023;2.5;%;Proportion d'absentéisme en contrats permanents
-Mexique;2023;0.7;%;Proportion d'absentéisme en contrats permanents
-Pays-Bas;2023;5.1;%;Proportion d'absentéisme en contrats permanents
-Taïwan;2023;0.2;%;Proportion d'absentéisme en contrats permanents
-Suisse;2023;4.9;%;Proportion d'absentéisme en contrats permanents
-Singapour;2023;3.1;%;Proportion d'absentéisme en contrats permanents
-Canada;2023;6.3;%;Proportion d'absentéisme en contrats permanents
+Pays;AnnÃ©e;Valeur;UnitÃ©;Indicateur
+France;2022;4.4;%;Proportion d'absentÃ©isme en contrats permanents
+Espagne;2022;3.3;%;Proportion d'absentÃ©isme en contrats permanents
+Belgique;2022;;%;Proportion d'absentÃ©isme en contrats permanents
+Italie;2022;6.0;%;Proportion d'absentÃ©isme en contrats permanents
+Chine continentale;2022;8.0;%;Proportion d'absentÃ©isme en contrats permanents
+Portugal;2022;3.3;%;Proportion d'absentÃ©isme en contrats permanents
+Pologne;2022;8.5;%;Proportion d'absentÃ©isme en contrats permanents
+Russie;2022;0.1;%;Proportion d'absentÃ©isme en contrats permanents
+Allemagne;2022;8.0;%;Proportion d'absentÃ©isme en contrats permanents
+Hongrie;2022;5.7;%;Proportion d'absentÃ©isme en contrats permanents
+Inde;2022;;%;Proportion d'absentÃ©isme en contrats permanents
+BrÃ©sil;2022;4.8;%;Proportion d'absentÃ©isme en contrats permanents
+RÃ©publique TchÃ©que;2022;5.3;%;Proportion d'absentÃ©isme en contrats permanents
+Turquie;2022;3.1;%;Proportion d'absentÃ©isme en contrats permanents
+Roumanie;2022;1.2;%;Proportion d'absentÃ©isme en contrats permanents
+Royaume-Uni;2022;2.5;%;Proportion d'absentÃ©isme en contrats permanents
+Maroc;2022;3.0;%;Proportion d'absentÃ©isme en contrats permanents
+Mexique;2022;8.9;%;Proportion d'absentÃ©isme en contrats permanents
+Pays-Bas;2022;5.7;%;Proportion d'absentÃ©isme en contrats permanents
+TaÃ©wan;2022;0.3;%;Proportion d'absentÃ©isme en contrats permanents
+Suisse;2022;5.9;%;Proportion d'absentÃ©isme en contrats permanents
+Singapour;2022;2.6;%;Proportion d'absentÃ©isme en contrats permanents
+Canada;2022;7.0;%;Proportion d'absentÃ©isme en contrats permanents
+France;2023;3.6;%;Proportion d'absentÃ©isme en contrats permanents
+Espagne;2023;5.0;%;Proportion d'absentÃ©isme en contrats permanents
+Belgique;2023;;%;Proportion d'absentÃ©isme en contrats permanents
+Italie;2023;3.5;%;Proportion d'absentÃ©isme en contrats permanents
+Chine continentale;2023;1.7;%;Proportion d'absentÃ©isme en contrats permanents
+Portugal;2023;0.7;%;Proportion d'absentÃ©isme en contrats permanents
+Pologne;2023;7.0;%;Proportion d'absentÃ©isme en contrats permanents
+Russie;2023;;%;Proportion d'absentÃ©isme en contrats permanents
+Allemagne;2023;9.4;%;Proportion d'absentÃ©isme en contrats permanents
+Hongrie;2023;5.2;%;Proportion d'absentÃ©isme en contrats permanents
+Inde;2023;;%;Proportion d'absentÃ©isme en contrats permanents
+BrÃ©sil;2023;4.7;%;Proportion d'absentÃ©isme en contrats permanents
+RÃ©publique TchÃ©que;2023;3.1;%;Proportion d'absentÃ©isme en contrats permanents
+Turquie;2023;2.3;%;Proportion d'absentÃ©isme en contrats permanents
+Roumanie;2023;1.0;%;Proportion d'absentÃ©isme en contrats permanents
+Royaume-Uni;2023;2.6;%;Proportion d'absentÃ©isme en contrats permanents
+Maroc;2023;2.5;%;Proportion d'absentÃ©isme en contrats permanents
+Mexique;2023;0.7;%;Proportion d'absentÃ©isme en contrats permanents
+Pays-Bas;2023;5.1;%;Proportion d'absentÃ©isme en contrats permanents
+TaÃ©wan;2023;0.2;%;Proportion d'absentÃ©isme en contrats permanents
+Suisse;2023;4.9;%;Proportion d'absentÃ©isme en contrats permanents
+Singapour;2023;3.1;%;Proportion d'absentÃ©isme en contrats permanents
+Canada;2023;6.3;%;Proportion d'absentÃ©isme en contrats permanents
