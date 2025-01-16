@@ -103,6 +103,52 @@ if option == 'Handicap' and entreprise == "EDF":
         affichage_evol_temps = px.line(df_tot, x="Année", y="Valeur", color='Collège', line_dash='Genre', title='Evolution du nombre de salariés en situation de handicap au cours du temps par collège')
         st.plotly_chart(affichage_evol_temps)
 
-    
-    
+
+
+
+#######################################
+### brouillon affichage graphique pour comparaison entreprise sur données fictives ###
+
+data = pd.read_csv("C:\\Users\\Admin\\Documents\\AS 2024 2025\\Deuxième semestre\\Projet inter-promo\\Compil pour synthèse\\brouillon comparaison handicap.csv", sep=';')
+affichage_graphs (True, "Salariés en situation de handicap", data, "Entreprise", None)
+
+st.write(" ")
+st.write(" ")
+
+def titre_comp(variable,annee):
+    """Fonction qui prend en paramètre la variable du titre et l'année et retourne l'affichage."""
+    st.markdown(f"""<div style='text-align: center; 
+                font_size: 20px;
+                font-weight: bold;'> Evolution de l'indicateur 
+                <i>{variable.lower()}</i> pour l'année {annee}</div>""",
+                unsafe_allow_html=True)
+
+df = data.dropna(axis=1, how='all')
+col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social", "Plage M3E"]
+for colonne in col_inutiles:
+    if colonne in df.columns:
+        df = df.drop(columns=colonne)
+dimension = df.select_dtypes(include=["object", "category"]).columns.tolist()
+dimension.remove("Indicateur")
+dimension.remove("Unité")
+dimension.remove("Entreprise")
+axe_ana = st.selectbox("Veuillez choisir un axe d'analyse :",dimension, index=None, placeholder="Sélectionnez un axe d'analyse...") 
+if axe_ana:
+    annees = df["Année"].unique().tolist()
+    annee = st.selectbox("Veuillez choisir une année :",annees, index=None, placeholder="Sélectionnez une année...")
+if axe_ana and annee:
+    df = df[df["Année"] == annee]
+    df_grouped = df.groupby(["Entreprise",axe_ana], as_index=False).sum()
+    fig_bar=px.bar(df_grouped, x=axe_ana,
+                y="Valeur",
+                color="Entreprise",
+                barmode="group",
+                labels={"Entreprise"},
+                color_discrete_sequence=px.colors.qualitative.D3)
+    st.plotly_chart(fig_bar.update_layout(yaxis_title="Valeur en "+df["Unité"].iloc[0]))
+    titre_comp("Salariés en situation de handicap", annee)
+
+
+
+           
 

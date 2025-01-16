@@ -11,3 +11,5 @@ pages
 Bienvenue.py
 pip_Her
 pages/Dashboard.py
+pages/Data.py
+

@@ -29,7 +29,7 @@ def importation_data (dossier_entreprise, col_inutiles):
 
     #----selection Thématique-----------------
     sous_dossiers = [nom for nom in os.listdir(dossier_entreprise) if os.path.isdir(os.path.join(dossier_entreprise, nom))]
-    selection = st.pills("Veuillez choisir une ou plusieurs thématiques à étudier :", sous_dossiers, selection_mode="multi")
+    selection = st.pills("Veuillez choisir une ou plusieurs thématiques à étudier :", sous_dossiers, selection_mode='multi')
 
     #----IMPORTATION DE LA DATA----------------
     if not selection:
@@ -78,17 +78,19 @@ def selection_menu (selection, resultats, liste_indicateurs):
                 index=None,
                 placeholder="Sélectionnez un indicateur...",
             )
-        # récupération données liées à l'indicateur choisi 
+        # récupération données liées à l'indicateur choisi
+        entreprise_data = pd.DataFrame()
         for selection, contenu in resultats.items(): 
-            for indicateur in contenu['indicateurs']: 
-                if indicateur == indicateur_:
-                    entreprise_data=contenu['entreprise_data']
-        #df = entreprise_data[entreprise_data["Indicateur"] == indicateur_].dropna(axis=1, how='all')
-                    df = entreprise_data.dropna(axis=1, how='all')
-                    dimension = df.select_dtypes(include=["object", "category"]).columns.tolist()
-                    if indicateur_: 
-                        dimension.remove("Indicateur")
-                        dimension.remove("Unité")
+            entreprise_data=pd.concat([entreprise_data,contenu['entreprise_data']])
+        entreprise_data = entreprise_data.loc[entreprise_data['Indicateur'] == indicateur_]
+        df = entreprise_data    
+        for column in df.columns :
+            if df[column].isna().all() :
+                df = df.drop(column, axis = 1)
+        dimension = df.select_dtypes(include=["object", "category"]).columns.tolist()
+        if indicateur_: 
+            dimension.remove("Indicateur")
+            dimension.remove("Unité")
 
         #----selection axes d'analyse--------
         if indicateur_:
@@ -96,6 +98,9 @@ def selection_menu (selection, resultats, liste_indicateurs):
             dimension_1 = st.sidebar.selectbox("Veuillez choisir le 1er axe d'analyse :",dimension, index=None, placeholder="Sélectionnez un axe d'analyse...") 
             if dimension_1:
                 reste = [d for d in dimension if d != dimension_1]
+                for column in reste :
+                    if df.loc[df[dimension_1].notna()][column].isna().all() :
+                        reste.remove(column)
                 dimension_2 = st.sidebar.selectbox("Veuillez choisir le 2eme axe d'analyse :",reste, index=None, placeholder="Sélectionnez un axe d'analyse...")
                 return (selection,indicateur_,df,dimension_1,dimension_2)
             else: 
@@ -177,6 +182,7 @@ def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
             mise_en_forme_graph (fig_bar, "graph_containera", indicateur_, df)
         with b:
             mise_en_forme_graph (fig_ligne, "graph_containerb", indicateur_, df)
+
     elif selection and indicateur_ and dimension_1:
     #----------------Graph multiple----------------------------
 
@@ -195,4 +201,3 @@ def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
         # Colonne 2 : Multi-lignes
         with col2:
             mise_en_forme_graph (fig_multi_lignes, "graph_container2", indicateur_, df)
-    
