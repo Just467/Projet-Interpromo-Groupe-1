@@ -1,15 +1,15 @@
-Tranche d'âge;Année;Valeur;Unité;Indicateur
-- 29 ans;2022;59127;nombre;Effectif par tranche d'âge dans le monde
-- 20 ans;2022;5296;nombre;Effectif par tranche d'âge dans le monde
-20 à 29 ans;2022;53831;nombre;Effectif par tranche d'âge dans le monde
-30 à 49 ans;2022;41003;nombre;Effectif par tranche d'âge dans le monde
-30 à 39 ans;2022;31051;nombre;Effectif par tranche d'âge dans le monde
-40 à 49 ans;2022;9952;nombre;Effectif par tranche d'âge dans le monde
-+ 50 ans;2022;3986;nombre;Effectif par tranche d'âge dans le monde
-- 29 ans;2023;54864;nombre;Effectif par tranche d'âge dans le monde
-- 20 ans;2023;5109;nombre;Effectif par tranche d'âge dans le monde
-20 à 29 ans;2023;49755;nombre;Effectif par tranche d'âge dans le monde
-30 à 49 ans;2023;41376;nombre;Effectif par tranche d'âge dans le monde
-30 à 39 ans;2023;30903;nombre;Effectif par tranche d'âge dans le monde
-40 à 49 ans;2023;10473;nombre;Effectif par tranche d'âge dans le monde
-+ 50 ans;2023;4461;nombre;Effectif par tranche d'âge dans le monde
+Tranche d'Ã©ge;AnnÃ©e;Valeur;UnitÃ©;Indicateur
+- 29 ans;2022;59127;nombre;Effectif par tranche d'Ã©ge dans le monde
+- 20 ans;2022;5296;nombre;Effectif par tranche d'Ã©ge dans le monde
+20 Ã© 29 ans;2022;53831;nombre;Effectif par tranche d'Ã©ge dans le monde
+30 Ã© 49 ans;2022;41003;nombre;Effectif par tranche d'Ã©ge dans le monde
+30 Ã© 39 ans;2022;31051;nombre;Effectif par tranche d'Ã©ge dans le monde
+40 Ã© 49 ans;2022;9952;nombre;Effectif par tranche d'Ã©ge dans le monde
++ 50 ans;2022;3986;nombre;Effectif par tranche d'Ã©ge dans le monde
+- 29 ans;2023;54864;nombre;Effectif par tranche d'Ã©ge dans le monde
+- 20 ans;2023;5109;nombre;Effectif par tranche d'Ã©ge dans le monde
+20 Ã© 29 ans;2023;49755;nombre;Effectif par tranche d'Ã©ge dans le monde
+30 Ã© 49 ans;2023;41376;nombre;Effectif par tranche d'Ã©ge dans le monde
+30 Ã© 39 ans;2023;30903;nombre;Effectif par tranche d'Ã©ge dans le monde
+40 Ã© 49 ans;2023;10473;nombre;Effectif par tranche d'Ã©ge dans le monde
++ 50 ans;2023;4461;nombre;Effectif par tranche d'Ã©ge dans le monde
