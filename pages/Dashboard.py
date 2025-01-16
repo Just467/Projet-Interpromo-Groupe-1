@@ -106,6 +106,9 @@ if option == 'Handicap' and entreprise == "EDF":
 
 
 
+
+
+
 #######################################
 ### brouillon affichage graphique pour comparaison entreprise sur données fictives ###
 
@@ -156,9 +159,3 @@ dimension.remove("Entreprise")
 filtre = st.checkbox("Afficher le graphique pour un axe d'analyse supplémentaire sur une année.")
 if filtre:
     affichage_une_annee_comp(indicateur_comp,df,dimension)
-
-
-
-
-           
-
