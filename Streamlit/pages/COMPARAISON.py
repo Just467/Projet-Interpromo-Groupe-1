@@ -130,6 +130,11 @@ def extraire_indicateur(dossier_entreprise, indicateur_recherche):
         st.warning(f"Aucune donnée trouvée pour l'indicateur '{indicateur_recherche}' dans les fichiers.")
         return pd.DataFrame()  # Retourne une DataFrame vide si aucune donnée n'a été trouvée
 
+def extraire_indic_df(df):
+    if "Indicateur" in df.columns:
+        unique_values = df["Indicateur"].unique()
+        
+    return [unique_values[0]]
 button_style = """button{
     opacity: 0;
     padding-top: 100%;
@@ -150,42 +155,51 @@ container_style = """{
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social","Unité","Plage M3E"]
 
 st.title("Comparaison des indicateurs")
-entreprises = ["EDF", "INSA", "CNP", "DECATHLON","ENGIE"]
-selected_entreprises = st.multiselect(
-    "Veuillez 2 entreprises: ",
-    entreprises,
-    default = None,
-    max_selections = 2
+entreprises = [ "INSA", "CNP", "DECATHLON","ENGIE"]
+selected_entreprise = st.selectbox(
+    "Veuillez choisir l'entreprise à comparer avec EDF: ",
+    entreprises
+    
     )
-
-entreprise_1 = selected_entreprises[0]
-entreprise_2 = selected_entreprises[1]
-# chemin des entreprises
-dossier_1 = f"../data/transformed/{entreprise_1}/"
-dossier_2 = f"../data/transformed/{entreprise_2}/"
-# je peux alors récupérer les indicateurs associés à chaque entreprise
+dossier_1 = "../data/transformed/EDF/" # le 1er dossier est celui d'EDF
 liste_indic_1 = importation_data(dossier_1, col_inutiles)[1]
 
-liste_indic_2 = importation_data(dossier_2, col_inutiles) [1]
+ # Dans le cas où l'utilisateur choisit CNP
+if selected_entreprise == "CNP":
+    handicap_cnp = pd.read_csv("../data/transformed/CNP/emploi/nombre_travailleurs_handicap.csv", sep = ";", encoding='ISO-8859-1')
+    handicap_cnp["Indicateur"] = "Salariés en situation de handicap"
+    
+    entreprise_2 = selected_entreprise
+# chemin des entreprises
+
+    dossier_2 = f"../data/transformed/{entreprise_2}/" # dossier de l'entreprise à comparer avec EDF
+# je peux alors récupérer les indicateurs associés à chaque entreprise
+
+
+    liste_indic_2 = extraire_indic_df(handicap_cnp)
+    st.write(liste_indic_2)
 # indicateurs communs
-indic_commun = list(set(liste_indic_1) & set(liste_indic_2))
+    indic_commun = list(set(liste_indic_1) & set(liste_indic_2))
+    #st.write(indic_commun)
 
 # selection de l'indicateur à comparer
-indicateur = st.selectbox(
+    indicateur = st.selectbox(
     "Veuillez choisir un indicateur: ",
     indic_commun,
     index = None
     )
-if indicateur:
-    data_1 = extraire_indicateur(dossier_1, indicateur)
-    data_2 = extraire_indicateur(dossier_2, indicateur)
-    data_1["Entreprise"] = entreprise_1
-    data_2["Entreprise"] = entreprise_2
-    data = pd.concat([data_1, data_2], ignore_index = True)
+    if indicateur:
+        data_1 = extraire_indicateur(dossier_1, indicateur)
+        data_2 = extraire_indicateur(dossier_2, indicateur)
+    # Ajout de la colonne "Entreprise"
+        if "Entreprise" not in data_1.columns and "Entreprise" not in data_2.columns:
+            data_1["Entreprise"] = selected_entreprise # l'entreprise choisi
+            data_2["Entreprise"] = entreprise_2
+        data = pd.concat([data_1, data_2], ignore_index = True)
     
-    for col in list(data.columns):
-        if col != "Indicateur" and col!= "Année":
-            affichage_graphs(True, indicateur, data, "Entreprise", col)
+        for col in list(data.columns):
+            if col != "Indicateur" and col!= "Année":
+                affichage_graphs(True, indicateur, data, "Entreprise", col)
     
     
 
