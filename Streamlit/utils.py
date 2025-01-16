@@ -7,6 +7,8 @@ from streamlit_extras.metric_cards import style_metric_cards
 from streamlit_extras.stylable_container import stylable_container
 # Mise en forme avec Streamlit Extras pour ajouter des bordures, etc.
 import streamlit_extras 
+import chardet
+
 ##############################################################
 #--########-------DEFINITION DES VARIABLES----######
 ##############################################################
@@ -46,8 +48,17 @@ def importation_data (dossier_entreprise, col_inutiles):
             # parcourrir tous les fichiers de cette thématique 
             for e in noms_fichiers:
                 chemin = os.path.join(file_path,e)
-                df = pd.read_csv(chemin, sep=';')
-                data.append(df)
+                # Détecter l'encodage du fichier
+                with open(chemin, "rb") as f:
+                    rawdata = f.read()
+                    result = chardet.detect(rawdata)
+                    encoding_detected = result['encoding']
+                    st.write(encoding_detected)
+
+                #Importer le fichier
+                    df = pd.read_csv(chemin, sep=';', encoding=encoding_detected)
+                    st.write(df)
+                    data.append(df)
             df_concatene = pd.concat(data, ignore_index=True)
             # suppression colonnes inutiles 
             for colonne in col_inutiles:
@@ -89,6 +100,7 @@ def selection_menu (selection, resultats, liste_indicateurs):
             if df[column].isna().all() :
                 df = df.drop(column, axis = 1)
         dimension = df.select_dtypes(include=["object", "category"]).columns.tolist()
+        #st.write(df)
         if indicateur_: 
             dimension.remove("Indicateur")
             dimension.remove("Unité")
