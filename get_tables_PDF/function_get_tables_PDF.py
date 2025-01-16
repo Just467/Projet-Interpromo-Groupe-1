@@ -23,7 +23,6 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
     path, extract_settings, methods = PDF_file_settings['path'], PDF_file_settings['extract_settings'], PDF_file_settings['methods']
     pattern = PDF_file_settings['pattern']
     last_title, last_title_page = ('',0), 0
-    print('bon')
     with pdfplumber.open(path) as pdf:
         for page_number, page in enumerate(pdf.pages):
             if page_number in pages or pages==[-1]:
