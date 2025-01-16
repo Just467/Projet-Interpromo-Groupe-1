@@ -1,0 +1,13 @@
+Type emploi;Cadres / Non Cadres;Genre;Valeur;Unité;Année;Indicateur
+Fonctionnaires;Cadres;Homme;2;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Salariés CNP Assurances;Cadres;Homme;1234;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Alternance;Cadres;Homme;0;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Fonctionnaires;Cadres;Femme;0;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Salariés CNP Assurances;Cadres;Femme;1171;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Alternance;Cadres;Femme;0;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Fonctionnaires;Non Cadres;Homme;5;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Salariés CNP Assurances;Non Cadres;Homme;197;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Alternance;Non Cadres;Homme;103;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Fonctionnaires;Non Cadres;Femme;15;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Salariés CNP Assurances;Non Cadres;Femme;574;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Alternance;Non Cadres;Femme;108;nombre;2023;Nombre de collaborateurs ayant suivi une formation
