@@ -1,0 +1,13 @@
+Type emploi;Année;Contrat;Valeur;Unité;Indicateur
+Fonctionnaires;2021;;0;nombre;Nombre d'entrées
+Salariés CNP Assurances;2021;;264;nombre;Nombre d'entrées
+Contrats alternance;2021;;92;nombre;Nombre d'entrées
+Fonctionnaires;2022;;0;nombre;Nombre d'entrées
+Salariés CNP Assurances;2022;;260;nombre;Nombre d'entrées
+Contrats alternance;2022;;97;nombre;Nombre d'entrées
+Fonctionnaires;2023;CDD;0;nombre;Nombre d'entrées
+Salariés CNP Assurances;2023;CDD;64;nombre;Nombre d'entrées
+Contrats alternance;2023;CDD;126;nombre;Nombre d'entrées
+Fonctionnaires;2023;CDI;0;nombre;Nombre d'entrées
+Salariés CNP Assurances;2023;CDI;188;nombre;Nombre d'entrées
+Contrats alternance;2023;CDI;0;nombre;Nombre d'entrées
