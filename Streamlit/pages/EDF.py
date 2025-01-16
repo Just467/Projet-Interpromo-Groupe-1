@@ -21,6 +21,10 @@ selection, resultats, liste_indicateurs = importation_data (dossier_entreprise, 
 if selection:
     selection, indicateur_, df, dimension_1, dimension_2 = selection_menu(selection, resultats, liste_indicateurs)
     affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2)
+    
+
+
+
 
 
 

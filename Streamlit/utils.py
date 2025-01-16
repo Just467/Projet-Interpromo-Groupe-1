@@ -40,7 +40,7 @@ def importation_data (dossier_entreprise, col_inutiles):
         resultats={}
         # parcourir toutes les thématiques sélectionnées 
         for s in selection: 
-            file_path="..\\data\\transformed\\EDF\\"+s
+            file_path=dossier_entreprise+"\\"+s
             noms_fichiers = [f for f in os.listdir(file_path) if f.endswith('.csv')]
             data = []
             # parcourrir tous les fichiers de cette thématique 
@@ -63,6 +63,7 @@ def importation_data (dossier_entreprise, col_inutiles):
             for indicateur in contenu['indicateurs']: 
                 liste_indicateurs.append(indicateur)
         return (selection, resultats, liste_indicateurs)
+    
     
 def selection_menu (selection, resultats, liste_indicateurs):
     
@@ -111,17 +112,22 @@ def selection_menu (selection, resultats, liste_indicateurs):
         
             
 def titre (variable):
+
     """Fonction qui prend en paramètre la variable du titre
     et retourne l'affichage."""
+
     st.markdown(f"""<div style='text-align: center; 
                 font_size: 20px;
                 font-weight: bold;'> Evolution de l'indicateur 
                 <i>{variable.lower()}</i> par année </div>""",
                 unsafe_allow_html=True)
     
+
 def mise_en_forme_graph (nom_fig, key_fig, indicateur_, df):
+
     """Fonction qui prend en paramètre le nom de la figure, son indentfiant, l'indicateur et ses données en lien  
     et retourne la mise en forme permattant l'affichage du graphique."""
+
     with stylable_container(key=key_fig,
                             css_styles=style_container): 
             st.plotly_chart(
@@ -135,7 +141,40 @@ def mise_en_forme_graph (nom_fig, key_fig, indicateur_, df):
                 )
     titre(indicateur_)
 
+
+def titre_une_annee(variable,annee):
+
+    """Fonction qui prend en paramètre la variable du titre et l'année et retourne l'affichage."""
+
+    st.markdown(f"""<div style='text-align: center; 
+                font_size: 20px;
+                font-weight: bold;'> Evolution de l'indicateur 
+                <i>{variable.lower()}</i> pour l'année {annee}</div>""",
+                unsafe_allow_html=True)
+
+
+def affichage_une_annee (indicateur_, df, dimension_1, dimension_2):
+
+    """Fonction qui prends en paramètre l'indicateur (indicateur_) et son jeu de données (df) et les listes des dimensions possibles (dimension_1 et dimension_2)
+    et retourne l'affichage du graphique pour une dimension et une année."""
+
+    annees = df["Année"].unique().tolist()
+    annee = st.selectbox("Veuillez choisir une année :",annees, index=None, placeholder="Sélectionnez une année...")
+    if annee:
+        df = df[df["Année"] == annee]
+        df_grouped = df.groupby([dimension_1,dimension_2], as_index=False).sum()
+        fig_bar=px.bar(df_grouped, x=dimension_2,
+                    y="Valeur",
+                    color=dimension_1,
+                    barmode="group",
+                    labels={dimension_1},
+                    color_discrete_sequence=px.colors.qualitative.D3)
+        st.plotly_chart(fig_bar.update_layout(yaxis_title="Valeur en "+df["Unité"].iloc[0]))
+        titre_une_annee(indicateur_, annee)
+
+
 def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
+
     """Fonction qui prends en paramètres la ou les thématiques, l'indicateur choisi, les données en lien et les axes d'analyse choisis
     et qui retourne l'affichage de l'ensembles des graphiques."""
 
@@ -201,3 +240,9 @@ def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
         # Colonne 2 : Multi-lignes
         with col2:
             mise_en_forme_graph (fig_multi_lignes, "graph_container2", indicateur_, df)
+
+        st.write(" ")
+        st.write(" ")
+        filtre = st.checkbox("Afficher le graphique sur une seule année.")
+        if filtre:
+            return(affichage_une_annee(indicateur_,df,dimension_1, dimension_2))
