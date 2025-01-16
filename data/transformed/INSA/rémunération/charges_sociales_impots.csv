@@ -1,4 +1,16 @@
+<<<<<<< HEAD
 Année;Valeur;Unité;Indicateur
 2018;7069731;;Charges sociales et impôts
 2019;7153664;;Charges sociales et impôts
 2020;7142951;;Charges sociales et impôts
+||||||| 9178ec2
+Année;Valeur;Unité;Indicateur
+2018;7069731;€;Charges sociales et impôts
+2019;7153664;€;Charges sociales et impôts
+2020;7142951;€;Charges sociales et impôts
+=======
+AnnÃ©e;Valeur;UnitÃ©;Indicateur
+2018;7069731;â‚¬;Charges sociales et impÃ´ts
+2019;7153664;â‚¬;Charges sociales et impÃ´ts
+2020;7142951;â‚¬;Charges sociales et impÃ´ts
+>>>>>>> 9371da9223ff5ca5e28e902ee6e2b05a6e8b1ffb

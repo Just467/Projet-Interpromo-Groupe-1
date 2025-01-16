@@ -1,2 +1,10 @@
+<<<<<<< HEAD
 Année;Valeur;Unité;Indicateur
 2023;13116226;;Montant total des dépenses de formation
+||||||| 9178ec2
+Année;Valeur;Unité;Indicateur
+2023;13116226;€;Montant total des dépenses de formation
+=======
+AnnÃ©e;Valeur;UnitÃ©;Indicateur
+2023;13116226;Ã©;Montant total des dÃ©penses de formation
+>>>>>>> 9371da9223ff5ca5e28e902ee6e2b05a6e8b1ffb

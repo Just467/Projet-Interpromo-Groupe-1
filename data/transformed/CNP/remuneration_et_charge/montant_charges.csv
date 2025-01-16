@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Type;Valeur;Unité;Indicateur;Année
 URSSAF (sans transport);65000192;;Montant des charges sociales patronales;2023
 Retraites + RAFP & PC (1);24835580;;Montant des charges sociales patronales;2023
@@ -9,3 +10,28 @@ Prévoyance IPSEC + MPCDC;9810687;;Montant des charges sociales patronales;2023
 Titres restaurant;2389438;;Montant des charges sociales patronales;2023
 Abondement PERCO;3125396;;Montant des charges sociales patronales;2023
 Part patronale CESU;282580;;Montant des charges sociales patronales;2023
+||||||| 9178ec2
+Type;Valeur;Unité;Indicateur;Année
+URSSAF (sans transport);65000192;€;Montant des charges sociales patronales;2023
+Retraites + RAFP & PC (1);24835580;€;Montant des charges sociales patronales;2023
+Retraite supplémentaire;7928377;€;Montant des charges sociales patronales;2023
+Assurance chômage;8850692;€;Montant des charges sociales patronales;2023
+Impôts et taxes;37907583;€;Montant des charges sociales patronales;2023
+Versement Transport (incluant pass navigo);7644074;€;Montant des charges sociales patronales;2023
+Prévoyance IPSEC + MPCDC;9810687;€;Montant des charges sociales patronales;2023
+Titres restaurant;2389438;€;Montant des charges sociales patronales;2023
+Abondement PERCO;3125396;€;Montant des charges sociales patronales;2023
+Part patronale CESU;282580;€;Montant des charges sociales patronales;2023
+=======
+Type;Valeur;UnitÃ©;Indicateur;AnnÃ©e
+URSSAF (sans transport);65000192;Ã©;Montant des charges sociales patronales;2023
+Retraites + RAFP & PC (1);24835580;Ã©;Montant des charges sociales patronales;2023
+Retraite supplÃ©mentaire;7928377;Ã©;Montant des charges sociales patronales;2023
+Assurance chÃ©mage;8850692;Ã©;Montant des charges sociales patronales;2023
+ImpÃ©ts et taxes;37907583;Ã©;Montant des charges sociales patronales;2023
+Versement Transport (incluant pass navigo);7644074;Ã©;Montant des charges sociales patronales;2023
+PrÃ©voyance IPSEC + MPCDC;9810687;Ã©;Montant des charges sociales patronales;2023
+Titres restaurant;2389438;Ã©;Montant des charges sociales patronales;2023
+Abondement PERCO;3125396;Ã©;Montant des charges sociales patronales;2023
+Part patronale CESU;282580;Ã©;Montant des charges sociales patronales;2023
+>>>>>>> 9371da9223ff5ca5e28e902ee6e2b05a6e8b1ffb

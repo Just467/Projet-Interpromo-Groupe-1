@@ -1,47 +1,47 @@
-Pays;Année;Valeur;Unité;Indicateur
-France;2022;657;nombre;Nombre d'accidents de travail provoquant un arrêt
-Espagne;2022;264;nombre;Nombre d'accidents de travail provoquant un arrêt
-Belgique;2022;46;nombre;Nombre d'accidents de travail provoquant un arrêt
-Italie;2022;126;nombre;Nombre d'accidents de travail provoquant un arrêt
-Chine continentale;2022;28;nombre;Nombre d'accidents de travail provoquant un arrêt
-Portugal;2022;33;nombre;Nombre d'accidents de travail provoquant un arrêt
-Pologne;2022;45;nombre;Nombre d'accidents de travail provoquant un arrêt
-Russie;2022;3;nombre;Nombre d'accidents de travail provoquant un arrêt
-Allemagne;2022;71;nombre;Nombre d'accidents de travail provoquant un arrêt
-Hongrie;2022;42;nombre;Nombre d'accidents de travail provoquant un arrêt
-Inde;2022;11;nombre;Nombre d'accidents de travail provoquant un arrêt
-Brésil;2022;13;nombre;Nombre d'accidents de travail provoquant un arrêt
-République Tchèque;2022;17;nombre;Nombre d'accidents de travail provoquant un arrêt
-Turquie;2022;77;nombre;Nombre d'accidents de travail provoquant un arrêt
-Roumanie;2022;6;nombre;Nombre d'accidents de travail provoquant un arrêt
-Royaume-Uni;2022;11;nombre;Nombre d'accidents de travail provoquant un arrêt
-Maroc;2022;27;nombre;Nombre d'accidents de travail provoquant un arrêt
-Mexique;2022;3;nombre;Nombre d'accidents de travail provoquant un arrêt
-Pays-Bas;2022;14;nombre;Nombre d'accidents de travail provoquant un arrêt
-Taïwan;2022;16;nombre;Nombre d'accidents de travail provoquant un arrêt
-Suisse;2022;46;nombre;Nombre d'accidents de travail provoquant un arrêt
-Singapour;2022;2;nombre;Nombre d'accidents de travail provoquant un arrêt
-Canada;2022;8;nombre;Nombre d'accidents de travail provoquant un arrêt
-France;2023;574;nombre;Nombre d'accidents de travail provoquant un arrêt
-Espagne;2023;221;nombre;Nombre d'accidents de travail provoquant un arrêt
-Belgique;2023;39;nombre;Nombre d'accidents de travail provoquant un arrêt
-Italie;2023;130;nombre;Nombre d'accidents de travail provoquant un arrêt
-Chine continentale;2023;18;nombre;Nombre d'accidents de travail provoquant un arrêt
-Portugal;2023;36;nombre;Nombre d'accidents de travail provoquant un arrêt
-Pologne;2023;44;nombre;Nombre d'accidents de travail provoquant un arrêt
-Russie;2023;;nombre;Nombre d'accidents de travail provoquant un arrêt
-Allemagne;2023;87;nombre;Nombre d'accidents de travail provoquant un arrêt
-Hongrie;2023;40;nombre;Nombre d'accidents de travail provoquant un arrêt
-Inde;2023;11;nombre;Nombre d'accidents de travail provoquant un arrêt
-Brésil;2023;34;nombre;Nombre d'accidents de travail provoquant un arrêt
-République Tchèque;2023;15;nombre;Nombre d'accidents de travail provoquant un arrêt
-Turquie;2023;52;nombre;Nombre d'accidents de travail provoquant un arrêt
-Roumanie;2023;8;nombre;Nombre d'accidents de travail provoquant un arrêt
-Royaume-Uni;2023;11;nombre;Nombre d'accidents de travail provoquant un arrêt
-Maroc;2023;6;nombre;Nombre d'accidents de travail provoquant un arrêt
-Mexique;2023;7;nombre;Nombre d'accidents de travail provoquant un arrêt
-Pays-Bas;2023;17;nombre;Nombre d'accidents de travail provoquant un arrêt
-Taïwan;2023;1;nombre;Nombre d'accidents de travail provoquant un arrêt
-Suisse;2023;10;nombre;Nombre d'accidents de travail provoquant un arrêt
-Singapour;2023;1;nombre;Nombre d'accidents de travail provoquant un arrêt
-Canada;2023;11;nombre;Nombre d'accidents de travail provoquant un arrêt
+Pays;AnnÃ©e;Valeur;UnitÃ©;Indicateur
+France;2022;657;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Espagne;2022;264;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Belgique;2022;46;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Italie;2022;126;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Chine continentale;2022;28;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Portugal;2022;33;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Pologne;2022;45;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Russie;2022;3;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Allemagne;2022;71;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Hongrie;2022;42;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Inde;2022;11;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+BrÃ©sil;2022;13;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+RÃ©publique TchÃ©que;2022;17;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Turquie;2022;77;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Roumanie;2022;6;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Royaume-Uni;2022;11;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Maroc;2022;27;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Mexique;2022;3;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Pays-Bas;2022;14;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+TaÃ©wan;2022;16;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Suisse;2022;46;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Singapour;2022;2;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Canada;2022;8;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+France;2023;574;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Espagne;2023;221;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Belgique;2023;39;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Italie;2023;130;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Chine continentale;2023;18;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Portugal;2023;36;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Pologne;2023;44;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Russie;2023;;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Allemagne;2023;87;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Hongrie;2023;40;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Inde;2023;11;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+BrÃ©sil;2023;34;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+RÃ©publique TchÃ©que;2023;15;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Turquie;2023;52;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Roumanie;2023;8;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Royaume-Uni;2023;11;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Maroc;2023;6;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Mexique;2023;7;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Pays-Bas;2023;17;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+TaÃ©wan;2023;1;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Suisse;2023;10;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Singapour;2023;1;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
+Canada;2023;11;nombre;Nombre d'accidents de travail provoquant un arrÃ©t
