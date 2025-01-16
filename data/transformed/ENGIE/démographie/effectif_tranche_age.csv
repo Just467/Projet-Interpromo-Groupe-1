@@ -1,0 +1,41 @@
+Tranche d'âge;Genre;Collège;Valeur;Unité;Année;Indicateur
+- 25 ans;H;Maitrise;8;nombre;2021;Effectif par tranche d'âge
+- 25 ans;F;Maitrise;10;nombre;2021;Effectif par tranche d'âge
+25 à 29 ans;H;Maitrise;65;nombre;2021;Effectif par tranche d'âge
+25 à 29 ans;F;Maitrise;57;nombre;2021;Effectif par tranche d'âge
+30 à 34 ans;H;Maitrise;85;nombre;2021;Effectif par tranche d'âge
+30 à 34 ans;F;Maitrise;101;nombre;2021;Effectif par tranche d'âge
+35 à 39 ans;H;Maitrise;166;nombre;2021;Effectif par tranche d'âge
+35 à 39 ans;F;Maitrise;177;nombre;2021;Effectif par tranche d'âge
+40 à 44 ans;H;Maitrise;211;nombre;2021;Effectif par tranche d'âge
+40 à 44 ans;F;Maitrise;222;nombre;2021;Effectif par tranche d'âge
+45 à 49 ans;H;Maitrise;236;nombre;2021;Effectif par tranche d'âge
+45 à 49 ans;F;Maitrise;257;nombre;2021;Effectif par tranche d'âge
+50 à 54 ans;H;Maitrise;247;nombre;2021;Effectif par tranche d'âge
+50 à 54 ans;F;Maitrise;186;nombre;2021;Effectif par tranche d'âge
+55 à 59 ans;H;Maitrise;207;nombre;2021;Effectif par tranche d'âge
+55 à 59 ans;F;Maitrise;137;nombre;2021;Effectif par tranche d'âge
+60 à 64 ans;H;Maitrise;90;nombre;2021;Effectif par tranche d'âge
+60 à 64 ans;F;Maitrise;48;nombre;2021;Effectif par tranche d'âge
++ 65 ans;H;Maitrise;5;nombre;2021;Effectif par tranche d'âge
++ 65 ans;F;Maitrise;5;nombre;2021;Effectif par tranche d'âge
+- 25 ans;H;Execution;102;nombre;2021;Effectif par tranche d'âge
+- 25 ans;F;Execution;178;nombre;2021;Effectif par tranche d'âge
+25 à 29 ans;H;Execution;33;nombre;2021;Effectif par tranche d'âge
+25 à 29 ans;F;Execution;63;nombre;2021;Effectif par tranche d'âge
+30 à 34 ans;H;Execution;36;nombre;2021;Effectif par tranche d'âge
+30 à 34 ans;F;Execution;67;nombre;2021;Effectif par tranche d'âge
+35 à 39 ans;H;Execution;47;nombre;2021;Effectif par tranche d'âge
+35 à 39 ans;F;Execution;160;nombre;2021;Effectif par tranche d'âge
+40 à 44 ans;H;Execution;47;nombre;2021;Effectif par tranche d'âge
+40 à 44 ans;F;Execution;141;nombre;2021;Effectif par tranche d'âge
+45 à 49 ans;H;Execution;50;nombre;2021;Effectif par tranche d'âge
+45 à 49 ans;F;Execution;147;nombre;2021;Effectif par tranche d'âge
+50 à 54 ans;H;Execution;44;nombre;2021;Effectif par tranche d'âge
+50 à 54 ans;F;Execution;106;nombre;2021;Effectif par tranche d'âge
+55 à 59 ans;H;Execution;47;nombre;2021;Effectif par tranche d'âge
+55 à 59 ans;F;Execution;89;nombre;2021;Effectif par tranche d'âge
+60 à 64 ans;H;Execution;8;nombre;2021;Effectif par tranche d'âge
+60 à 64 ans;F;Execution;31;nombre;2021;Effectif par tranche d'âge
++ 65 ans;H;Execution;0;nombre;2021;Effectif par tranche d'âge
++ 65 ans;F;Execution;2;nombre;2021;Effectif par tranche d'âge
