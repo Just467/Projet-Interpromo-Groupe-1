@@ -1,19 +1,19 @@
-Etablissement départ;Etablissement arrivée;Type emploi;Valeur;Indicateur;Année;Unité
-ICV;ICV;Salariés CNP A.;;Mouvements inter-établissement (hors alternance);2023;nombre
-Angers;ICV;Salariés CNP A.;3;Mouvements inter-établissement (hors alternance);2023;nombre
-Régions;ICV;Salariés CNP A.;6;Mouvements inter-établissement (hors alternance);2023;nombre
-ICV;ICV;Fonctionnaires;;Mouvements inter-établissement (hors alternance);2023;nombre
-Angers;ICV;Fonctionnaires;;Mouvements inter-établissement (hors alternance);2023;nombre
-Régions;ICV;Fonctionnaires;;Mouvements inter-établissement (hors alternance);2023;nombre
-ICV;Angers;Salariés CNP A.;4;Mouvements inter-établissement (hors alternance);2023;nombre
-Angers;Angers;Salariés CNP A.;;Mouvements inter-établissement (hors alternance);2023;nombre
-Régions;Angers;Salariés CNP A.;;Mouvements inter-établissement (hors alternance);2023;nombre
-ICV;Angers;Fonctionnaires;;Mouvements inter-établissement (hors alternance);2023;nombre
-Angers;Angers;Fonctionnaires;;Mouvements inter-établissement (hors alternance);2023;nombre
-Régions;Angers;Fonctionnaires;;Mouvements inter-établissement (hors alternance);2023;nombre
-ICV;Régions;Salariés CNP A.;;Mouvements inter-établissement (hors alternance);2023;nombre
-Angers;Régions;Salariés CNP A.;;Mouvements inter-établissement (hors alternance);2023;nombre
-Régions;Régions;Salariés CNP A.;1;Mouvements inter-établissement (hors alternance);2023;nombre
-ICV;Régions;Fonctionnaires;;Mouvements inter-établissement (hors alternance);2023;nombre
-Angers;Régions;Fonctionnaires;;Mouvements inter-établissement (hors alternance);2023;nombre
-Régions;Régions;Fonctionnaires;;Mouvements inter-établissement (hors alternance);2023;nombre
+Etablissement dÃ©part;Etablissement arrivÃ©e;Type emploi;Valeur;Indicateur;AnnÃ©e;UnitÃ©
+ICV;ICV;SalariÃ©s CNP A.;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+Angers;ICV;SalariÃ©s CNP A.;3;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+RÃ©gions;ICV;SalariÃ©s CNP A.;6;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+ICV;ICV;Fonctionnaires;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+Angers;ICV;Fonctionnaires;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+RÃ©gions;ICV;Fonctionnaires;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+ICV;Angers;SalariÃ©s CNP A.;4;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+Angers;Angers;SalariÃ©s CNP A.;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+RÃ©gions;Angers;SalariÃ©s CNP A.;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+ICV;Angers;Fonctionnaires;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+Angers;Angers;Fonctionnaires;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+RÃ©gions;Angers;Fonctionnaires;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+ICV;RÃ©gions;SalariÃ©s CNP A.;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+Angers;RÃ©gions;SalariÃ©s CNP A.;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+RÃ©gions;RÃ©gions;SalariÃ©s CNP A.;1;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+ICV;RÃ©gions;Fonctionnaires;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+Angers;RÃ©gions;Fonctionnaires;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
+RÃ©gions;RÃ©gions;Fonctionnaires;;Mouvements inter-Ã©tablissement (hors alternance);2023;nombre
