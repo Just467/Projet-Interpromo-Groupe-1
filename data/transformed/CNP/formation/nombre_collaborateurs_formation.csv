@@ -1,13 +1,11 @@
-Type emploi;Cadres / Non Cadres;Genre;Valeur;Unité;Année;Indicateur
-Fonctionnaires;Cadres;Homme;2;nombre;2023;Nombre de collaborateurs ayant suivi une formation
-Salariés CNP Assurances;Cadres;Homme;1234;nombre;2023;Nombre de collaborateurs ayant suivi une formation
-Alternance;Cadres;Homme;0;nombre;2023;Nombre de collaborateurs ayant suivi une formation
-Fonctionnaires;Cadres;Femme;0;nombre;2023;Nombre de collaborateurs ayant suivi une formation
-Salariés CNP Assurances;Cadres;Femme;1171;nombre;2023;Nombre de collaborateurs ayant suivi une formation
-Alternance;Cadres;Femme;0;nombre;2023;Nombre de collaborateurs ayant suivi une formation
-Fonctionnaires;Non Cadres;Homme;5;nombre;2023;Nombre de collaborateurs ayant suivi une formation
-Salariés CNP Assurances;Non Cadres;Homme;197;nombre;2023;Nombre de collaborateurs ayant suivi une formation
-Alternance;Non Cadres;Homme;103;nombre;2023;Nombre de collaborateurs ayant suivi une formation
-Fonctionnaires;Non Cadres;Femme;15;nombre;2023;Nombre de collaborateurs ayant suivi une formation
-Salariés CNP Assurances;Non Cadres;Femme;574;nombre;2023;Nombre de collaborateurs ayant suivi une formation
-Alternance;Non Cadres;Femme;108;nombre;2023;Nombre de collaborateurs ayant suivi une formation
+Année;Cadres / Non Cadres / Alternance;Genre;Inter-entreprise / Intra-entreprise;Valeur;Unité;Indicateur
+2023;Cadres;Homme;Inter-entreprise;145;nombre;Nombre de stagiaires
+2023;Cadres;Homme;Intra-entreprise;1236;nombre;Nombre de stagiaires
+2023;Cadres;Femme;Inter-entreprise;87;nombre;Nombre de stagiaires
+2023;Cadres;Femme;Intra-entreprise;1171;nombre;Nombre de stagiaires
+2023;Non Cadres;Homme;Inter-entreprise;5;nombre;Nombre de stagiaires
+2023;Non Cadres;Homme;Intra-entreprise;202;nombre;Nombre de stagiaires
+2023;Non Cadres;Femme;Inter-entreprise;15;nombre;Nombre de stagiaires
+2023;Non Cadres;Femme;Intra-entreprise;589;nombre;Nombre de stagiaires
+2023;Alternance;Homme;Intra-entreprise;103;nombre;Nombre de stagiaires
+2023;Alternance;Femme;Intra-entreprise;108;nombre;Nombre de stagiaires

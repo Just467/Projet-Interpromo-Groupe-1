@@ -348,7 +348,7 @@ def unpivot_df(df, header_list, current_year="2023", year_colname="Année", valu
     variables_cols = df.columns.tolist()[:nb_variables]
 
     # Dépivote toutes les colonnes considérées comme des variables
-    df_unpivot = df.melt(id_vars=variables_cols, var_name=missing_label, value_name=value_colname)
+    df_unpivot = df.melt(id_vars=variables_cols, value_name=value_colname)
 
     # Concaténation des valeurs pour les colonnes sans nom
     df_unpivot.columns = format_colnames(df_unpivot)
