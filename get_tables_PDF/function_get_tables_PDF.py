@@ -8,7 +8,7 @@ from process_table import clean_df, unpivot_df
 
 def get_all_raw_tables_PDF(PDF_file_settings:dict,
                            final_tables:list=[], pages=[-1], x_tolerance:float=7.25,
-                           split=True, save=False, save_folder_path="")->dict:
+                           pivot=True, save=False, save_folder_path="")->dict:
     """Function that uses complete_extract_tables_PDF to extract all the tables of multiple PDF files.
 
     Args:
@@ -23,6 +23,7 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
     path, extract_settings, methods = PDF_file_settings['path'], PDF_file_settings['extract_settings'], PDF_file_settings['methods']
     pattern = PDF_file_settings['pattern']
     last_title, last_title_page = ('',0), 0
+    print('bon')
     with pdfplumber.open(path) as pdf:
         for page_number, page in enumerate(pdf.pages):
             if page_number in pages or pages==[-1]:
@@ -36,7 +37,7 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                 # extracting tables from one page and rows to have all the correct and cleaned tables
                 extracted_tables = extract_tables_page(page, page_number,path,
                                                        extract_settings, methods,
-                                                       show_debugging=True)
+                                                       show_debugging=False)
                 extracted_table_rows = extract_rows(page, page_number,path,
                                                     extract_settings)
                 header_list = [[is_header_row(row)for row in extracted_table_row] for extracted_table_row in extracted_table_rows]
@@ -56,7 +57,7 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                                          'title': current_title_name,
                                          'pages':list(range(last_title_page, page_number+1)),
                                          'header_list': df_header_list})
-    if split:
+    if pivot:
         for index, final_table in enumerate(final_tables):
             final_tables[index]['table'] = unpivot_df(final_table['table'], final_table['header_list'])
     

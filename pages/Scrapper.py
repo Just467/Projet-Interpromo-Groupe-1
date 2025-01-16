@@ -5,6 +5,7 @@ from tempfile import NamedTemporaryFile
 from streamlit_extras.stylable_container import stylable_container 
 from streamlit_extras.switch_page_button import switch_page
 from streamlit_pdf_viewer import pdf_viewer
+from get_tables_PDF.function_get_tables_PDF import get_all_raw_tables_PDF
 
 ## Page style ##
 
@@ -26,8 +27,20 @@ def uploaded_to_binary(uploaded_file) :
     tmp_file = NamedTemporaryFile()
     tmp_file.write(bytearray(binary))
     return (binary)
+b_pdf = uploaded_to_binary(uploaded_pdf)
+try:
+    pass
+except:
+    b_pdf = None
+import io
+result = get_all_raw_tables_PDF({'path':io.BytesIO(b_pdf),
+                                'extract_settings': {},
+                                'methods':['lines', 'lines'],
+                                'pattern': r''},
+                                pages=[15]
+                                )
+print(result[0])
 
-b_pdf = None
 
 ## DF to csv for the download
 
@@ -41,9 +54,8 @@ def convert_df(df):
 
 col1, col2, col3, col4 = st.columns([1,2,2,1])
 with col2 :
-    if uploaded_pdf is not None :
+    if b_pdf is not None :
         page = st.selectbox(label='Page', options=list(range(1,10)))
-        b_pdf = uploaded_to_binary(uploaded_pdf)
         if page is not None :
             pdf_viewer(b_pdf, pages_to_render=[page])
         else :
