@@ -166,7 +166,7 @@ liste_indic_1 = importation_data(dossier_1, col_inutiles)[1]
 
  # Dans le cas où l'utilisateur choisit CNP
 if selected_entreprise == "CNP":
-    handicap_cnp = pd.read_csv("../data/transformed/CNP/emploi/nombre_travailleurs_handicap.csv", sep = ";", encoding='ISO-8859-1')
+    handicap_cnp = pd.read_csv("../data/transformed/CNP/emploi/nombre_travailleurs_handicap.csv", sep = ";")
     handicap_cnp["Indicateur"] = "Salariés en situation de handicap"
     
     entreprise_2 = selected_entreprise
@@ -201,6 +201,8 @@ if selected_entreprise == "CNP":
             if col != "Indicateur" and col!= "Année":
                 affichage_graphs(True, indicateur, data, "Entreprise", col)
     
+    #elif selected_entreprise == "ENGIE":
+        
     
 
 
