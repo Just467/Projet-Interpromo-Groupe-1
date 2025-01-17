@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-Année;Prêt / Secours;Valeur;Unité;Indicateur
-2018;Secours;2900;;Dépenses en secours et prêt
-2018;Prêt;0;;Dépenses en secours et prêt
-2019;Secours;2200;;Dépenses en secours et prêt
-2019;Prêt;0;;Dépenses en secours et prêt
-2020;Secours;0;;Dépenses en secours et prêt
-2020;Prêt;0;;Dépenses en secours et prêt
-||||||| 9178ec2
-Année;Prêt / Secours;Valeur;Unité;Indicateur
-2018;Secours;2900;€;Dépenses en secours et prêt
-2018;Prêt;0;€;Dépenses en secours et prêt
-2019;Secours;2200;€;Dépenses en secours et prêt
-2019;Prêt;0;€;Dépenses en secours et prêt
-2020;Secours;0;€;Dépenses en secours et prêt
-2020;Prêt;0;€;Dépenses en secours et prêt
-=======
 AnnÃ©e;PrÃªt / Secours;Valeur;UnitÃ©;Indicateur
 2018;Secours;2900;â‚¬;DÃ©penses en secours et prÃªt
 2018;PrÃªt;0;â‚¬;DÃ©penses en secours et prÃªt
@@ -22,4 +5,3 @@ AnnÃ©e;PrÃªt / Secours;Valeur;UnitÃ©;Indicateur
 2019;PrÃªt;0;â‚¬;DÃ©penses en secours et prÃªt
 2020;Secours;0;â‚¬;DÃ©penses en secours et prÃªt
 2020;PrÃªt;0;â‚¬;DÃ©penses en secours et prÃªt
->>>>>>> 9371da9223ff5ca5e28e902ee6e2b05a6e8b1ffb
