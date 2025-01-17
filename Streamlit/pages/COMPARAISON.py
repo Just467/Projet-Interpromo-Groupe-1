@@ -260,5 +260,17 @@ elif selected_entreprise == "ENGIE":
             
             
             
-    #elif selected_entreprise == "INSA":
+    elif selected_entreprise == "INSA":
+        promo_insa = pd.read_csv('../data/transformed/INSA/mouvement_et_carrière/nombre_promotions.csv', sep = ";", encoding = 'ISO-8859-1')
+        mas_sal_insa = pd.read_csv('../data/transformed/INSA/rémunération/masse_salariale.csv')
+
+        promo_insa["Indicateur"] = "Promotions dans un collège supérieur"
+        mas_sal_insa["Indicateur"] = "Masse salariale annnuelle"
         
+        list_indic_promo = extraire_indic_df(promo_insa)
+        list_indic_mass = extraire_indic_df(mas_sal_insa)
+        
+        liste_indic_2 = list_indic_promo + list_indic_mass
+        indic_commun = list(set(liste_indic_1) & set(liste_indic_2))
+    
+        indicateur = st.selectbox
