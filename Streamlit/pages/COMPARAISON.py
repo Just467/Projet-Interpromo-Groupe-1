@@ -53,7 +53,7 @@ def importation_data(dossier_entreprise, col_inutiles):
 
         # Extraire les indicateurs
         if "Indicateur" in df_concatene.columns:
-            indicateurs = sorted(df_concatene["Indicateur"].unique())
+            indicateurs = sorted(df_concatene["Indicateur"].astype(str).unique())
         else:
             st.warning(f"Colonne 'Indicateur' non trouvée dans les fichiers de {sous_dossier}.")
             indicateurs = []
@@ -200,7 +200,7 @@ if selected_entreprise == "CNP":
         if "Entreprise" not in data_2.columns:
                 data_2["Entreprise"] = selected_entreprise
         data = pd.concat([data_1, data_2], ignore_index = True)
-        data["Année"] = data["Année"].combine_first(data["AnnÃ©e"]) # pour pouvoir concaténer et analyser par année
+         # pour pouvoir concaténer et analyser par année
         
         
         affichage_graphs(True, indicateur, data, "Entreprise", "Genre")
@@ -242,8 +242,7 @@ elif selected_entreprise == "ENGIE":
         # Graphes handicap
         if indicateur == "Salariés en situation de handicap":
             data_engie_hand = pd.concat([data_1, data_2], ignore_index = True)
-            data_engie_hand["Collège"] = data_engie_hand["Collège"].combine_first(data_engie_hand["CollÃ¨ge"])
-            data_engie_hand["Année"] = data_engie_hand["Année"].combine_first(data_engie_hand["AnnÃ©e"])
+            
 
             
             
@@ -252,8 +251,7 @@ elif selected_entreprise == "ENGIE":
         # Graphes effectif
         else:
             data_engie_eff = pd.concat([data_1, data_3], ignore_index = True)
-            data_engie_eff["Année"] = data_engie_eff["Année"].combine_first(data_engie_eff["AnnÃ©e"])
-            data_engie_eff["Collège"] = data_engie_eff["Collège"].combine_first(data_engie_eff["CollÃ¨ge"])
+            
 
             affichage_graphs(True, indicateur, data_engie_eff, "Entreprise", "Genre")
             affichage_graphs(True, indicateur, data_engie_eff, "Entreprise", "Collège")

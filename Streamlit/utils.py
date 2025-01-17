@@ -8,6 +8,8 @@ from streamlit_extras.metric_cards import style_metric_cards
 from streamlit_extras.stylable_container import stylable_container
 # Mise en forme avec Streamlit Extras pour ajouter des bordures, etc.
 import streamlit_extras 
+import chardet
+
 ##############################################################
 #--########-------DEFINITION DES VARIABLES----######
 ##############################################################
@@ -30,7 +32,7 @@ def importation_data (dossier_entreprise, col_inutiles):
 
     #----selection Thématique-----------------
     sous_dossiers = [nom for nom in os.listdir(dossier_entreprise) if os.path.isdir(os.path.join(dossier_entreprise, nom))]
-    selection = st.pills("Veuillez choisir une ou plusieurs thématiques à étudier :", sous_dossiers, selection_mode="multi")
+    selection = st.pills("Veuillez choisir une ou plusieurs thématiques à étudier :", sous_dossiers, selection_mode='multi')
 
     #----IMPORTATION DE LA DATA----------------
     if not selection:
@@ -41,21 +43,25 @@ def importation_data (dossier_entreprise, col_inutiles):
         resultats={}
         # parcourir toutes les thématiques sélectionnées 
         for s in selection: 
-            file_path="../data/transformed/EDF/"+s
+            file_path=dossier_entreprise+"//"+s
             noms_fichiers = [f for f in os.listdir(file_path) if f.endswith('.csv')]
             data = []
             # parcourrir tous les fichiers de cette thématique 
             for e in noms_fichiers:
                 chemin = os.path.join(file_path,e)
-                df = pd.read_csv(chemin, sep=';')
-                data.append(df)
-            df_concatene = pd.concat(data, ignore_index=True)
+                # Détecter l'encodage du fichier
+                with open(chemin, "rb") as f:
+                    result = chardet.detect(f.read())
+                    encoding_detect = result["encoding"]
+                    df = pd.read_csv(chemin, sep=';', encoding='utf-8')
+                    data.append(df)
+                    df_concatene = pd.concat(data, ignore_index=True)
             # suppression colonnes inutiles 
             for colonne in col_inutiles:
                 if colonne in df_concatene.columns:
                     df_concatene = df_concatene.drop(columns=colonne)
             entreprise_data = df_concatene
-            indicateurs = sorted(entreprise_data["Indicateur"].unique())
+            indicateurs = sorted(entreprise_data["Indicateur"].astype(str).unique())
             # association liste indicateurs et données associées 
             resultats[s] = {'entreprise_data': entreprise_data, 'indicateurs': indicateurs}
         # lister tous les indicateurs du dictionnaire 
@@ -64,6 +70,7 @@ def importation_data (dossier_entreprise, col_inutiles):
             for indicateur in contenu['indicateurs']: 
                 liste_indicateurs.append(indicateur)
         return (selection, resultats, liste_indicateurs)
+    
     
 def selection_menu (selection, resultats, liste_indicateurs):
     
@@ -79,17 +86,20 @@ def selection_menu (selection, resultats, liste_indicateurs):
                 index=None,
                 placeholder="Sélectionnez un indicateur...",
             )
-        # récupération données liées à l'indicateur choisi 
+        # récupération données liées à l'indicateur choisi
+        entreprise_data = pd.DataFrame()
         for selection, contenu in resultats.items(): 
-            for indicateur in contenu['indicateurs']: 
-                if indicateur == indicateur_:
-                    entreprise_data=contenu['entreprise_data']
-        #df = entreprise_data[entreprise_data["Indicateur"] == indicateur_].dropna(axis=1, how='all')
-                    df = entreprise_data.dropna(axis=1, how='all')
-                    dimension = df.select_dtypes(include=["object", "category"]).columns.tolist()
-                    if indicateur_: 
-                        dimension.remove("Indicateur")
-                        dimension.remove("Unité")
+            entreprise_data=pd.concat([entreprise_data,contenu['entreprise_data']])
+        entreprise_data = entreprise_data.loc[entreprise_data['Indicateur'] == indicateur_]
+        df = entreprise_data
+        for column in df.columns :
+            if df[column].isna().all() :
+                df = df.drop(column, axis = 1)
+        dimension = df.select_dtypes(include=["object", "category"]).columns.tolist()
+        #st.write(df)
+        if indicateur_: 
+            dimension.remove("Indicateur")
+            dimension.remove("Unité")
 
         #----selection axes d'analyse--------
         if indicateur_:
@@ -97,6 +107,9 @@ def selection_menu (selection, resultats, liste_indicateurs):
             dimension_1 = st.sidebar.selectbox("Veuillez choisir le 1er axe d'analyse :",dimension, index=None, placeholder="Sélectionnez un axe d'analyse...") 
             if dimension_1:
                 reste = [d for d in dimension if d != dimension_1]
+                for column in reste :
+                    if df.loc[df[dimension_1].notna()][column].isna().all() :
+                        reste.remove(column)
                 dimension_2 = st.sidebar.selectbox("Veuillez choisir le 2eme axe d'analyse :",reste, index=None, placeholder="Sélectionnez un axe d'analyse...")
                 return (selection,indicateur_,df,dimension_1,dimension_2)
             else: 
@@ -107,17 +120,22 @@ def selection_menu (selection, resultats, liste_indicateurs):
         
             
 def titre (variable):
+
     """Fonction qui prend en paramètre la variable du titre
     et retourne l'affichage."""
+
     st.markdown(f"""<div style='text-align: center; 
                 font_size: 20px;
                 font-weight: bold;'> Evolution de l'indicateur 
                 <i>{variable.lower()}</i> par année </div>""",
                 unsafe_allow_html=True)
     
+
 def mise_en_forme_graph (nom_fig, key_fig, indicateur_, df):
+
     """Fonction qui prend en paramètre le nom de la figure, son indentfiant, l'indicateur et ses données en lien  
     et retourne la mise en forme permattant l'affichage du graphique."""
+
     with stylable_container(key=key_fig,
                             css_styles=style_container): 
             st.plotly_chart(
@@ -131,7 +149,40 @@ def mise_en_forme_graph (nom_fig, key_fig, indicateur_, df):
                 )
     titre(indicateur_)
 
+
+def titre_une_annee(variable,annee):
+
+    """Fonction qui prend en paramètre la variable du titre et l'année et retourne l'affichage."""
+
+    st.markdown(f"""<div style='text-align: center; 
+                font_size: 20px;
+                font-weight: bold;'> Evolution de l'indicateur 
+                <i>{variable.lower()}</i> pour l'année {annee}</div>""",
+                unsafe_allow_html=True)
+
+
+def affichage_une_annee (indicateur_, df, dimension_1, dimension_2):
+
+    """Fonction qui prends en paramètre l'indicateur (indicateur_) et son jeu de données (df) et les listes des dimensions possibles (dimension_1 et dimension_2)
+    et retourne l'affichage du graphique pour une dimension et une année."""
+
+    annees = df["Année"].unique().tolist()
+    annee = st.selectbox("Veuillez choisir une année :",annees, index=None, placeholder="Sélectionnez une année...")
+    if annee:
+        df = df[df["Année"] == annee]
+        df_grouped = df.groupby([dimension_1,dimension_2], as_index=False).sum()
+        fig_bar=px.bar(df_grouped, x=dimension_2,
+                    y="Valeur",
+                    color=dimension_1,
+                    barmode="group",
+                    labels={dimension_1},
+                    color_discrete_sequence=px.colors.qualitative.D3)
+        st.plotly_chart(fig_bar.update_layout(yaxis_title="Valeur en "+df["Unité"].iloc[0]))
+        titre_une_annee(indicateur_, annee)
+
+
 def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
+
     """Fonction qui prends en paramètres la ou les thématiques, l'indicateur choisi, les données en lien et les axes d'analyse choisis
     et qui retourne l'affichage de l'ensembles des graphiques."""
 
@@ -178,6 +229,7 @@ def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
             mise_en_forme_graph (fig_bar, "graph_containera", indicateur_, df)
         with b:
             mise_en_forme_graph (fig_ligne, "graph_containerb", indicateur_, df)
+
     elif selection and indicateur_ and dimension_1:
     #----------------Graph multiple----------------------------
 
@@ -196,4 +248,9 @@ def affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2):
         # Colonne 2 : Multi-lignes
         with col2:
             mise_en_forme_graph (fig_multi_lignes, "graph_container2", indicateur_, df)
-    
+
+        st.write(" ")
+        st.write(" ")
+        filtre = st.checkbox("Afficher le graphique sur une seule année.")
+        if filtre:
+            return(affichage_une_annee(indicateur_,df,dimension_1, dimension_2))

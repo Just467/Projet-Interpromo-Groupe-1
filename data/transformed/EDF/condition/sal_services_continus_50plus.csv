@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Ann�e;Perim�tre juridique;Perim�tre spatial;Indicateur;Coll�ge;Genre;Valeur;Unit�;Chapitre du bilan social
 2023;EDF SA;France;Salari�s en services continus de plus de 50 ans;Maitrise;Femme;14.0;Nombre;
 2023;EDF SA;France;Salari�s en services continus de plus de 50 ans;Execution;Femme;4.0;Nombre;
@@ -41,3 +42,48 @@ Ann�e;Perim�tre juridique;Perim�tre spatial;Indicateur;Coll�ge;Genre;Val
 2017;EDF SA;France;Salari�s en services continus de plus de 50 ans;Maitrise;Femme;9.0;Nombre;�4.2.2
 2017;EDF SA;France;Salari�s en services continus de plus de 50 ans;Cadre;Femme;1.0;Nombre;�4.2.2
 2017;EDF SA;France;Salari�s en services continus de plus de 50 ans;Execution;Femme;1.0;Nombre;�4.2.2
+=======
+Année;Perimètre juridique;Perimètre spatial;Indicateur;Collège;Genre;Valeur;Unité;Chapitre du bilan social
+2023;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Femme;14.0;Nombre;
+2023;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Femme;4.0;Nombre;
+2023;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Homme;32.0;Nombre;
+2023;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Homme;765.0;Nombre;
+2023;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Homme;346.0;Nombre;
+2023;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Femme;3.0;Nombre;
+2022;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Femme;2.0;Nombre;§4.2.2
+2022;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Homme;33.0;Nombre;§4.2.2
+2022;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Homme;365.0;Nombre;§4.2.2
+2022;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Homme;787.0;Nombre;§4.2.2
+2022;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Femme;10.0;Nombre;§4.2.2
+2022;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Femme;4.0;Nombre;§4.2.2
+2021;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Femme;9.0;Nombre;§4.2.2
+2021;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Homme;28.0;Nombre;§4.2.2
+2021;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Homme;355.0;Nombre;§4.2.2
+2021;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Femme;1.0;Nombre;§4.2.2
+2021;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Femme;3.0;Nombre;§4.2.2
+2021;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Homme;785.0;Nombre;§4.2.2
+2020;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Homme;27.0;Nombre;§4.2.2
+2020;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Homme;316.0;Nombre;§4.2.2
+2020;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Homme;804.0;Nombre;§4.2.2
+2020;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Femme;11.0;Nombre;§4.2.2
+2020;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Femme;2.0;Nombre;§4.2.2
+2020;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Femme;1.0;Nombre;§4.2.2
+2019;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Femme;1.0;Nombre;§4.2.2
+2019;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Homme;32.0;Nombre;§4.2.2
+2019;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Femme;2.0;Nombre;§4.2.2
+2019;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Femme;8.0;Nombre;§4.2.2
+2019;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Homme;799.0;Nombre;§4.2.2
+2019;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Homme;303.0;Nombre;§4.2.2
+2018;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Homme;40.0;Nombre;§4.2.2
+2018;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Femme;1.0;Nombre;§4.2.2
+2018;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Homme;797.0;Nombre;§4.2.2
+2018;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Homme;263.0;Nombre;§4.2.2
+2018;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Femme;8.0;Nombre;§4.2.2
+2018;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Femme;2.0;Nombre;§4.2.2
+2017;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Homme;291.0;Nombre;§4.2.2
+2017;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Homme;797.0;Nombre;§4.2.2
+2017;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Homme;40.0;Nombre;§4.2.2
+2017;EDF SA;France;Salariés en services continus de plus de 50 ans;Maitrise;Femme;9.0;Nombre;§4.2.2
+2017;EDF SA;France;Salariés en services continus de plus de 50 ans;Cadre;Femme;1.0;Nombre;§4.2.2
+2017;EDF SA;France;Salariés en services continus de plus de 50 ans;Execution;Femme;1.0;Nombre;§4.2.2
+>>>>>>> 5f450ad9d55729b1705c7a5e1ed4cfe4cf57fdad
