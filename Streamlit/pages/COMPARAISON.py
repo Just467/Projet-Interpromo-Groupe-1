@@ -155,7 +155,7 @@ container_style = """{
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social","Unité","Plage M3E"]
 
 st.title("Comparaison des indicateurs")
-entreprises = [ "INSA", "CNP", "DECATHLON","ENGIE"]
+entreprises = [ "INSA", "CNP","ENGIE"]
 selected_entreprise = st.selectbox(
     "Veuillez choisir l'entreprise à comparer avec EDF: ",
     entreprises
@@ -178,7 +178,7 @@ if selected_entreprise == "CNP":
 
 
     liste_indic_2 = extraire_indic_df(handicap_cnp)
-    st.write(liste_indic_2)
+   
 # indicateurs communs
     indic_commun = list(set(liste_indic_1) & set(liste_indic_2))
     #st.write(indic_commun)
@@ -193,7 +193,6 @@ if selected_entreprise == "CNP":
     
     if indicateur:
         data_2 = handicap_cnp
-        data_2 = data_2.rename(columns= {"Année": "Année"})
         
     # Ajout de la colonne "Entreprise"
         if "Entreprise" not in data_1.columns:
@@ -201,17 +200,62 @@ if selected_entreprise == "CNP":
         if "Entreprise" not in data_2.columns:
                 data_2["Entreprise"] = selected_entreprise
         data = pd.concat([data_1, data_2], ignore_index = True)
-        data["Année"] = data["Année"].combine_first(data["AnnÃ©e"])
-
-        st.write(data)
+        data["Année"] = data["Année"].combine_first(data["AnnÃ©e"]) # pour pouvoir concaténer et analyser par année
         
         
         affichage_graphs(True, indicateur, data, "Entreprise", "Genre")
-        #st.write(data_2.columns)
-    
-    #elif selected_entreprise == "ENGIE":
         
+
+elif selected_entreprise == "ENGIE":
     
+    
+    eff_engie = pd.read_csv('../data/transformed/ENGIE/emploi/effectif.csv', sep = ";", encoding = 'ISO-8859-1')  
+    hand_engie = pd.read_csv("../data/transformed/ENGIE/handicap/nombre_handicapés.csv", sep = ";", encoding = 'ISO-8859-1') 
+    hand_engie["Indicateur"] = "Salariés en situation de handicap"
+   
+    # I "recup" the indices
+    list_indic_hand = extraire_indic_df(hand_engie)
+    list_indic_eff = extraire_indic_df(eff_engie)
+    liste_indic_2 = list_indic_eff + list_indic_hand
+    indic_commun = list(set(liste_indic_1) & set(liste_indic_2))
+   
+    
+    indicateur = st.selectbox(
+        "Veuillez choisir un indicateur: ",
+        indic_commun,
+        index = None
+    )
+    if indicateur:
+        data_1 = extraire_indicateur(dossier_1, indicateur)
+        data_2 = hand_engie
+        data_3 = eff_engie
+    
+        if "Entreprise" not in data_1.columns:
+            data_1["Entreprise"] =  "EDF"# l'entreprise choisi
+        if "Entreprise" not in data_2.columns:
+                data_2["Entreprise"] = selected_entreprise
+        if "Entreprise" not in data_3.columns:
+                data_3["Entreprise"] = selected_entreprise
+                
+    
+        
+        # Graphes handicap
+        if indicateur == "Salariés en situation de handicap":
+            data_engie_hand = pd.concat([data_1, data_2], ignore_index = True)
+            data_engie_hand["Collège"] = data_engie_hand["Collège"].combine_first(data_engie_hand["CollÃ¨ge"])
+            data_engie_hand["Année"] = data_engie_hand["Année"].combine_first(data_engie_hand["AnnÃ©e"])
 
+            
+            
+            affichage_graphs(True, indicateur, data_engie_hand, "Entreprise", "Collège")
+            
+        # Graphes effectif
+        else:
+            data_engie_eff = pd.concat([data_1, data_3], ignore_index = True)
+            data_engie_eff["Année"] = data_engie_eff["Année"].combine_first(data_engie_eff["AnnÃ©e"])
+            data_engie_eff["Collège"] = data_engie_eff["Collège"].combine_first(data_engie_eff["CollÃ¨ge"])
 
+            affichage_graphs(True, indicateur, data_engie_eff, "Entreprise", "Genre")
+            affichage_graphs(True, indicateur, data_engie_eff, "Entreprise", "Collège")
+            
 
