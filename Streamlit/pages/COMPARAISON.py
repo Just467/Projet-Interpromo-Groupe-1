@@ -94,8 +94,12 @@ if selected_entreprise:
 
                 # Étape 5 : Représentation graphique
                 st.header(f"Comparaison de l'indicateur : {indicateur_selectionne}")
-                affichage_graphs(True, indicateur_selectionne, data_combine, "Entreprise", None)  # Comparaison sans catégorie
-                affichage_graphs(True, indicateur_selectionne, data_combine, "Entreprise", "Genre")  # Comparaison avec catégorie 'Genre'
+                if (selected_entreprise == 'ENGIE' and indicateur_selectionne == 'Effectif') or \
+                    (selected_entreprise == 'CNP' and indicateur_selectionne == 'Salariés en situation de handicap') :
+                    dim2 = st.sidebar.selectbox("Selectionner un axe d'analsye", [None, 'Genre'])
+                else :
+                    dim2 = None
+                affichage_graphs(True, indicateur_selectionne, data_combine, "Entreprise", dim2)  # Comparaison sans catégorie
 
             except Exception as e:
                 st.error(f"Erreur lors du chargement des données : {e}")
