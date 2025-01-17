@@ -8,3 +8,5 @@ streamlit_extras
 streamlit_pdf_viewer
 Pillow>=9.1
 pypdfium2>=4.18.0
+os
+chardet
