@@ -12,10 +12,10 @@ from utils import importation_data, selection_menu, affichage_graphs
 
 st.set_page_config(layout="wide")  # Utiliser toute la largeur de l'écran
 
-
+st.title("Diversité et inclusion chez CNP")
 ### Appel de la fonction ###
 
-dossier_entreprise = "..\\data\\transformed\\ENGIE"
+dossier_entreprise = "data\\transformed\\CNP"
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social"]
 selection, resultats, liste_indicateurs = importation_data (dossier_entreprise, col_inutiles)
 if selection:

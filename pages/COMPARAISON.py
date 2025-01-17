@@ -6,7 +6,7 @@ from utils import affichage_graphs  # Import de la fonction pour afficher les gr
 entreprises = ["ENGIE", "INSA", "CNP"]
 
 # Interface utilisateur
-st.title("Comparaison d'indicateurs entre EDF et une autre entreprise")
+st.title("Comparaison des entreprises avec EDF")
 
 # Étape 1 : Sélection d'une entreprise autre qu'EDF
 selected_entreprise = st.selectbox(
@@ -36,30 +36,30 @@ def trouver_indicateurs_communs(indicateurs_edf, indicateurs_entreprise):
 if selected_entreprise:
     if selected_entreprise == "ENGIE":
         indicateurs_entreprise = {
-            "Nombre de personnes handicapées": "../data/transformed/ENGIE/handicap/nombre_handicapés.csv",
-            "Effectif": "../data/transformed/ENGIE/emploi/effectif.csv",
+            "Nombre de personnes handicapées": "data/transformed/ENGIE/handicap/nombre_handicapés.csv",
+            "Effectif": "data/transformed/ENGIE/emploi/effectif.csv",
         }
         indicateurs_edf = {
-            "Salariés en situation de handicap": "../data/transformed/EDF/handicap/sal_handicap.csv",
-            "Effectif": "../data/transformed/EDF/effectif/effectif.csv",
+            "Salariés en situation de handicap": "data/transformed/EDF/handicap/sal_handicap.csv",
+            "Effectif": "data/transformed/EDF/effectif/effectif.csv",
         }
 
     elif selected_entreprise == "INSA":
         indicateurs_entreprise = {
-            "Masse salariale": "../data/transformed/INSA/rémunération/masse_salariale.csv",
-            "Nombre de promotions": "../data/transformed/INSA/mouvement_et_carrière/nombre_promotions.csv",
+            "Masse salariale": "data/transformed/INSA/rémunération/masse_salariale.csv",
+            "Nombre de promotions": "data/transformed/INSA/mouvement_et_carrière/nombre_promotions.csv",
         }
         indicateurs_edf = {
-            "Masse salariale annuelle": "../data/transformed/EDF/remuneration/masse_salariale_annuelle.csv",
-            "Promotion dans un collège supérieur": "../data/transformed/EDF/remuneration/promo_college_sup.csv",
+            "Masse salariale annuelle": "data/transformed/EDF/remuneration/masse_salariale_annuelle.csv",
+            "Promotion dans un collège supérieur": "data/transformed/EDF/remuneration/promo_college_sup.csv",
         }
 
     elif selected_entreprise == "CNP":
         indicateurs_entreprise = {
-            "Travailleurs en situation de handicap": "../data/transformed/CNP/emploi/nombre_travailleurs_handicap.csv",
+            "Travailleurs en situation de handicap": "data/transformed/CNP/emploi/nombre_travailleurs_handicap.csv",
         }
         indicateurs_edf = {
-            "Salariés en situation de handicap": "../data/transformed/EDF/handicap/sal_handicap.csv",
+            "Salariés en situation de handicap": "data/transformed/EDF/handicap/sal_handicap.csv",
         }
 
     else:

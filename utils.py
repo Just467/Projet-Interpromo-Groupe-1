@@ -35,7 +35,7 @@ def importation_data (dossier_entreprise, col_inutiles):
 
     #----IMPORTATION DE LA DATA----------------
     if not selection:
-        st.write("Veuilliez sélectionner au moins une thématique.")
+        st.write("Veuillez sélectionner au moins une thématique.")
         return ([],{},[])
     else:
         # initialisation dictionnaire pour répertorier les indicateurs et leurs données associées 
