@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+from utils import affichage_graphs  # Import de la fonction pour afficher les graphiques
 
 # Liste des entreprises disponibles pour comparaison
 entreprises = ["ENGIE", "INSA", "CNP"]
@@ -13,31 +14,49 @@ selected_entreprise = st.selectbox(
     entreprises
 )
 
+# Dictionnaire de correspondance des noms d'indicateurs
+correspondance_indicateurs = {
+    "Salariés en situation de handicap": ["Nombre de personnes handicapées", "Travailleurs en situation de handicap"],
+    "Effectif": ["Effectif"],
+    "Masse salariale annuelle": ["Masse salariale"],
+    "Promotion dans un collège supérieur": ["Nombre de promotions"]
+}
+
+# Fonction pour trouver les indicateurs communs
+def trouver_indicateurs_communs(indicateurs_edf, indicateurs_entreprise):
+    indicateurs_communs = {}
+    for edf_indicateur, autres_indicateurs in correspondance_indicateurs.items():
+        # Vérifiez si l'un des noms d'indicateurs correspond
+        for indicateur in autres_indicateurs:
+            if indicateur in indicateurs_entreprise:
+                indicateurs_communs[edf_indicateur] = indicateurs_entreprise[indicateur]
+    return indicateurs_communs
+
 # Étape 2 : Gestion des indicateurs et fichiers CSV pour chaque entreprise
 if selected_entreprise:
     if selected_entreprise == "ENGIE":
         indicateurs_entreprise = {
-            "Salariés en situation de handicap": "../data/transformed/ENGIE/handicap/nombre_handicapés.csv",
-            "effectif": "../data/transformed/ENGIE/emploi/effectif.csv",
+            "Nombre de personnes handicapées": "../data/transformed/ENGIE/handicap/nombre_handicapés.csv",
+            "Effectif": "../data/transformed/ENGIE/emploi/effectif.csv",
         }
         indicateurs_edf = {
             "Salariés en situation de handicap": "../data/transformed/EDF/handicap/sal_handicap.csv",
-            "effectif": "../data/transformed/EDF/effectif/effectif.csv",
+            "Effectif": "../data/transformed/EDF/effectif/effectif.csv",
         }
 
     elif selected_entreprise == "INSA":
         indicateurs_entreprise = {
             "Masse salariale": "../data/transformed/INSA/rémunération/masse_salariale.csv",
-            "Nombre de Promotion": "../data/transformed/INSA/mouvement_et_carrière/nombre_promotions.csv",
+            "Nombre de promotions": "../data/transformed/INSA/mouvement_et_carrière/nombre_promotions.csv",
         }
         indicateurs_edf = {
-            "Masse salariale": "../data/transformed/EDF/remuneration/masse_salariale_annuelle.csv",
-            "Nombre de Promotion": "../data/transformed/EDF/remuneration/promo_college_sup.csv",
+            "Masse salariale annuelle": "../data/transformed/EDF/remuneration/masse_salariale_annuelle.csv",
+            "Promotion dans un collège supérieur": "../data/transformed/EDF/remuneration/promo_college_sup.csv",
         }
 
     elif selected_entreprise == "CNP":
         indicateurs_entreprise = {
-            "Salariés en situation de handicap": "../data/transformed/ENGIE/handicap/nombre_handicapés.csv",
+            "Travailleurs en situation de handicap": "../data/transformed/CNP/emploi/nombre_travailleurs_handicap.csv",
         }
         indicateurs_edf = {
             "Salariés en situation de handicap": "../data/transformed/EDF/handicap/sal_handicap.csv",
@@ -46,47 +65,39 @@ if selected_entreprise:
     else:
         st.error("Entreprise non reconnue.")
 
+    # Trouver les indicateurs communs
+    indicateurs_communs = trouver_indicateurs_communs(indicateurs_edf, indicateurs_entreprise)
+
     # Étape 3 : Sélection de l'indicateur à comparer
-    indicateur_selectionne = st.selectbox(
-        "Choisissez un indicateur :",
-        list(indicateurs_entreprise.keys())
-    )
+    if indicateurs_communs:
+        indicateur_selectionne = st.selectbox(
+            "Choisissez un indicateur :",
+            list(indicateurs_communs.keys())
+        )
 
-    # Étape 4 : Charger les données, corriger et afficher les résultats
-    if indicateur_selectionne:
-        try:
-            # Charger les fichiers CSV pour EDF et l'entreprise sélectionnée
-            fichier_entreprise = indicateurs_entreprise[indicateur_selectionne]
+        # Étape 4 : Charger les fichiers CSV correspondants
+        if indicateur_selectionne:
             fichier_edf = indicateurs_edf[indicateur_selectionne]
+            fichier_entreprise = indicateurs_communs[indicateur_selectionne]
 
-            # Charger les données avec correction d'encodage
-            df_entreprise = pd.read_csv(fichier_entreprise, sep=";", encoding="latin1")
-            df_edf = pd.read_csv(fichier_edf, sep=";", encoding="latin1")
+            try:
+                # Charger les données des fichiers sélectionnés
+                data_edf = pd.read_csv(fichier_edf, sep=';', encoding='utf-8')
+                data_entreprise = pd.read_csv(fichier_entreprise, sep=';', encoding='utf-8')
 
-            # Renommer les colonnes pour EDF (problème d'encodage)
-            df_edf.rename(columns={
-                "AnnÃ©e": "Année",
-                "Valeur": "Valeur"
-            }, inplace=True)
+                # Ajouter une colonne pour identifier les entreprises
+                data_edf["Entreprise"] = "EDF"
+                data_entreprise["Entreprise"] = selected_entreprise
 
-            # Vérifier et filtrer pour l'indicateur choisi
-            if "Indicateur" in df_entreprise.columns:
-                df_entreprise = df_entreprise[df_entreprise["Indicateur"] == indicateur_selectionne]
+                # Combiner les données des deux entreprises
+                data_combine = pd.concat([data_edf, data_entreprise], ignore_index=True)
 
-            if "Indicateur" in df_edf.columns:
-                df_edf = df_edf[df_edf["Indicateur"] == indicateur_selectionne]
+                # Étape 5 : Représentation graphique
+                st.header(f"Comparaison de l'indicateur : {indicateur_selectionne}")
+                affichage_graphs(True, indicateur_selectionne, data_combine, "Entreprise", None)  # Comparaison sans catégorie
+                affichage_graphs(True, indicateur_selectionne, data_combine, "Entreprise", "Genre")  # Comparaison avec catégorie 'Genre'
 
-            # Vérifier la présence des colonnes nécessaires
-            if {"Année", "Valeur"}.issubset(df_entreprise.columns) and {"Année", "Valeur"}.issubset(df_edf.columns):
-                # Afficher les données
-                st.subheader(f"Indicateur sélectionné : {indicateur_selectionne}")
-                st.write(f"**Données pour {selected_entreprise}**")
-                st.write(df_entreprise[["Année", "Valeur"]])
-
-                st.write(f"**Données pour EDF**")
-                st.write(df_edf[["Année", "Valeur"]])
-
-            else:
-                st.error("Les colonnes nécessaires ('Année', 'Valeur') sont absentes des fichiers après filtrage.")
-        except Exception as e:
-            st.error(f"Erreur lors du chargement des données : {e}")
+            except Exception as e:
+                st.error(f"Erreur lors du chargement des données : {e}")
+    else:
+        st.warning("Aucun indicateur commun trouvé.")
