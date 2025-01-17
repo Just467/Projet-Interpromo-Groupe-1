@@ -48,7 +48,7 @@ def detect_structure(df, header_list):
             header_indexes.append(row_index)
 
     # Pour chaque colonne, regarde si c'est une colonne
-    numeric_pattern=r'^[\d.,\s€$£¥]*(?: *ans)?$'
+    numeric_pattern=r'^[\d.,\s€$£¥%]*(?: *ans)?$'
     year_pattern=r'^20[0-2]\d$'
     variable_indexes = []
     for col_index in range(df.shape[1]):
@@ -208,13 +208,7 @@ def fill_variables(df, header_list):
 
     variables = df.iloc[:, variable_indexes].replace("", None)
 
-    # Si une seule colonne (Series), remplir directement
-    if isinstance(variables, pd.Series) or variables.shape[1] == 1:
-        df.iloc[:, variable_indexes] = variables.fillna(method="ffill")
-        return df
-
-    # Remplir toutes les colonnes sauf la dernière
-    df.iloc[:, variable_indexes] = variables.iloc[:, :-1].fillna(method="ffill")
+    df.iloc[:, variable_indexes] = variables.fillna(method="ffill")
 
     return df
 
