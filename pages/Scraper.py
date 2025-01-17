@@ -25,7 +25,7 @@ def convert_df(df):
 def show_extrated_tables(extracted_tables, page_number):
     st.markdown("""<p style='font-size:20px;'>Choisir une table</p>""",
                 unsafe_allow_html=True)
-    select_box = st.selectbox(label='',
+    select_box = st.selectbox(label='.',
                               options=[i for i in range(len(extracted_tables))],
                               format_func=lambda x: "Table n°"+str(x+1), label_visibility='collapsed')
     try:
@@ -50,7 +50,7 @@ def show_extrated_tables(extracted_tables, page_number):
             st.markdown("""<p style='font-size:20px;'>Choisir un titre pour le fichier</p>""",
                     unsafe_allow_html=True)
             csv_title = st.text_input(
-                label="",
+                label=".",
                 value=f"page_{page_number}_table_{st.session_state.df_selector+1}",
                 label_visibility='collapsed')  
             st.download_button(
@@ -63,7 +63,7 @@ def show_extrated_tables(extracted_tables, page_number):
             st.markdown("""<p style='font-size:20px;'>Choisir un titre pour le fichier</p>""",
                     unsafe_allow_html=True)
             csv_title = st.text_input(
-                label="",
+                label=".",
                 value=f"page_{page_number}_table_unpivoted_{st.session_state.df_selector+1}",
                 label_visibility='collapsed')  
             st.download_button(

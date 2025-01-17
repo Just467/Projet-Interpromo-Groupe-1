@@ -1,8 +1,14 @@
 import camelot
 import pandas as pd
 import numpy as np
-import pdfplumber
 import regex as re
+import sys
+import os
+root_directory = os.path.dirname(os.path.abspath(__file__))
+parent_directory = os.path.join(root_directory, '..')
+sys.path.append(parent_directory)
+sys.path.append('get_tables_PDF')
+import pdfplumber
 
 extract_tables_PDF_methods = ['lines', 'lines_strict', 'explicit']
 
@@ -322,6 +328,7 @@ def get_vertical_lines_from_camelot(table_areas, page, page_number, pdf_path):
             continue
     return areas_with_vertical_lines
 
+
 def get_row_coords(row):
     """
     Convert a row's bounding box from PdfPlumber into the format required by Camelot's `table_areas`.
@@ -343,6 +350,7 @@ def get_row_coords(row):
     _, _, x2, bottom = filtered_row[-1]
 
     return [x1, top, x2, bottom]
+
 
 def get_table_area(area_list, page_height):
     """
@@ -392,6 +400,7 @@ def get_index_headers_and_row_areas(table, page, page_number, pdf_path):
             print(f"Unexpected error: {e}")
 
     return index_headers, row_areas
+
 
 def snap_vertical_lines(row_desc):
     """
@@ -443,7 +452,6 @@ def snap_vertical_lines(row_desc):
         all_lines.extend(vertical_lines)
 
     return all_lines
-
 
 
 def get_lines_stream_v2(tables:camelot.core.TableList, page, page_number, pdf_path, offset)->list:
@@ -549,6 +557,7 @@ def extract_tables_page_v2(page:pdfplumber.page.Page, page_number:int,pdf_path:s
             lines[text_axis] = get_lines_stream(tables, text_axis)
 
     if len(lines) > 1:
+        print(f'\n\n\nmethode : {methods[0]}\n\n\n')
         settings["horizontal_strategy"], settings["vertical_strategy"] = methods[0], methods[1]
         settings["explicit_horizontal_lines"], settings["explicit_vertical_lines"] = lines[0], lines[1]
         all_tables = page.extract_tables(settings)

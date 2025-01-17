@@ -1,6 +1,10 @@
-import pdfplumber
 import sys
+import os
+root_directory = os.path.dirname(os.path.abspath(__file__))
+parent_directory = os.path.join(root_directory, '..')
+sys.path.append(parent_directory)
 sys.path.append('get_tables_PDF')
+import pdfplumber
 from function_get_tables_PDF import get_all_raw_tables_PDF
 from extract_tables_PDF_page import extract_tables_page, extract_tables_page_v2
 from utils.dataframe_viewer import show_dataframes

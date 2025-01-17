@@ -1,8 +1,11 @@
 import pandas as pd
-import pdfplumber
 import sys
 import os
+root_directory = os.path.dirname(os.path.abspath(__file__))
+parent_directory = os.path.join(root_directory, '..')
+sys.path.append(parent_directory)
 sys.path.append('get_tables_PDF')
+import pdfplumber
 from extract_tables_PDF_page import extract_titles_page, extract_rows, is_header_row
 from process_table import clean_df, unpivot_df
 
@@ -36,7 +39,7 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                 # extracting tables from one page and rows to have all the correct and cleaned tables
                 extracted_tables = extract_tables_page_function(page, page_number,path,
                                                        extract_settings, methods,
-                                                       show_debugging=False)
+                                                       show_debugging=True)
                 extracted_table_rows = extract_rows(page, page_number,path,
                                                     extract_settings)
                 header_list = [[is_header_row(row)for row in extracted_table_row] for extracted_table_row in extracted_table_rows]
