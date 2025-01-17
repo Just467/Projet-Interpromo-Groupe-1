@@ -1,0 +1,13 @@
+Type visite;Année;Valeur;Unité;Indicateur
+Visite périodiques;2018;20;nombre;Nombre de visites médicales
+Visite d'embauche;2018;23;nombre;Nombre de visites médicales
+Visite de reprise;2018;4;nombre;Nombre de visites médicales
+Visite occasionnelles;2018;3;nombre;Nombre de visites médicales
+Visite périodiques;2019;46;nombre;Nombre de visites médicales
+Visite d'embauche;2019;17;nombre;Nombre de visites médicales
+Visite de reprise;2019;6;nombre;Nombre de visites médicales
+Visite occasionnelles;2019;6;nombre;Nombre de visites médicales
+Visite périodiques;2020;2;nombre;Nombre de visites médicales
+Visite d'embauche;2020;1;nombre;Nombre de visites médicales
+Visite de reprise;2020;1;nombre;Nombre de visites médicales
+Visite occasionnelles;2020;4;nombre;Nombre de visites médicales

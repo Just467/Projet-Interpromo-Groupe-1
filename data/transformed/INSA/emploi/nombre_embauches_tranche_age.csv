@@ -1,0 +1,19 @@
+Tranche d'âge;Genre;Valeur;Unité;Indicateur;Année
+- de 25 ans;Femme;4;nombre;Nombre d'embauche par tranche d'âge;2020
+25-30 ans;Femme;6;nombre;Nombre d'embauche par tranche d'âge;2020
+30-35 ans;Femme;13;nombre;Nombre d'embauche par tranche d'âge;2020
+35-40 ans;Femme;3;nombre;Nombre d'embauche par tranche d'âge;2020
+40-45 ans;Femme;1;nombre;Nombre d'embauche par tranche d'âge;2020
+45-50 ans;Femme;5;nombre;Nombre d'embauche par tranche d'âge;2020
+50-55 ans;Femme;4;nombre;Nombre d'embauche par tranche d'âge;2020
+55-60 ans;Femme;1;nombre;Nombre d'embauche par tranche d'âge;2020
+60-65 ans;Femme;1;nombre;Nombre d'embauche par tranche d'âge;2020
+- de 25 ans;Homme;10;nombre;Nombre d'embauche par tranche d'âge;2020
+25-30 ans;Homme;12;nombre;Nombre d'embauche par tranche d'âge;2020
+30-35 ans;Homme;9;nombre;Nombre d'embauche par tranche d'âge;2020
+35-40 ans;Homme;2;nombre;Nombre d'embauche par tranche d'âge;2020
+40-45 ans;Homme;4;nombre;Nombre d'embauche par tranche d'âge;2020
+45-50 ans;Homme;5;nombre;Nombre d'embauche par tranche d'âge;2020
+50-55 ans;Homme;7;nombre;Nombre d'embauche par tranche d'âge;2020
+55-60 ans;Homme;1;nombre;Nombre d'embauche par tranche d'âge;2020
+60-65 ans;Homme;0;nombre;Nombre d'embauche par tranche d'âge;2020

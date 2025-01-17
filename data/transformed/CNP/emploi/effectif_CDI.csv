@@ -1,0 +1,41 @@
+Tranche d'âge;Année;Cadres / Non Cadres;Genre;Valeur;Unité;Indicateur
+moins de 25 ans;2023;Cadres;;20;nombre;Effectif CDI
+25 / 29 ans;2023;Cadres;;110;nombre;Effectif CDI
+30 / 34 ans;2023;Cadres;;170;nombre;Effectif CDI
+35 / 39 ans;2023;Cadres;;234;nombre;Effectif CDI
+40 / 44 ans;2023;Cadres;;283;nombre;Effectif CDI
+45 / 49 ans;2023;Cadres;;423;nombre;Effectif CDI
+50 / 54 ans;2023;Cadres;;531;nombre;Effectif CDI
+55 / 59 ans;2023;Cadres;;391;nombre;Effectif CDI
+60 / 64 ans;2023;Cadres;;216;nombre;Effectif CDI
+65 ans et plus;2023;Cadres;;17;nombre;Effectif CDI
+moins de 25 ans;2023;Non cadres;;8;nombre;Effectif CDI
+25 / 29 ans;2023;Non cadres;;33;nombre;Effectif CDI
+30 / 34 ans;2023;Non cadres;;60;nombre;Effectif CDI
+35 / 39 ans;2023;Non cadres;;78;nombre;Effectif CDI
+40 / 44 ans;2023;Non cadres;;111;nombre;Effectif CDI
+45 / 49 ans;2023;Non cadres;;161;nombre;Effectif CDI
+50 / 54 ans;2023;Non cadres;;147;nombre;Effectif CDI
+55 / 59 ans;2023;Non cadres;;124;nombre;Effectif CDI
+60 / 64 ans;2023;Non cadres;;71;nombre;Effectif CDI
+65 ans et plus;2023;Non cadres;;16;nombre;Effectif CDI
+moins de 25 ans;2023;;Hommes;12;nombre;Effectif CDI
+25 / 29 ans;2023;;Hommes;73;nombre;Effectif CDI
+30 / 34 ans;2023;;Hommes;107;nombre;Effectif CDI
+35 / 39 ans;2023;;Hommes;152;nombre;Effectif CDI
+40 / 44 ans;2023;;Hommes;174;nombre;Effectif CDI
+45 / 49 ans;2023;;Hommes;227;nombre;Effectif CDI
+50 / 54 ans;2023;;Hommes;306;nombre;Effectif CDI
+55 / 59 ans;2023;;Hommes;244;nombre;Effectif CDI
+60 / 64 ans;2023;;Hommes;128;nombre;Effectif CDI
+65 ans et plus;2023;;Hommes;10;nombre;Effectif CDI
+moins de 25 ans;2023;;Femmes;16;nombre;Effectif CDI
+25 / 29 ans;2023;;Femmes;70;nombre;Effectif CDI
+30 / 34 ans;2023;;Femmes;123;nombre;Effectif CDI
+35 / 39 ans;2023;;Femmes;160;nombre;Effectif CDI
+40 / 44 ans;2023;;Femmes;220;nombre;Effectif CDI
+45 / 49 ans;2023;;Femmes;357;nombre;Effectif CDI
+50 / 54 ans;2023;;Femmes;372;nombre;Effectif CDI
+55 / 59 ans;2023;;Femmes;271;nombre;Effectif CDI
+60 / 64 ans;2023;;Femmes;159;nombre;Effectif CDI
+65 ans et plus;2023;;Femmes;23;nombre;Effectif CDI
