@@ -60,7 +60,7 @@ def importation_data (dossier_entreprise, col_inutiles):
                 if colonne in df_concatene.columns:
                     df_concatene = df_concatene.drop(columns=colonne)
             entreprise_data = df_concatene
-            indicateurs = sorted(entreprise_data["Indicateur"].unique())
+            indicateurs = sorted(entreprise_data["Indicateur"].astype(str).unique())
             # association liste indicateurs et données associées 
             resultats[s] = {'entreprise_data': entreprise_data, 'indicateurs': indicateurs}
         # lister tous les indicateurs du dictionnaire 
