@@ -52,6 +52,9 @@ def detect_structure(df, header_list):
         column = df.iloc[:, col_index]
         isVariable = True
         for cell in column:
+            if isinstance(cell, str) and cell.strip() == "":
+                continue
+
             if re.match(numeric_pattern, cell) and not re.match(year_pattern, cell):
                     isVariable = False
                     break
@@ -200,11 +203,10 @@ def fill_variables(df, header_list):
     if not variable_indexes:
         return df
 
-    variables = df.iloc[:, variable_indexes]
+    variables = df.iloc[:, variable_indexes].replace("", None)
 
     # Si une seule colonne (Series), remplir directement
     if isinstance(variables, pd.Series) or variables.shape[1] == 1:
-        df.iloc[:, variable_indexes] = df.iloc[:, variable_indexes].replace("", None)
         df.iloc[:, variable_indexes] = variables.fillna(method="ffill")
         return df
 
@@ -431,4 +433,4 @@ def clean_df(df, header_list,
         bad_df = detect_bad_df(df, header_list)
         if not bad_df:
             final_df_list.append((df, top, header_list))
-    return final_df_list 
+    return final_df_list
