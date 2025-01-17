@@ -7,6 +7,7 @@ from streamlit_extras.switch_page_button import switch_page
 from streamlit_pdf_viewer import pdf_viewer
 from tempfile import NamedTemporaryFile
 from get_tables_PDF.function_get_tables_PDF import get_all_raw_tables_PDF
+from get_tables_PDF.extract_tables_PDF_page import extract_tables_page
 
 
 def uploaded_to_binary(uploaded_file) :
@@ -23,17 +24,27 @@ def convert_df(df):
 
 @st.fragment
 def show_extrated_tables(extracted_tables, page_number):
-    select_box = st.selectbox(label='Table', options=[i for i in range(len(extracted_tables))])
+    st.markdown("""<p style='font-size:20px;'>Choisir une table</p>""",
+                unsafe_allow_html=True)
+    select_box = st.selectbox(label='',
+                              options=[i for i in range(len(extracted_tables))],
+                              format_func=lambda x: "Table n°"+str(x+1), label_visibility='collapsed')
     try:
         # get index of table
         st.session_state.df_selector = select_box
         # get table
         edited_df = st.data_editor(extracted_tables[st.session_state.df_selector]['table'], use_container_width=True)
         csv = convert_df(edited_df)
+        st.markdown("""<p style='font-size:20px;'>Choisir un titre pour le fichier CSV</p>""",
+                unsafe_allow_html=True)
+        csv_title = st.text_input(
+            label="",
+            value=f"page_{page_number}_table_{st.session_state.df_selector+1}",
+            label_visibility='collapsed')  
         st.download_button(
             label="Download table as CSV",
             data=csv,
-            file_name=f"page_{page_number}_table_{st.session_state.df_selector}.csv",
+            file_name=csv_title+'.csv',
             mime="text/csv",
             use_container_width=True)
     except:
@@ -83,7 +94,6 @@ if b_pdf and page_number and confirm_button:
                                                pages=[page_number-1],
                                                final_tables=[],
                                                pivot=False)
-    st.write(len(extracted_tables))
 if 'df_selector' not in st.session_state:
     st.session_state.df_selector = 0
 
