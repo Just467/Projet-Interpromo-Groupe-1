@@ -7,7 +7,7 @@ from streamlit_extras.switch_page_button import switch_page
 from streamlit_pdf_viewer import pdf_viewer
 from tempfile import NamedTemporaryFile
 from get_tables_PDF.function_get_tables_PDF import get_all_raw_tables_PDF
-from get_tables_PDF.extract_tables_PDF_page import extract_tables_page
+from get_tables_PDF.extract_tables_PDF_page import extract_tables_page, extract_tables_page_v2
 
 
 def uploaded_to_binary(uploaded_file) :
@@ -89,11 +89,12 @@ if b_pdf and page_number and confirm_button:
         pass
     extracted_tables = get_all_raw_tables_PDF({'path':io.BytesIO(uploaded_pdf.getvalue()),
                                                'extract_settings': {},
-                                               'methods':['lines', 'lines'],
+                                               'methods':['lines', 'explicit'],
                                                'pattern': r''},
                                                pages=[page_number-1],
                                                final_tables=[],
-                                               pivot=False)
+                                               pivot=False,
+                                               extract_tables_page_function=extract_tables_page_v2)
 if 'df_selector' not in st.session_state:
     st.session_state.df_selector = 0
 

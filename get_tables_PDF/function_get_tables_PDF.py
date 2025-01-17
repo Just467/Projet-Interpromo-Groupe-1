@@ -8,7 +8,7 @@ from process_table import clean_df, unpivot_df
 
 def get_all_raw_tables_PDF(PDF_file_settings:dict,
                            final_tables:list=[], pages=[-1], x_tolerance:float=7.25,
-                           split=True, save=False, save_folder_path="", extract_tables_page_function=None)->dict:
+                           pivot=True, save=False, save_folder_path="", extract_tables_page_function=None)->dict:
     """Function that uses complete_extract_tables_PDF to extract all the tables of multiple PDF files.
 
     Args:
