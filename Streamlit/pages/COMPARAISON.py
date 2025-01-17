@@ -258,4 +258,7 @@ elif selected_entreprise == "ENGIE":
             affichage_graphs(True, indicateur, data_engie_eff, "Entreprise", "Genre")
             affichage_graphs(True, indicateur, data_engie_eff, "Entreprise", "Collège")
             
-
+            
+            
+    #elif selected_entreprise == "INSA":
+        
