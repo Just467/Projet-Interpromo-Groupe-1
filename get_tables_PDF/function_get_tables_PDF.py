@@ -3,12 +3,12 @@ import pdfplumber
 import sys
 import os
 sys.path.append('get_tables_PDF')
-from extract_tables_PDF_page import extract_tables_page, extract_titles_page, extract_rows, is_header_row
+from extract_tables_PDF_page import extract_titles_page, extract_rows, is_header_row
 from process_table import clean_df, unpivot_df
 
 def get_all_raw_tables_PDF(PDF_file_settings:dict,
                            final_tables:list=[], pages=[-1], x_tolerance:float=7.25,
-                           split=True, save=False, save_folder_path="")->dict:
+                           split=True, save=False, save_folder_path="", extract_tables_page_function=None)->dict:
     """Function that uses complete_extract_tables_PDF to extract all the tables of multiple PDF files.
 
     Args:
@@ -34,7 +34,7 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                 else:
                     titles = [last_title]
                 # extracting tables from one page and rows to have all the correct and cleaned tables
-                extracted_tables = extract_tables_page(page, page_number,path,
+                extracted_tables = extract_tables_page_function(page, page_number,path,
                                                        extract_settings, methods,
                                                        show_debugging=True)
                 extracted_table_rows = extract_rows(page, page_number,path,
