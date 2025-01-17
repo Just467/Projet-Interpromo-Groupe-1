@@ -39,7 +39,7 @@ def importation_data(dossier_entreprise, col_inutiles):
         for fichier in noms_fichiers:
             chemin = os.path.join(file_path, fichier)
             try:
-                df = pd.read_csv(chemin, sep=';')
+                df = pd.read_csv(chemin, sep=';', encoding = 'ISO-8859-1')
                 data.append(df)
             except Exception as e:
                 st.error(f"Erreur lors de la lecture du fichier {fichier} : {e}")
@@ -108,7 +108,7 @@ def extraire_indicateur(dossier_entreprise, indicateur_recherche):
         for fichier in noms_fichiers:
             chemin = os.path.join(file_path, fichier)
             try:
-                df = pd.read_csv(chemin, sep=';')
+                df = pd.read_csv(chemin, sep=';', encoding = 'ISO-8859-1')
                 
                 # Filtrer les données par l'indicateur recherché
                 df_filtre = df[df['Indicateur'] == indicateur_recherche]
@@ -164,9 +164,10 @@ selected_entreprise = st.selectbox(
 dossier_1 = "../data/transformed/EDF/" # le 1er dossier est celui d'EDF
 liste_indic_1 = importation_data(dossier_1, col_inutiles)[1]
 
+
  # Dans le cas où l'utilisateur choisit CNP
 if selected_entreprise == "CNP":
-    handicap_cnp = pd.read_csv("../data/transformed/CNP/emploi/nombre_travailleurs_handicap.csv", sep = ";")
+    handicap_cnp = pd.read_csv("../data/transformed/CNP/emploi/nombre_travailleurs_handicap.csv", sep = ";", encoding = 'ISO-8859-1')
     handicap_cnp["Indicateur"] = "Salariés en situation de handicap"
     
     entreprise_2 = selected_entreprise
@@ -188,18 +189,25 @@ if selected_entreprise == "CNP":
     indic_commun,
     index = None
     )
-    if indicateur:
-        data_1 = extraire_indicateur(dossier_1, indicateur)
-        data_2 = extraire_indicateur(dossier_2, indicateur)
-    # Ajout de la colonne "Entreprise"
-        if "Entreprise" not in data_1.columns and "Entreprise" not in data_2.columns:
-            data_1["Entreprise"] = selected_entreprise # l'entreprise choisi
-            data_2["Entreprise"] = entreprise_2
-        data = pd.concat([data_1, data_2], ignore_index = True)
+    data_1 = extraire_indicateur(dossier_1, indicateur)
     
-        for col in list(data.columns):
-            if col != "Indicateur" and col!= "Année":
-                affichage_graphs(True, indicateur, data, "Entreprise", col)
+    if indicateur:
+        data_2 = handicap_cnp
+        data_2 = data_2.rename(columns= {"Année": "Année"})
+        
+    # Ajout de la colonne "Entreprise"
+        if "Entreprise" not in data_1.columns:
+            data_1["Entreprise"] =  "EDF"# l'entreprise choisi
+        if "Entreprise" not in data_2.columns:
+                data_2["Entreprise"] = selected_entreprise
+        data = pd.concat([data_1, data_2], ignore_index = True)
+        data["Année"] = data["Année"].combine_first(data["AnnÃ©e"])
+
+        st.write(data)
+        
+        
+        affichage_graphs(True, indicateur, data, "Entreprise", "Genre")
+        #st.write(data_2.columns)
     
     #elif selected_entreprise == "ENGIE":
         
