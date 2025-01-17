@@ -1,10 +1,15 @@
 import pandas as pd
 import streamlit as st
 from utils import affichage_graphs  # Import de la fonction pour afficher les graphiques
+from PIL import Image
 
 # Liste des entreprises disponibles pour comparaison
 entreprises = ["ENGIE", "INSA", "CNP"]
-
+imgtit = Image.open("images/logos.png")  
+left_co, cent_co,last_co = st.columns(3)
+with last_co:
+    st.image(imgtit, width=300)
+st.write('')
 # Interface utilisateur
 st.title("Comparaison des entreprises avec EDF")
 

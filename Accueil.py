@@ -3,6 +3,7 @@ from PIL import Image
 import streamlit_extras
 from streamlit_extras.stylable_container import stylable_container
 from streamlit_extras.switch_page_button import switch_page
+
 # ---------- Page Configuration ----------
 st.set_page_config(
     page_title="Page d'accueil - Comparaison des indicateurs",
@@ -27,6 +28,11 @@ container_style = """{
 }
 """
 # ---------- Page Title ----------
+imgtit = Image.open("images/logos.png")  
+left_co, cent_co,last_co = st.columns(3)
+with last_co:
+    st.image(imgtit, width=300)
+st.write('')
 st.title("Analyse de diversité et inclusion chez EDF et entreprises comparables")
 st.markdown("## PIP 2025 - Groupe 1")
 # ---------- Section: Logos avec boutons cliquables ----------
