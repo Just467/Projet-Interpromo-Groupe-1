@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+||||||| 9178ec2
+Fonctionnaires / Salari�s;Genre;Statut Type de formation;Valeur;Unit�;Année;Indicateur
+Fonctionnaires;Homme;Adaptation au poste Maintien dans l'emploi;7;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
+Fonctionnaires;Femme;Adaptation au poste Maintien dans l'emploi;15;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
+Salari�s;Homme;Adaptation au poste Maintien dans l'emploi;1431;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
+Salari�s;Femme;Adaptation au poste Maintien dans l'emploi;1745;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
+Fonctionnaires;Homme;D�veloppement des comp�tences;;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
+Fonctionnaires;Femme;D�veloppement des comp�tences;;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
+Salari�s;Homme;D�veloppement des comp�tences;15;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
+Salari�s;Femme;D�veloppement des comp�tences;31;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
+=======
 Fonctionnaires / Salariés;Genre;Statut Type de formation;Valeur;Unité;Année;Indicateur
 Fonctionnaires;Homme;Adaptation au poste Maintien dans l'emploi;7;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
 Fonctionnaires;Femme;Adaptation au poste Maintien dans l'emploi;15;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
@@ -7,3 +19,4 @@ Fonctionnaires;Homme;Développement des compétences;;nombre;2023;Nombre de stag
 Fonctionnaires;Femme;Développement des compétences;;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
 Salariés;Homme;Développement des compétences;15;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
 Salariés;Femme;Développement des compétences;31;nombre;2023;Nombre de stagiaires ayant suivi une formation par employeur
+>>>>>>> 9371da9223ff5ca5e28e902ee6e2b05a6e8b1ffb

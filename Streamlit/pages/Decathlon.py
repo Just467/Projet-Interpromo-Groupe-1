@@ -15,7 +15,7 @@ st.set_page_config(layout="wide")  # Utiliser toute la largeur de l'écran
 
 ### Appel de la fonction ###
 
-dossier_entreprise = "..\\data\\transformed\\ENGIE"
+dossier_entreprise = "..\\data\\transformed\\DECATHLON"
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social"]
 selection, resultats, liste_indicateurs = importation_data (dossier_entreprise, col_inutiles)
 if selection:

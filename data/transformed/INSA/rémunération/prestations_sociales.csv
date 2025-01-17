@@ -1,4 +1,16 @@
+<<<<<<< HEAD
+Année;Valeur;Unité;Indicateur
+2018;27164;;Prestations sociales
+2019;32614;;Prestations sociales
+2020;22140;;Prestations sociales
+||||||| 9178ec2
+Année;Valeur;Unité;Indicateur
+2018;27164;€;Prestations sociales
+2019;32614;€;Prestations sociales
+2020;22140;€;Prestations sociales
+=======
 AnnÃ©e;Valeur;UnitÃ©;Indicateur
 2018;27164;â‚¬;Prestations sociales
 2019;32614;â‚¬;Prestations sociales
 2020;22140;â‚¬;Prestations sociales
+>>>>>>> 9371da9223ff5ca5e28e902ee6e2b05a6e8b1ffb

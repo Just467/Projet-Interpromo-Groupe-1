@@ -16,11 +16,16 @@ st.set_page_config(layout="wide")  # Utiliser toute la largeur de l'écran
 ### Appel de la fonction ###
 
 dossier_entreprise = "..\\data\\transformed\\EDF"
-col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social","Plage M3E"]
+col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social"]
 selection, resultats, liste_indicateurs = importation_data (dossier_entreprise, col_inutiles)
 if selection:
     selection, indicateur_, df, dimension_1, dimension_2 = selection_menu(selection, resultats, liste_indicateurs)
     affichage_graphs (selection, indicateur_, df, dimension_1, dimension_2)
+    
+
+
+
+
 
 
 

@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+||||||| 9178ec2
+Ann�e;Cadres / Non Cadres / Alternance;Genre;Inter-entreprise / Intra-entreprise;Valeur;Unit�;Indicateur
+2023;Cadres;Homme;Inter-entreprise;145;nombre;Nombre de stagiaires par nature de formation
+2023;Cadres;Homme;Intra-entreprise;1236;nombre;Nombre de stagiaires par nature de formation
+2023;Cadres;Femme;Inter-entreprise;87;nombre;Nombre de stagiaires par nature de formation
+2023;Cadres;Femme;Intra-entreprise;1171;nombre;Nombre de stagiaires par nature de formation
+2023;Non Cadres;Homme;Inter-entreprise;5;nombre;Nombre de stagiaires par nature de formation
+2023;Non Cadres;Homme;Intra-entreprise;202;nombre;Nombre de stagiaires par nature de formation
+2023;Non Cadres;Femme;Inter-entreprise;15;nombre;Nombre de stagiaires par nature de formation
+2023;Non Cadres;Femme;Intra-entreprise;589;nombre;Nombre de stagiaires par nature de formation
+2023;Alternance;Homme;Intra-entreprise;103;nombre;Nombre de stagiaires par nature de formation
+2023;Alternance;Femme;Intra-entreprise;108;nombre;Nombre de stagiaires par nature de formation
+=======
 Année;Cadres / Non Cadres / Alternance;Genre;Inter-entreprise / Intra-entreprise;Valeur;Unité;Indicateur
 2023;Cadres;Homme;Inter-entreprise;145;nombre;Nombre de stagiaires par nature de formation
 2023;Cadres;Homme;Intra-entreprise;1236;nombre;Nombre de stagiaires par nature de formation
@@ -9,3 +23,4 @@ Année;Cadres / Non Cadres / Alternance;Genre;Inter-entreprise / Intra-entrepris
 2023;Non Cadres;Femme;Intra-entreprise;589;nombre;Nombre de stagiaires par nature de formation
 2023;Alternance;Homme;Intra-entreprise;103;nombre;Nombre de stagiaires par nature de formation
 2023;Alternance;Femme;Intra-entreprise;108;nombre;Nombre de stagiaires par nature de formation
+>>>>>>> 9371da9223ff5ca5e28e902ee6e2b05a6e8b1ffb
