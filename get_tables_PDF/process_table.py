@@ -4,10 +4,7 @@ import re
 import numpy as np
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
-
 sys.path.append("get_tables_PDF/utils")
-from utils.dataframe_viewer import show_dataframes
-from processed_dataframe_viewer import show_processed_dataframes
 
 
 """

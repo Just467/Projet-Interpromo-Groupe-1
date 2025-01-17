@@ -39,7 +39,7 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                 # extracting tables from one page and rows to have all the correct and cleaned tables
                 extracted_tables = extract_tables_page_function(page, page_number,path,
                                                        extract_settings, methods,
-                                                       show_debugging=True)
+                                                       show_debugging=False)
                 extracted_table_rows = extract_rows(page, page_number,path,
                                                     extract_settings)
                 header_list = [[is_header_row(row)for row in extracted_table_row] for extracted_table_row in extracted_table_rows]
