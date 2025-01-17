@@ -214,9 +214,7 @@ def fill_variables(df, header_list):
         return df
 
     # Remplir toutes les colonnes sauf la dernière
-    variables.iloc[:, :-1].replace("", None)
-    variables.iloc[:, :-1] = variables.iloc[:, :-1].fillna(method="ffill")
-    df.iloc[:, variable_indexes] = variables
+    df.iloc[:, variable_indexes] = variables.iloc[:, :-1].fillna(method="ffill")
 
     return df
 
