@@ -52,7 +52,7 @@ def importation_data (dossier_entreprise, col_inutiles):
                 with open(chemin, "rb") as f:
                     result = chardet.detect(f.read())
                     encoding_detect = result["encoding"]
-                    df = pd.read_csv(chemin, sep=';', encoding=encoding_detect)
+                    df = pd.read_csv(chemin, sep=';', encoding='utf-8')
                     data.append(df)
                     df_concatene = pd.concat(data, ignore_index=True)
             # suppression colonnes inutiles 
@@ -90,7 +90,7 @@ def selection_menu (selection, resultats, liste_indicateurs):
         for selection, contenu in resultats.items(): 
             entreprise_data=pd.concat([entreprise_data,contenu['entreprise_data']])
         entreprise_data = entreprise_data.loc[entreprise_data['Indicateur'] == indicateur_]
-        df = entreprise_data    
+        df = entreprise_data
         for column in df.columns :
             if df[column].isna().all() :
                 df = df.drop(column, axis = 1)
