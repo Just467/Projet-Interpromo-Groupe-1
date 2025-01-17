@@ -6,3 +6,4 @@ PyQt5==5.15.11
 streamlit
 plotly
 streamlit_extras
+streamlit_pdf_viewer

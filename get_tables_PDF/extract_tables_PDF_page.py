@@ -446,7 +446,7 @@ def snap_vertical_lines(row_desc):
 
 
 
-def get_lines_stream_v2(tables:camelot.core.TableList, page, page_number, pdf_path)->list:
+def get_lines_stream_v2(tables:camelot.core.TableList, page, page_number, pdf_path, offset)->list:
         """Get the coordinates of lines (of an axis) used by camelot to extract a table with Stream
 
         Args:
@@ -458,15 +458,27 @@ def get_lines_stream_v2(tables:camelot.core.TableList, page, page_number, pdf_pa
         """
 
         all_vertical_lines = [0, 0]
-        for _, table in enumerate(tables):
+        first_horizontal_line_offset = [0]
+        for index, table in enumerate(tables):
             index_headers, row_areas = get_index_headers_and_row_areas(table, page, page_number, pdf_path)
+            if index == 0 and row_areas[0][1] > offset:
+                # Ajouter 0 en première position dans index_headers
+                index_headers = [0] + [i + 1 for i in index_headers]  # Décale tous les index existants de 1
+
+                # Ajouter first_area_offset en première position dans row_areas
+                x0, top, x1, bot = row_areas[0]
+                first_area_offset = [x0, top + offset, x1, bot + offset]
+                row_areas.insert(0, first_area_offset)
+
+                # Ajouter la première ligne horizontale avec l'offset
+                first_horizontal_line_offset.append(row_areas[0][1] + offset)
             table_areas = extract_areas(row_areas, index_headers)
             unsnapped_vertical_lines = get_vertical_lines_from_camelot(table_areas, page, page_number, pdf_path)
             # [{area_coords:"coords", area_type:"alone", vertical_lines:[[top,etc], ... ]}, {...}]
             snapped_vertical_lines = snap_vertical_lines(unsnapped_vertical_lines) # voir si alone et s'adapte à celui d'après
             all_vertical_lines.extend(snapped_vertical_lines)
             
-        return all_vertical_lines
+        return first_horizontal_line_offset, all_vertical_lines
 
 
 def get_lines_stream(tables:camelot.core.TableList, axis:int)->list:
@@ -491,6 +503,7 @@ def get_lines_stream(tables:camelot.core.TableList, axis:int)->list:
                     lines.append(cell[0].y1)
             lines.append(table._bbox[3-axis])
         return lines
+
 
 def extract_tables_page_v2(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
                         settings:dict, methods:list,
@@ -527,7 +540,8 @@ def extract_tables_page_v2(page:pdfplumber.page.Page, page_number:int,pdf_path:s
     if methods[0] != "explicit" and methods[1] == "explicit":
         init_settings = {"vertical_strategy": "text", "horizontal_strategy": "lines"}
         tables = page.find_tables(init_settings)
-        lines[1] = get_lines_stream_v2(tables, page, page_number, pdf_path)
+        lines[0], lines[1] = get_lines_stream_v2(tables, page, page_number, pdf_path, -40)
+        settings["intersection_x_tolerance"] = 8
 
     elif len(text_axes > 0):
         tables = camelot.read_pdf(pdf_path, flavor="stream", pages=f"{page_number+1}")

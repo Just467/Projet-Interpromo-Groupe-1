@@ -29,12 +29,13 @@ test2 = {'ENGIE':{'path':r'data\bilans_sociaux\ENGIE SA_Bilan social 2021_VD.pdf
                               'methods':['lines', 'lines'],
                               'pattern': r'\d{3}\. +'}}
 
-results = get_all_raw_tables_PDF(test1['CNP'], pages = [59],
-                                 save=False, save_folder_path=r"data\transformed\CNP", 
+results = get_all_raw_tables_PDF(test1['CNP'], pages = [19],
+                                 save=False, save_folder_path=r"data\transformed\CNP",
+                                 pivot=False,
                                  extract_tables_page_function=extract_tables_page_v2)
 tables = []
 headers = []
 for result in results:
     tables.append(result['table'])
     headers.append(f"{result['title']}\n{result['pages']}")
-show_dataframes(tables, headers=headers)    
+show_dataframes(tables, headers=headers)

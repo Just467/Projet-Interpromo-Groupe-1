@@ -264,8 +264,12 @@ def format_colnames(df, missing_label="unknown"):
     """
     simplified = []
     for colname in df.columns:
-        # Détermine le nom de base (premier élément pour MultiIndex)
+        # Détermine le nom de base (dernier élément pour MultiIndex)
         primary_name = colname[-1] if isinstance(colname, tuple) else colname
+
+        # Vérifie si primary_name est None
+        if primary_name is None:
+            primary_name = missing_label
 
         if missing_label in primary_name:
             unique_values = df[colname].dropna().unique()
@@ -279,6 +283,7 @@ def format_colnames(df, missing_label="unknown"):
             simplified.append(primary_name)
 
     return simplified
+
 
 
 def add_unit_column(df, value_colname="value", unit_colname="unit", default_unit="nombre"):
@@ -419,6 +424,8 @@ def clean_df(df, header_list,
     final_df_list = []
     # for df, top, header_list in df_list:
     for df, top, header_list in splitted_df_list:
+        df = df.dropna(how="all")
+        df = df.dropna(axis=1, how="all")
         df = df.fillna("").astype(str)
         df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
         df = fill_headers(df, header_list, missing_label)
