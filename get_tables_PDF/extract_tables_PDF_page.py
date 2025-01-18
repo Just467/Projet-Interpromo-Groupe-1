@@ -160,7 +160,9 @@ def extract_tables_page(page:pdfplumber.page.Page, page_number:int,pdf_path:str,
             - the y-coordinates in the PDF of the top line of the table
     """
     if methods[0] not in extract_tables_PDF_methods or methods[1] not in extract_tables_PDF_methods:
-        raise ValueError(f"Both values of methods must be one of {", ".join([str(elem) for elem in extract_tables_PDF_methods])}")
+        string = str(", ".join([str(elem) for elem in extract_tables_PDF_methods]))
+        raise ValueError(f"Both values of methods must be one of \
+                         {string}")
     
     df_tables = {}
 
@@ -540,7 +542,9 @@ def extract_tables_page_v2(page:pdfplumber.page.Page, page_number:int,pdf_path:s
             - the y-coordinates in the PDF of the top line of the table
     """
     if methods[0] not in extract_tables_PDF_methods or methods[1] not in extract_tables_PDF_methods:
-        raise ValueError(f"Both values of methods must be one of {", ".join([str(elem) for elem in extract_tables_PDF_methods])}")
+        string = str(", ".join([str(elem) for elem in extract_tables_PDF_methods]))
+        raise ValueError(f"Both values of methods must be one of \
+                         {string}")
     
     text_axes = np.where(np.array(methods) == 'explicit')[0]
 
