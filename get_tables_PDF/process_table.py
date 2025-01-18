@@ -4,10 +4,7 @@ import re
 import numpy as np
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
-
 sys.path.append("get_tables_PDF/utils")
-from utils.dataframe_viewer import show_dataframes
-from processed_dataframe_viewer import show_processed_dataframes
 
 
 """
@@ -48,13 +45,16 @@ def detect_structure(df, header_list):
             header_indexes.append(row_index)
 
     # Pour chaque colonne, regarde si c'est une colonne
-    numeric_pattern=r'^[\d.,\s€$£¥]*(?: *ans)?$'
+    numeric_pattern=r'^[\d.,\s€$£¥%]*(?: *ans)?$'
     year_pattern=r'^20[0-2]\d$'
     variable_indexes = []
     for col_index in range(df.shape[1]):
         column = df.iloc[:, col_index]
         isVariable = True
         for cell in column:
+            if isinstance(cell, str) and cell.strip() == "":
+                continue
+
             if re.match(numeric_pattern, cell) and not re.match(year_pattern, cell):
                     isVariable = False
                     break
@@ -203,18 +203,9 @@ def fill_variables(df, header_list):
     if not variable_indexes:
         return df
 
-    variables = df.iloc[:, variable_indexes]
+    variables = df.iloc[:, variable_indexes].replace("", None)
 
-    # Si une seule colonne (Series), remplir directement
-    if isinstance(variables, pd.Series) or variables.shape[1] == 1:
-        df.iloc[:, variable_indexes] = df.iloc[:, variable_indexes].replace("", None)
-        df.iloc[:, variable_indexes] = variables.fillna(method="ffill")
-        return df
-
-    # Remplir toutes les colonnes sauf la dernière
-    variables.iloc[:, :-1].replace("", None)
-    variables.iloc[:, :-1] = variables.iloc[:, :-1].fillna(method="ffill")
-    df.iloc[:, variable_indexes] = variables
+    df.iloc[:, variable_indexes] = variables.fillna(method="ffill")
 
     return df
 
@@ -264,8 +255,12 @@ def format_colnames(df, missing_label="unknown"):
     """
     simplified = []
     for colname in df.columns:
-        # Détermine le nom de base (premier élément pour MultiIndex)
+        # Détermine le nom de base (dernier élément pour MultiIndex)
         primary_name = colname[-1] if isinstance(colname, tuple) else colname
+
+        # Vérifie si primary_name est None
+        if primary_name is None:
+            primary_name = missing_label
 
         if missing_label in primary_name:
             unique_values = df[colname].dropna().unique()
@@ -279,6 +274,7 @@ def format_colnames(df, missing_label="unknown"):
             simplified.append(primary_name)
 
     return simplified
+
 
 
 def add_unit_column(df, value_colname="value", unit_colname="unit", default_unit="nombre"):
@@ -419,6 +415,8 @@ def clean_df(df, header_list,
     final_df_list = []
     # for df, top, header_list in df_list:
     for df, top, header_list in splitted_df_list:
+        df = df.dropna(how="all")
+        df = df.dropna(axis=1, how="all")
         df = df.fillna("").astype(str)
         df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
         df = fill_headers(df, header_list, missing_label)
@@ -427,4 +425,4 @@ def clean_df(df, header_list,
         bad_df = detect_bad_df(df, header_list)
         if not bad_df:
             final_df_list.append((df, top, header_list))
-    return final_df_list 
+    return final_df_list

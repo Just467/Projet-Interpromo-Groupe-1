@@ -55,7 +55,7 @@ with col2:
     img2 = Image.open("images/engie-logo-0.png")  
     st.image(img2, use_container_width=True)
     if details_bouton:
-        switch_page("ENGIE")
+        switch_page("Engie")
 
 with col3:
     with stylable_container( key="r_buton", css_styles= button_style):
@@ -63,7 +63,7 @@ with col3:
     img3 = Image.open("images/Deca.png")  
     st.image(img3, use_container_width=True)
     if details_bouton:
-        switch_page("DECATHLON")
+        switch_page("Decathlon")
 
 
 with col4:
@@ -118,5 +118,5 @@ with col_but_2:
     ):
         button = st.container()
         if details_bouton :
-            switch_page('Scraper')
+            switch_page('PDF Scraper')
         button.markdown('<p style = "font-weight: 700; vertical-align: middle; font-family: system-ui; color: #000000; font-size: 40px;">Extraire les tables de fichiers PDF</p>', unsafe_allow_html=True)

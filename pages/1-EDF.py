@@ -21,7 +21,7 @@ st.title("Diversité et inclusion chez EDF")
 
 ### Appel de la fonction ###
 
-dossier_entreprise = "data\\transformed\\EDF"
+dossier_entreprise = "data/transformed/EDF"
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social"]
 selection, resultats, liste_indicateurs = importation_data (dossier_entreprise, col_inutiles)
 if selection:

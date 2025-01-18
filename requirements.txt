@@ -1,10 +1,12 @@
-camelot-py[cv]
-pdfplumber==0.11.5
+camelot-py[cv]==1.0.0
 pandas==2.2.3
 numpy==2.0.2
 PyQt5==5.15.11
 streamlit
 plotly
 streamlit_extras
-os
+streamlit_pdf_viewer
+Pillow>=9.1
+pypdfium2>=4.18.0
 chardet
+regex
