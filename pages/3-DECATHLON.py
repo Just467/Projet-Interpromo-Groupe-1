@@ -21,7 +21,7 @@ st.title("Diversité et inclusion chez Decathlon")
 
 ### Appel de la fonction ###
 
-dossier_entreprise = "data\\transformed\\Decathlon"
+dossier_entreprise = "data/transformed/DECATHLON"
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social"]
 selection, resultats, liste_indicateurs = importation_data (dossier_entreprise, col_inutiles)
 if selection:

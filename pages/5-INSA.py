@@ -21,7 +21,7 @@ st.title("Diversité et inclusion chez INSA")
 
 ### Appel de la fonction ###
 
-dossier_entreprise = "data\\transformed\\INSA"
+dossier_entreprise = "data/transformed/INSA"
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social"]
 selection, resultats, liste_indicateurs = importation_data (dossier_entreprise, col_inutiles)
 if selection:

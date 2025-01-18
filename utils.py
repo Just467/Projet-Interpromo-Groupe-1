@@ -42,7 +42,7 @@ def importation_data (dossier_entreprise, col_inutiles):
         resultats={}
         # parcourir toutes les thématiques sélectionnées 
         for s in selection: 
-            file_path=dossier_entreprise+"\\"+s
+            file_path=dossier_entreprise+"/"+s
             noms_fichiers = [f for f in os.listdir(file_path) if f.endswith('.csv')]
             data = []
             # parcourrir tous les fichiers de cette thématique 

@@ -20,7 +20,7 @@ st.write('')
 st.title("Diversité et inclusion chez CNP")
 ### Appel de la fonction ###
 
-dossier_entreprise = "data\\transformed\\CNP"
+dossier_entreprise = "data/transformed/CNP"
 col_inutiles = ["Perimètre juridique","Perimètre spatial","Chapitre du bilan social"]
 selection, resultats, liste_indicateurs = importation_data (dossier_entreprise, col_inutiles)
 if selection:
