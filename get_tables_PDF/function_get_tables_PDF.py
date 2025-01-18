@@ -1,14 +1,17 @@
 import pandas as pd
-import pdfplumber
 import sys
 import os
+root_directory = os.path.dirname(os.path.abspath(__file__))
+parent_directory = os.path.join(root_directory, '..')
+sys.path.append(parent_directory)
 sys.path.append('get_tables_PDF')
-from extract_tables_PDF_page import extract_tables_page, extract_titles_page, extract_rows, is_header_row
+import pdfplumber
+from extract_tables_PDF_page import extract_titles_page, extract_rows, is_header_row
 from process_table import clean_df, unpivot_df
 
 def get_all_raw_tables_PDF(PDF_file_settings:dict,
                            final_tables:list=[], pages=[-1], x_tolerance:float=7.25,
-                           split=True, save=False, save_folder_path="")->dict:
+                           pivot=True, save=False, save_folder_path="", extract_tables_page_function=None)->dict:
     """Function that uses complete_extract_tables_PDF to extract all the tables of multiple PDF files.
 
     Args:
@@ -34,9 +37,9 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                 else:
                     titles = [last_title]
                 # extracting tables from one page and rows to have all the correct and cleaned tables
-                extracted_tables = extract_tables_page(page, page_number,path,
+                extracted_tables = extract_tables_page_function(page, page_number,path,
                                                        extract_settings, methods,
-                                                       show_debugging=True)
+                                                       show_debugging=False)
                 extracted_table_rows = extract_rows(page, page_number,path,
                                                     extract_settings)
                 header_list = [[is_header_row(row)for row in extracted_table_row] for extracted_table_row in extracted_table_rows]
@@ -56,7 +59,7 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                                          'title': current_title_name,
                                          'pages':list(range(last_title_page, page_number+1)),
                                          'header_list': df_header_list})
-    if split:
+    if pivot:
         for index, final_table in enumerate(final_tables):
             final_tables[index]['table'] = unpivot_df(final_table['table'], final_table['header_list'])
     
@@ -78,5 +81,5 @@ def get_all_raw_tables_PDF(PDF_file_settings:dict,
                 file_name = f"{file_name_base}_{counter}.csv"
 
             df.to_csv(os.path.join(folder_name, file_name), index=False, sep=';')
-
+    
     return final_tables
