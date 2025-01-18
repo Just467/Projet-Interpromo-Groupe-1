@@ -78,5 +78,5 @@ with col3:
     st.markdown("<a style = 'line-height:10px;font-size : 30px; font-weight : 100;' href='https://www.linkedin.com/in/kim-ishimwe-3964602a0/'>Kim\n\n ISHIMWE</a>",unsafe_allow_html=True)
     st.image(pp_kim, width=200)
 with col4:
-    st.markdown("<a style = 'line-height:10px;font-size : 30px; font-weight : 100;' href='https://www.linkedin.com/'>Hermann\n\n NOUGBODOHOUE</a>",unsafe_allow_html=True)
+    st.markdown("<a style = 'line-height:10px;font-size : 30px; font-weight : 100;' href='https://www.linkedin.com/in/géraud-hermann-nougbodohoue-86aa60347/'>Hermann\n\n NOUGBODOHOUE</a>",unsafe_allow_html=True)
     st.image(gen_profile, width=200)
