@@ -89,21 +89,34 @@ container_style = """
     z-index : 0;
     background-color: #F0F2F6;
     border: 2px solid #000000;
-    padding-left: 150px;
+    padding-left: 50px;
     padding-top: 10px;
     padding-bottom:20px;
     border-radius: 20px;
 
 }
 """
+col_but_1, col_but_2 = st.columns(2)
+with col_but_1:
+    with stylable_container( key="r_buton", css_styles= button_style):
+        details_bouton= st.button("texte", key='comparaison', use_container_width= True)
+    with stylable_container(
+        key="button_comp",
+        css_styles=container_style,
+    ):
+        button = st.container()
+        if details_bouton :
+            switch_page('COMPARAISON')
+        button.markdown('<p style = "font-weight: 700; vertical-align: middle; font-family: system-ui; color: #000000; font-size: 40px;">Comparer EDF avec les autres entreprises</p>', unsafe_allow_html=True)
 
-with stylable_container( key="r_buton", css_styles= button_style):
-    details_bouton= st.button("texte", key='comparaison', use_container_width= True)
-with stylable_container(
-    key="button_comp",
-    css_styles=container_style,
-):
-    button = st.container()
-    if details_bouton :
-        switch_page('COMPARAISON')
-    button.markdown('<p style = "font-weight: 700; vertical-align: middle; font-family: system-ui; color: #000000; font-size: 40px;">Comparer EDF avec les autres entreprises</p>', unsafe_allow_html=True)
+with col_but_2:
+    with stylable_container( key="r_buton", css_styles= button_style):
+        details_bouton= st.button("texte", key='scraping', use_container_width= True)
+    with stylable_container(
+        key="button_scrap",
+        css_styles=container_style,
+    ):
+        button = st.container()
+        if details_bouton :
+            switch_page('Scraper')
+        button.markdown('<p style = "font-weight: 700; vertical-align: middle; font-family: system-ui; color: #000000; font-size: 40px;">Extraire les tables de fichiers PDF</p>', unsafe_allow_html=True)
